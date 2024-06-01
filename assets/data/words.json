@@ -1,0 +1,103 @@
+[
+    {
+      "id": 1,
+      "word": "Apple",
+      "description": "A round fruit with red, green, or yellow skin."
+    },
+    {
+      "id": 2,
+      "word": "Book",
+      "description": "A set of written or printed pages bound together."
+    },
+    {
+      "id": 3,
+      "word": "Cat",
+      "description": "A small domesticated animal kept as a pet."
+    },
+    {
+      "id": 4,
+      "word": "Dog",
+      "description": "A domesticated animal often kept as a pet."
+    },
+    {
+      "id": 5,
+      "word": "House",
+      "description": "A building for people to live in."
+    },
+    {
+      "id": 6,
+      "word": "Car",
+      "description": "A vehicle with four wheels for transportation."
+    },
+    {
+      "id": 7,
+      "word": "Pen",
+      "description": "A writing instrument that uses ink."
+    },
+    {
+      "id": 8,
+      "word": "Table",
+      "description": "A piece of furniture with a flat top and legs."
+    },
+    {
+      "id": 9,
+      "word": "Chair",
+      "description": "A piece of furniture for sitting."
+    },
+    {
+      "id": 10,
+      "word": "Water",
+      "description": "A clear, colorless liquid essential for life."
+    },
+    {
+      "id": 11,
+      "word": "Sun",
+      "description": "The star at the center of our solar system."
+    },
+    {
+      "id": 12,
+      "word": "Tree",
+      "description": "A large plant with a trunk and branches."
+    },
+    {
+      "id": 13,
+      "word": "Food",
+      "description": "Substances eaten to provide energy."
+    },
+    {
+      "id": 14,
+      "word": "Milk",
+      "description": "A white liquid produced by mammals, often drunk."
+    },
+    {
+      "id": 15,
+      "word": "Bag",
+      "description": "A container for carrying things."
+    },
+    {
+      "id": 16,
+      "word": "Phone",
+      "description": "A device for communication over distances."
+    },
+    {
+      "id": 17,
+      "word": "Window",
+      "description": "An opening in a wall to let in light and air."
+    },
+    {
+      "id": 18,
+      "word": "Baby",
+      "description": "A very young child."
+    },
+    {
+      "id": 19,
+      "word": "Ball",
+      "description": "A round object used in games and sports."
+    },
+    {
+      "id": 20,
+      "word": "Bed",
+      "description": "A piece of furniture for sleeping on."
+    }
+  ]
+  
