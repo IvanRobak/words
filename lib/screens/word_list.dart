@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:words/screens/word_details.dart';
 import 'package:words/services/word_loader.dart';
+import 'package:words/widgets/word_button.dart';
 import '../models/word.dart';
 
 class WordListScreen extends StatefulWidget {
@@ -29,56 +29,26 @@ class _WordListScreenState extends State<WordListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('All words'),
-      ),
-      body: words.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Два стовпці
-                  mainAxisSpacing: 10, // Відстань між рядами
-                  crossAxisSpacing: 10, // Відстань між стовпцями
-                  childAspectRatio: 3, // Співвідношення сторін елемента
+        appBar: AppBar(
+          title: const Text('All words'),
+        ),
+        body: words.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : Padding(
+                padding: const EdgeInsets.all(16),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // Два стовпці
+                    mainAxisSpacing: 10, // Відстань між рядами
+                    crossAxisSpacing: 10, // Відстань між стовпцями
+                    childAspectRatio: 3, // Співвідношення сторін елемента
+                  ),
+                  itemCount: words.length,
+                  itemBuilder: (context, index) {
+                    final word = words[index];
+                    return WordButton(word: word);
+                  },
                 ),
-                itemCount: words.length,
-                itemBuilder: (context, index) {
-                  final word = words[index];
-                  return Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  WordDetailScreen(word: word.word),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF426CD8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8,
-                              horizontal: 12), // Зменште ці значення
-                          textStyle: const TextStyle(fontSize: 16),
-                        ),
-                        child: Text(
-                          word.word,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ));
-                },
-              ),
-            ),
-    );
+              ));
   }
 }
