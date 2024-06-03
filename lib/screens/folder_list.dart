@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/folder.dart';
 
 class FolderListScreen extends StatelessWidget {
+  FolderListScreen({super.key});
   final List<Folder> folders = [
     Folder(name: 'Папка 1', words: []),
     Folder(name: 'Папка 2', words: []),
@@ -11,10 +12,10 @@ class FolderListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Мої папки'),
+        title: const Text('Мої папки'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               // Додайте логіку для створення нової папки
             },

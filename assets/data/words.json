@@ -98,6 +98,106 @@
       "id": 20,
       "word": "Bed",
       "description": "A piece of furniture for sleeping on."
-    }
+    },
+    {
+        "id": 21,
+        "word": "Cup",
+        "description": "A small container used for drinking."
+      },
+      {
+        "id": 22,
+        "word": "Fish",
+        "description": "An aquatic animal that lives in water."
+      },
+      {
+        "id": 23,
+        "word": "Hat",
+        "description": "A head covering worn for warmth or fashion."
+      },
+      {
+        "id": 24,
+        "word": "Key",
+        "description": "A small metal object used to open locks."
+      },
+      {
+        "id": 25,
+        "word": "Lamp",
+        "description": "A device that produces light."
+      },
+      {
+        "id": 26,
+        "word": "Map",
+        "description": "A visual representation of an area."
+      },
+      {
+        "id": 27,
+        "word": "Nose",
+        "description": "The part of the face used for smelling and breathing."
+      },
+      {
+        "id": 28,
+        "word": "Orange",
+        "description": "A citrus fruit with a tough bright reddish-yellow rind."
+      },
+      {
+        "id": 29,
+        "word": "Pizza",
+        "description": "A dish of Italian origin consisting of a flat round base of dough baked with a topping of tomato sauce and cheese."
+      },
+      {
+        "id": 30,
+        "word": "Rain",
+        "description": "Water that falls from the sky in drops."
+      },
+      {
+        "id": 31,
+        "word": "Star",
+        "description": "A luminous point in the night sky that is a large, remote incandescent body like the sun."
+      },
+      {
+        "id": 32,
+        "word": "Shoe",
+        "description": "A covering for the foot, typically made of leather."
+      },
+      {
+        "id": 33,
+        "word": "Train",
+        "description": "A series of connected vehicles that travel on a track and transport people or goods."
+      },
+      {
+        "id": 34,
+        "word": "Umbrella",
+        "description": "A device for protection against rain or sun, consisting of a folding fabric canopy mounted on a frame."
+      },
+      {
+        "id": 35,
+        "word": "Watch",
+        "description": "A small timepiece worn typically on a strap on one's wrist."
+      },
+      {
+        "id": 36,
+        "word": "Zoo",
+        "description": "A facility with various animals for public viewing."
+      },
+      {
+        "id": 37,
+        "word": "Egg",
+        "description": "An oval or round object laid by a female bird, reptile, fish, or invertebrate, usually containing a developing embryo."
+      },
+      {
+        "id": 38,
+        "word": "Ice",
+        "description": "Frozen water, a brittle, transparent crystalline solid."
+      },
+      {
+        "id": 39,
+        "word": "Milk",
+        "description": "A white liquid produced by the mammary glands of mammals."
+      },
+      {
+        "id": 40,
+        "word": "Boat",
+        "description": "A small vessel for traveling over water, propelled by oars, sails, or an engine."
+      }
   ]
   

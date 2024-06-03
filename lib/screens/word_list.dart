@@ -16,6 +16,8 @@ class _WordListScreenState extends State<WordListScreen> {
   int columns = 2; // Поточна кількість стовпців
   final List<int> columnOptions = [2, 3]; // Можливі варіанти
   TextEditingController searchController = TextEditingController();
+  int currentPage = 0; // Поточна сторінка
+  final int wordsPerPage = 20; // Кількість слів на сторінку
 
   @override
   void initState() {
@@ -40,6 +42,7 @@ class _WordListScreenState extends State<WordListScreen> {
 
     setState(() {
       filteredWords = results;
+      currentPage = 0; // Скидаємо на першу сторінку при пошуку
     });
   }
 
@@ -47,6 +50,37 @@ class _WordListScreenState extends State<WordListScreen> {
   void dispose() {
     searchController.dispose();
     super.dispose();
+  }
+
+  List<Word> getCurrentPageWords() {
+    final start = currentPage * wordsPerPage;
+    final end = start + wordsPerPage;
+    return filteredWords.sublist(
+        start, end < filteredWords.length ? end : filteredWords.length);
+  }
+
+  void nextPage() {
+    if ((currentPage + 1) * wordsPerPage < filteredWords.length) {
+      setState(() {
+        currentPage++;
+      });
+    }
+  }
+
+  void previousPage() {
+    if (currentPage > 0) {
+      setState(() {
+        currentPage--;
+      });
+    }
+  }
+
+  String getCurrentPageRange() {
+    final start = currentPage * wordsPerPage;
+    final end = (currentPage + 1) * wordsPerPage < filteredWords.length
+        ? (currentPage + 1) * wordsPerPage
+        : filteredWords.length;
+    return '$start-$end';
   }
 
   @override
@@ -115,13 +149,34 @@ class _WordListScreenState extends State<WordListScreen> {
                         crossAxisSpacing: crossAxisSpacing,
                         childAspectRatio: 3,
                       ),
-                      itemCount: filteredWords.length,
+                      itemCount: getCurrentPageWords().length,
                       itemBuilder: (context, index) {
-                        final word = filteredWords[index];
+                        final word = getCurrentPageWords()[index];
                         return WordButton(word: word, columns: columns);
                       },
                     ),
                   ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: previousPage,
+                  color: currentPage > 0 ? Colors.blue : Colors.grey,
+                ),
+                Text(getCurrentPageRange()),
+                IconButton(
+                  icon: const Icon(Icons.arrow_forward),
+                  onPressed: nextPage,
+                  color: (currentPage + 1) * wordsPerPage < filteredWords.length
+                      ? Colors.blue
+                      : Colors.grey,
+                ),
+              ],
+            ),
           ),
         ],
       ),
