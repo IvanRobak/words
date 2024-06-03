@@ -22,7 +22,7 @@ class WordButton extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => WordDetailScreen(word: word.word),
+                builder: (context) => WordDetailScreen(word: word),
               ),
             );
           },
