@@ -1,203 +1,243 @@
 [
     {
       "id": 1,
-      "word": "Apple",
-      "description": "A round fruit with red, green, or yellow skin."
+      "word": "apple",
+      "description": "A round fruit with red, green, or yellow skin.",
+      "example": "She ate an apple."
     },
     {
       "id": 2,
-      "word": "Book",
-      "description": "A set of written or printed pages bound together."
+      "word": "book",
+      "description": "A set of written or printed pages bound together.",
+      "example": "He read a book."
     },
     {
       "id": 3,
-      "word": "Cat",
-      "description": "A small domesticated animal kept as a pet."
+      "word": "cat",
+      "description": "A small domesticated animal kept as a pet.",
+      "example": "The cat is sleeping."
     },
     {
       "id": 4,
-      "word": "Dog",
-      "description": "A domesticated animal often kept as a pet."
+      "word": "dog",
+      "description": "A domesticated animal often kept as a pet.",
+      "example": "They walked the dog."
     },
     {
       "id": 5,
-      "word": "House",
-      "description": "A building for people to live in."
+      "word": "house",
+      "description": "A building for people to live in.",
+      "example": "We bought a house."
     },
     {
       "id": 6,
-      "word": "Car",
-      "description": "A vehicle with four wheels for transportation."
+      "word": "car",
+      "description": "A vehicle with four wheels for transportation.",
+      "example": "He drives a car."
     },
     {
       "id": 7,
-      "word": "Pen",
-      "description": "A writing instrument that uses ink."
+      "word": "pen",
+      "description": "A writing instrument that uses ink.",
+      "example": "She used a pen."
     },
     {
       "id": 8,
-      "word": "Table",
-      "description": "A piece of furniture with a flat top and legs."
+      "word": "table",
+      "description": "A piece of furniture with a flat top and legs.",
+      "example": "Dinner is on the table."
     },
     {
       "id": 9,
-      "word": "Chair",
-      "description": "A piece of furniture for sitting."
+      "word": "chair",
+      "description": "A piece of furniture for sitting.",
+      "example": "He sat on a chair."
     },
     {
       "id": 10,
-      "word": "Water",
-      "description": "A clear, colorless liquid essential for life."
+      "word": "water",
+      "description": "A clear, colorless liquid essential for life.",
+      "example": "Drink some water."
     },
     {
       "id": 11,
-      "word": "Sun",
-      "description": "The star at the center of our solar system."
+      "word": "sun",
+      "description": "The star at the center of our solar system.",
+      "example": "The sun is shining."
     },
     {
       "id": 12,
-      "word": "Tree",
-      "description": "A large plant with a trunk and branches."
+      "word": "tree",
+      "description": "A large plant with a trunk and branches.",
+      "example": "They planted a tree."
     },
     {
       "id": 13,
-      "word": "Food",
-      "description": "Substances eaten to provide energy."
+      "word": "food",
+      "description": "Substances eaten to provide energy.",
+      "example": "They cooked some food."
     },
     {
       "id": 14,
-      "word": "Milk",
-      "description": "A white liquid produced by mammals, often drunk."
+      "word": "milk",
+      "description": "A white liquid produced by mammals, often drunk.",
+      "example": "She drank milk."
     },
     {
       "id": 15,
-      "word": "Bag",
-      "description": "A container for carrying things."
+      "word": "bag",
+      "description": "A container for carrying things.",
+      "example": "He carried a bag."
     },
     {
       "id": 16,
-      "word": "Phone",
-      "description": "A device for communication over distances."
+      "word": "phone",
+      "description": "A device for communication over distances.",
+      "example": "She answered the phone."
     },
     {
       "id": 17,
-      "word": "Window",
-      "description": "An opening in a wall to let in light and air."
+      "word": "window",
+      "description": "An opening in a wall to let in light and air.",
+      "example": "Open the window."
     },
     {
       "id": 18,
-      "word": "Baby",
-      "description": "A very young child."
+      "word": "baby",
+      "description": "A very young child.",
+      "example": "The baby is sleeping."
     },
     {
       "id": 19,
-      "word": "Ball",
-      "description": "A round object used in games and sports."
+      "word": "ball",
+      "description": "A round object used in games and sports.",
+      "example": "They played with a ball."
     },
     {
       "id": 20,
-      "word": "Bed",
-      "description": "A piece of furniture for sleeping on."
+      "word": "bed",
+      "description": "A piece of furniture for sleeping on.",
+      "example": "She made the bed."
     },
     {
-        "id": 21,
-        "word": "Cup",
-        "description": "A small container used for drinking."
-      },
-      {
-        "id": 22,
-        "word": "Fish",
-        "description": "An aquatic animal that lives in water."
-      },
-      {
-        "id": 23,
-        "word": "Hat",
-        "description": "A head covering worn for warmth or fashion."
-      },
-      {
-        "id": 24,
-        "word": "Key",
-        "description": "A small metal object used to open locks."
-      },
-      {
-        "id": 25,
-        "word": "Lamp",
-        "description": "A device that produces light."
-      },
-      {
-        "id": 26,
-        "word": "Map",
-        "description": "A visual representation of an area."
-      },
-      {
-        "id": 27,
-        "word": "Nose",
-        "description": "The part of the face used for smelling and breathing."
-      },
-      {
-        "id": 28,
-        "word": "Orange",
-        "description": "A citrus fruit with a tough bright reddish-yellow rind."
-      },
-      {
-        "id": 29,
-        "word": "Pizza",
-        "description": "A dish of Italian origin consisting of a flat round base of dough baked with a topping of tomato sauce and cheese."
-      },
-      {
-        "id": 30,
-        "word": "Rain",
-        "description": "Water that falls from the sky in drops."
-      },
-      {
-        "id": 31,
-        "word": "Star",
-        "description": "A luminous point in the night sky that is a large, remote incandescent body like the sun."
-      },
-      {
-        "id": 32,
-        "word": "Shoe",
-        "description": "A covering for the foot, typically made of leather."
-      },
-      {
-        "id": 33,
-        "word": "Train",
-        "description": "A series of connected vehicles that travel on a track and transport people or goods."
-      },
-      {
-        "id": 34,
-        "word": "Umbrella",
-        "description": "A device for protection against rain or sun, consisting of a folding fabric canopy mounted on a frame."
-      },
-      {
-        "id": 35,
-        "word": "Watch",
-        "description": "A small timepiece worn typically on a strap on one's wrist."
-      },
-      {
-        "id": 36,
-        "word": "Zoo",
-        "description": "A facility with various animals for public viewing."
-      },
-      {
-        "id": 37,
-        "word": "Egg",
-        "description": "An oval or round object laid by a female bird, reptile, fish, or invertebrate, usually containing a developing embryo."
-      },
-      {
-        "id": 38,
-        "word": "Ice",
-        "description": "Frozen water, a brittle, transparent crystalline solid."
-      },
-      {
-        "id": 39,
-        "word": "Milk",
-        "description": "A white liquid produced by the mammary glands of mammals."
-      },
-      {
-        "id": 40,
-        "word": "Boat",
-        "description": "A small vessel for traveling over water, propelled by oars, sails, or an engine."
-      }
+      "id": 21,
+      "word": "cup",
+      "description": "A small container used for drinking.",
+      "example": "He filled the cup."
+    },
+    {
+      "id": 22,
+      "word": "fish",
+      "description": "An aquatic animal that lives in water.",
+      "example": "She caught a fish."
+    },
+    {
+      "id": 23,
+      "word": "hat",
+      "description": "A head covering worn for warmth or fashion.",
+      "example": "He wore a hat."
+    },
+    {
+      "id": 24,
+      "word": "key",
+      "description": "A small metal object used to open locks.",
+      "example": "She found the key."
+    },
+    {
+      "id": 25,
+      "word": "lamp",
+      "description": "A device that produces light.",
+      "example": "Turn on the lamp."
+    },
+    {
+      "id": 26,
+      "word": "map",
+      "description": "A visual representation of an area.",
+      "example": "He studied the map."
+    },
+    {
+      "id": 27,
+      "word": "nose",
+      "description": "The part of the face used for smelling and breathing.",
+      "example": "She touched her nose."
+    },
+    {
+      "id": 28,
+      "word": "orange",
+      "description": "A citrus fruit with a tough bright reddish-yellow rind.",
+      "example": "He peeled an orange."
+    },
+    {
+      "id": 29,
+      "word": "pizza",
+      "description": "A dish of Italian origin consisting of a flat round base of dough baked with a topping of tomato sauce and cheese.",
+      "example": "They ordered pizza."
+    },
+    {
+      "id": 30,
+      "word": "rain",
+      "description": "Water that falls from the sky in drops.",
+      "example": "It began to rain."
+    },
+    {
+      "id": 31,
+      "word": "star",
+      "description": "A luminous point in the night sky that is a large, remote incandescent body like the sun.",
+      "example": "She wished on a star."
+    },
+    {
+      "id": 32,
+      "word": "shoe",
+      "description": "A covering for the foot, typically made of leather.",
+      "example": "He lost a shoe."
+    },
+    {
+      "id": 33,
+      "word": "train",
+      "description": "A series of connected vehicles that travel on a track and transport people or goods.",
+      "example": "They boarded the train."
+    },
+    {
+      "id": 34,
+      "word": "umbrella",
+      "description": "A device for protection against rain or sun, consisting of a folding fabric canopy mounted on a frame.",
+      "example": "She took an umbrella."
+    },
+    {
+      "id": 35,
+      "word": "watch",
+      "description": "A small timepiece worn typically on a strap on one's wrist.",
+      "example": "He checked his watch."
+    },
+    {
+      "id": 36,
+      "word": "zoo",
+      "description": "A facility with various animals for public viewing.",
+      "example": "They visited the zoo."
+    },
+    {
+      "id": 37,
+      "word": "egg",
+      "description": "An oval or round object laid by a female bird, reptile, fish, or invertebrate, usually containing a developing embryo.",
+      "example": "She boiled an egg."
+    },
+    {
+      "id": 38,
+      "word": "ice",
+      "description": "Frozen water, a brittle, transparent crystalline solid.",
+      "example": "The ice melted."
+    },
+    {
+      "id": 39,
+      "word": "milk",
+      "description": "A white liquid produced by the mammary glands of mammals.",
+      "example": "He spilled milk."
+    },
+    {
+      "id": 40,
+      "word": "boat",
+      "description": "A small vessel for traveling over water, propelled by oars, sails, or an engine.",
+      "example": "They rowed the boat."
+    }
   ]
   

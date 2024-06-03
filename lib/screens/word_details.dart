@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
+import 'package:words/utils/text_utils.dart'; // Додайте цей імпорт
 
 class WordDetailScreen extends StatefulWidget {
   final Word word;
@@ -34,6 +35,13 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final exampleText = widget.word.example;
+    final wordText = widget.word.word;
+    final exampleSpans = buildExampleSpans(
+      exampleText,
+      wordText,
+    ); // Використовуємо винесену функцію
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Study'),
@@ -48,7 +56,10 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
           ),
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+              padding: const EdgeInsets.symmetric(
+                vertical: 30,
+                horizontal: 20,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -56,51 +67,43 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                   Center(
                     child: Text(
                       widget.word.word,
-                      style: const TextStyle(color: Colors.white, fontSize: 35),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 35,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
                   Center(
                     child: Text(
                       widget.word.description,
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
                   const SizedBox(height: 30),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 15),
+                      horizontal: 15,
+                      vertical: 15,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: RichText(
-                      text: TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: 'My ',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                          TextSpan(
-                            text: widget.word.word,
-                            style: const TextStyle(
-                                color: Color.fromARGB(255, 165, 38, 29),
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const TextSpan(
-                            text: ' is painting.',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ],
-                      ),
+                      text: TextSpan(children: exampleSpans),
                     ),
                   ),
                   const SizedBox(height: 20),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(8),
@@ -132,7 +135,10 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                         onPressed: () {},
                         child: const Text(
                           'ua',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                       ElevatedButton(
