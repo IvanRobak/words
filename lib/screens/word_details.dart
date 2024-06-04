@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
 import 'package:words/utils/text_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:auto_size_text_field/auto_size_text_field.dart';
 
 class WordDetailScreen extends StatefulWidget {
   final Word word;
@@ -15,7 +14,6 @@ class WordDetailScreen extends StatefulWidget {
 
 class _WordDetailScreenState extends State<WordDetailScreen> {
   final TextEditingController _textController = TextEditingController();
-  bool _isTyping = false;
 
   @override
   void initState() {
@@ -31,23 +29,46 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
   }
 
   void _handleTyping() {
-    setState(() {
-      _isTyping = _textController.text.isNotEmpty;
-    });
-    _saveText(_textController.text);
+    setState(() {});
+    _saveText();
   }
 
-  Future<void> _saveText(String text) async {
+  Future<void> _saveText() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(widget.word.word, text);
+    await prefs.setString(widget.word.word, _textController.text);
+    await prefs.setStringList(
+        '${widget.word.word}_userExamples', widget.word.userExamples);
   }
 
   Future<void> _loadSavedText() async {
     final prefs = await SharedPreferences.getInstance();
     final savedText = prefs.getString(widget.word.word);
+    final savedExamples =
+        prefs.getStringList('${widget.word.word}_userExamples');
+
     if (savedText != null) {
       _textController.text = savedText;
     }
+
+    if (savedExamples != null) {
+      setState(() {
+        widget.word.userExamples = savedExamples;
+      });
+    }
+  }
+
+  void _addExample() {
+    setState(() {
+      widget.word.userExamples.add('');
+    });
+    _saveText();
+  }
+
+  void _removeExample(int index) {
+    setState(() {
+      widget.word.userExamples.removeAt(index);
+    });
+    _saveText();
   }
 
   @override
@@ -116,35 +137,65 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      children: [
-                        if (!_isTyping)
-                          const Icon(Icons.add, color: Colors.white),
-                        if (!_isTyping) const SizedBox(width: 10),
-                        Expanded(
-                          child: AutoSizeTextField(
-                            controller: _textController,
-                            decoration: const InputDecoration(
-                              hintText: 'Add your own example',
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(color: Colors.white),
+                  const SizedBox(height: 20),
+                  for (int i = 0; i < widget.word.userExamples.length; i++)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 2,
+                      ),
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: TextEditingController(
+                                text: widget.word.userExamples[i],
+                              ),
+                              onChanged: (value) {
+                                widget.word.userExamples[i] = value;
+                                _saveText();
+                              },
+                              decoration: const InputDecoration(
+                                hintText: 'Your example',
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(color: Colors.white),
+                              ),
+                              style: const TextStyle(color: Colors.white),
+                              minLines: 1,
+                              maxLines: null,
+                              textInputAction: TextInputAction.done,
+                              onSubmitted: (value) {
+                                widget.word.userExamples[i] = value;
+                                _saveText();
+                                FocusScope.of(context).unfocus();
+                              },
                             ),
-                            style: const TextStyle(color: Colors.white),
-                            minLines: 1,
-                            maxLines: null,
                           ),
-                        ),
-                      ],
+                          IconButton(
+                            icon: const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                            onPressed: () => _removeExample(i),
+                          ),
+                        ],
+                      ),
                     ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _addExample,
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text('Add Example'),
                   ),
                   const SizedBox(height: 80),
                   Row(
