@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
 import 'package:words/utils/text_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 
 class WordDetailScreen extends StatefulWidget {
   final Word word;
@@ -130,7 +131,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                           const Icon(Icons.add, color: Colors.white),
                         if (!_isTyping) const SizedBox(width: 10),
                         Expanded(
-                          child: TextField(
+                          child: AutoSizeTextField(
                             controller: _textController,
                             decoration: const InputDecoration(
                               hintText: 'Add your own example',
@@ -138,6 +139,8 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                               hintStyle: TextStyle(color: Colors.white),
                             ),
                             style: const TextStyle(color: Colors.white),
+                            minLines: 1,
+                            maxLines: null,
                           ),
                         ),
                       ],
