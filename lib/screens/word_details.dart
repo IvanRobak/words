@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
-import 'package:words/utils/text_utils.dart'; // Додайте цей імпорт
+import 'package:words/utils/text_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WordDetailScreen extends StatefulWidget {
   final Word word;
@@ -18,6 +19,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
   @override
   void initState() {
     super.initState();
+    _loadSavedText();
     _textController.addListener(_handleTyping);
   }
 
@@ -31,6 +33,20 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
     setState(() {
       _isTyping = _textController.text.isNotEmpty;
     });
+    _saveText(_textController.text);
+  }
+
+  Future<void> _saveText(String text) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(widget.word.word, text);
+  }
+
+  Future<void> _loadSavedText() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedText = prefs.getString(widget.word.word);
+    if (savedText != null) {
+      _textController.text = savedText;
+    }
   }
 
   @override
@@ -40,7 +56,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
     final exampleSpans = buildExampleSpans(
       exampleText,
       wordText,
-    ); // Використовуємо винесену функцію
+    );
 
     return Scaffold(
       appBar: AppBar(
