@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   shared_preferences: ^2.2.3
   auto_size_text_field: ^2.2.3
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:

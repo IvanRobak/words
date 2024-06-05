@@ -6,11 +6,12 @@ class FolderWidget extends StatefulWidget {
   final Function(String) onNameChanged;
   final VoidCallback onDelete;
 
-  const FolderWidget(
-      {super.key,
-      required this.folder,
-      required this.onNameChanged,
-      required this.onDelete});
+  const FolderWidget({
+    super.key,
+    required this.folder,
+    required this.onNameChanged,
+    required this.onDelete,
+  });
 
   @override
   State<FolderWidget> createState() => _FolderWidgetState();
@@ -39,13 +40,9 @@ class _FolderWidgetState extends State<FolderWidget> {
             TextButton(
               child: const Text('Додати'),
               onPressed: () {
-                print(
-                    'Додати натиснуто'); // Додаємо відлагоджувальне повідомлення
                 if (folderNameController.text.isNotEmpty) {
                   widget.onNameChanged(folderNameController.text);
                   Navigator.of(context).pop();
-                  print(
-                      'Назва папки: ${folderNameController.text}'); // Додаємо відлагоджувальне повідомлення
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -67,7 +64,6 @@ class _FolderWidgetState extends State<FolderWidget> {
       children: [
         GestureDetector(
           onTap: () {
-            // Додаємо відлагоджувальне повідомлення
             if (widget.folder.name.isEmpty) {
               _showAddFolderDialog();
             } else {
@@ -97,7 +93,6 @@ class _FolderWidgetState extends State<FolderWidget> {
             ),
           ),
         ),
-        // if (widget.folder.name.isNotEmpty)
         Positioned(
           bottom: 8,
           right: 8,

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/screens/folder_list.dart';
 import 'package:words/screens/word_list.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Discover words'),
@@ -29,8 +31,7 @@ class HomeScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF426CD8),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        12), // Зменште це значення для меншого заокруглення
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
@@ -63,8 +64,7 @@ class HomeScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF426CD8),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        12), // Зменште це значення для меншого заокруглення
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
