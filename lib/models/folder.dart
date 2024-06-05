@@ -1,7 +1,7 @@
 import 'package:words/models/word.dart';
 
 class Folder {
-  final String name;
+  late final String name;
   final List<Word> words;
 
   Folder({
