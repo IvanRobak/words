@@ -18,17 +18,18 @@ class FolderWidget extends StatefulWidget {
 }
 
 class _FolderWidgetState extends State<FolderWidget> {
-  void _showAddFolderDialog() {
+  void _showRenameFolderDialog() {
     TextEditingController folderNameController = TextEditingController();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Нова папка'),
+          title: const Text('Перейменувати папку'),
           content: TextField(
             controller: folderNameController,
-            decoration: const InputDecoration(hintText: 'Введіть назву папки'),
+            decoration:
+                const InputDecoration(hintText: 'Введіть нову назву папки'),
           ),
           actions: <Widget>[
             TextButton(
@@ -38,7 +39,7 @@ class _FolderWidgetState extends State<FolderWidget> {
               },
             ),
             TextButton(
-              child: const Text('Додати'),
+              child: const Text('Перейменувати'),
               onPressed: () {
                 if (folderNameController.text.isNotEmpty) {
                   widget.onNameChanged(folderNameController.text);
@@ -58,6 +59,37 @@ class _FolderWidgetState extends State<FolderWidget> {
     );
   }
 
+  void _showOptionsMenu(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.edit),
+                title: const Text('Перейменувати'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _showRenameFolderDialog();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.delete),
+                title: const Text('Видалити'),
+                onTap: () {
+                  Navigator.pop(context);
+                  widget.onDelete();
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -65,7 +97,7 @@ class _FolderWidgetState extends State<FolderWidget> {
         GestureDetector(
           onTap: () {
             if (widget.folder.name.isEmpty) {
-              _showAddFolderDialog();
+              _showRenameFolderDialog();
             } else {
               // Додайте перехід до екрану папки зі словами
             }
@@ -94,12 +126,11 @@ class _FolderWidgetState extends State<FolderWidget> {
           ),
         ),
         Positioned(
-          bottom: 8,
-          right: 8,
+          top: 0,
+          right: 0,
           child: IconButton(
-            icon: const Icon(Icons.delete,
-                color: Color.fromARGB(40, 255, 255, 255)),
-            onPressed: widget.onDelete,
+            icon: const Icon(Icons.more_vert, color: Colors.white),
+            onPressed: () => _showOptionsMenu(context),
           ),
         ),
       ],
