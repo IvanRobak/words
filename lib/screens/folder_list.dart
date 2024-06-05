@@ -16,17 +16,23 @@ class _FolderListScreenState extends State<FolderListScreen> {
 
   void _addFolder() {
     setState(() {
-      folders.add(Folder(name: '', words: []));
-      print('Додано нову папку'); // Додаємо відлагоджувальне повідомлення
+      folders.add(
+          Folder(name: '', words: [])); // Додаємо відлагоджувальне повідомлення
     });
   }
 
   void _updateFolderName(int index, String name) {
     setState(() {
       // Переконаємося, що ми правильно оновлюємо об'єкт Folder
-      folders[index] = Folder(name: name, words: folders[index].words);
-      print(
-          'Назва папки змінена на: $name'); // Додаємо відлагоджувальне повідомлення
+      folders[index] = Folder(
+          name: name,
+          words: folders[index].words); // Додаємо відлагоджувальне повідомлення
+    });
+  }
+
+  void _deleteFolder(int index) {
+    setState(() {
+      folders.removeAt(index); // Додаємо відлагоджувальне повідомлення
     });
   }
 
@@ -50,6 +56,9 @@ class _FolderListScreenState extends State<FolderListScreen> {
             folder: folder,
             onNameChanged: (name) {
               _updateFolderName(index, name);
+            },
+            onDelete: () {
+              _deleteFolder(index);
             },
           );
         },

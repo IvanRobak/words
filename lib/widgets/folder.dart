@@ -4,9 +4,13 @@ import '../models/folder.dart';
 class FolderWidget extends StatefulWidget {
   final Folder folder;
   final Function(String) onNameChanged;
+  final VoidCallback onDelete;
 
   const FolderWidget(
-      {super.key, required this.folder, required this.onNameChanged});
+      {super.key,
+      required this.folder,
+      required this.onNameChanged,
+      required this.onDelete});
 
   @override
   State<FolderWidget> createState() => _FolderWidgetState();
@@ -59,38 +63,51 @@ class _FolderWidgetState extends State<FolderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        print('Папка натиснута'); // Додаємо відлагоджувальне повідомлення
-        if (widget.folder.name.isEmpty) {
-          _showAddFolderDialog();
-        } else {
-          // Додайте перехід до екрану папки зі словами
-          print('Перехід до папки: ${widget.folder.name}');
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFF426CD8),
-          borderRadius: BorderRadius.circular(10),
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () {
+            // Додаємо відлагоджувальне повідомлення
+            if (widget.folder.name.isEmpty) {
+              _showAddFolderDialog();
+            } else {
+              // Додайте перехід до екрану папки зі словами
+            }
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: const Color(0xFF426CD8),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: widget.folder.name.isEmpty
+                  ? const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 40,
+                    )
+                  : Text(
+                      widget.folder.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+            ),
+          ),
         ),
-        child: Center(
-          child: widget.folder.name.isEmpty
-              ? const Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 40,
-                )
-              : Text(
-                  widget.folder.name,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+        // if (widget.folder.name.isNotEmpty)
+        Positioned(
+          bottom: 8,
+          right: 8,
+          child: IconButton(
+            icon: const Icon(Icons.delete,
+                color: Color.fromARGB(40, 255, 255, 255)),
+            onPressed: widget.onDelete,
+          ),
         ),
-      ),
+      ],
     );
   }
 }
