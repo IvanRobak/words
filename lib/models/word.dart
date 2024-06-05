@@ -3,6 +3,7 @@ class Word {
   final String description;
   final int id;
   final String example;
+  final String translation; // Додаємо властивість для перекладу
   List<String> userExamples;
 
   Word({
@@ -10,7 +11,8 @@ class Word {
     required this.description,
     required this.id,
     required this.example,
-    this.userExamples = const [],
+    required this.translation, // Ініціалізуємо переклад
+    required this.userExamples,
   });
 
   factory Word.fromJson(Map<String, dynamic> json) {
@@ -19,9 +21,8 @@ class Word {
       description: json['description'],
       id: json['id'],
       example: json['example'],
-      userExamples: json['userExamples'] != null
-          ? List<String>.from(json['userExamples'])
-          : [],
+      translation: json['translation'], // Ініціалізуємо переклад
+      userExamples: List<String>.from(json['userExamples'] ?? []),
     );
   }
 
@@ -32,6 +33,7 @@ class Word {
       'id': id,
       'example': example,
       'userExamples': userExamples,
+      'translation': translation,
     };
   }
 }

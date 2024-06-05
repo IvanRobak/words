@@ -14,6 +14,7 @@ class WordDetailScreen extends StatefulWidget {
 
 class _WordDetailScreenState extends State<WordDetailScreen> {
   final TextEditingController _textController = TextEditingController();
+  bool isTranslationVisible = false;
 
   @override
   void initState() {
@@ -69,6 +70,12 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
       widget.word.userExamples.removeAt(index);
     });
     _saveText();
+  }
+
+  void _toggleTranslation() {
+    setState(() {
+      isTranslationVisible = !isTranslationVisible;
+    });
   }
 
   @override
@@ -202,10 +209,10 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'ua',
-                          style: TextStyle(
+                        onPressed: _toggleTranslation,
+                        child: Text(
+                          isTranslationVisible ? widget.word.translation : 'ua',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 16,
                           ),
