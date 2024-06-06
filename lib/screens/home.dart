@@ -4,11 +4,17 @@ import 'package:words/screens/folder_list.dart';
 import 'package:words/screens/word_list.dart';
 // import 'package:words/screens/categories_screen.dart'; // Імпортуйте екран з категоріями, коли він буде створений
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  // ignore: library_private_types_in_public_api
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFF3EA),
       appBar: AppBar(
@@ -40,7 +46,6 @@ class HomeScreen extends ConsumerWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            // crossAxisAlignment: CrossAxisAlignment.,
             children: <Widget>[
               const Padding(
                 padding: EdgeInsets.only(bottom: 30),
@@ -144,10 +149,41 @@ class HomeScreen extends ConsumerWidget {
                   ),
                 ),
               ),
+              const Expanded(
+                  child:
+                      SizedBox()), // Додаємо простір між кнопками та нижньою навігацією
             ],
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color.fromARGB(255, 233, 225, 219),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorite',
+          ),
+        ],
+        // currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        // onTap: _onItemTapped,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Додайте дію для кнопки
+        },
+        backgroundColor: const Color.fromARGB(255, 65, 93, 104),
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
