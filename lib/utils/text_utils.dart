@@ -19,7 +19,7 @@ List<TextSpan> buildExampleSpans(String exampleText, String wordText) {
         text: exampleText.substring(
             wordStartIndex, wordStartIndex + wordText.length),
         style: const TextStyle(
-            color: Color.fromARGB(255, 165, 38, 29),
+            color: Color.fromARGB(255, 255, 145, 0),
             fontSize: 16,
             fontWeight: FontWeight.bold)));
     if (wordStartIndex + wordText.length < exampleText.length) {

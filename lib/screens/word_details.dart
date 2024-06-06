@@ -102,6 +102,7 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('Study'),
       ),
       body: isLoading
@@ -110,7 +111,7 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
           : Padding(
               padding: const EdgeInsets.symmetric(vertical: 30),
               child: Card(
-                color: const Color(0xFF426CD8),
+                color: Theme.of(context).colorScheme.primary,
                 margin: const EdgeInsets.all(20),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -124,7 +125,7 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const SizedBox(height: 36),
+                        const SizedBox(height: 30),
                         Center(
                           child: Text(
                             widget.word.word,
@@ -134,7 +135,7 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 20),
                         Center(
                           child: Text(
                             widget.word.description,
@@ -145,7 +146,7 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 16),
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 15,
@@ -159,15 +160,13 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                             text: TextSpan(children: exampleSpans),
                           ),
                         ),
-                        const SizedBox(height: 20),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 50),
                         WordExamplesList(
                           word: widget.word,
                           onUpdate: _updateExample,
                           onRemove: _removeExample,
                           onAddExample: _addExample,
                         ),
-                        const SizedBox(height: 20),
                         const SizedBox(height: 80),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -202,7 +201,8 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                                 });
                                 // Виконати необхідні дії після вибору папки
                               },
-                              dropdownColor: const Color(0xFF426CD8),
+                              dropdownColor:
+                                  Theme.of(context).colorScheme.primary,
                               style: const TextStyle(color: Colors.white),
                             ),
                           ],

@@ -90,7 +90,7 @@ class _WordExamplesListState extends State<WordExamplesList> {
           IconButton(
             icon: const Icon(
               Icons.delete,
-              color: Colors.white,
+              color: Color.fromARGB(40, 255, 255, 255),
             ),
             onPressed: () {
               widget.onRemove(index);

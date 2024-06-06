@@ -12,6 +12,7 @@ class FolderListScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('Your Folders'),
       ),
       body: GridView.builder(
@@ -39,7 +40,11 @@ class FolderListScreen extends ConsumerWidget {
         onPressed: () {
           folderNotifier.addFolder();
         },
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.add,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }
