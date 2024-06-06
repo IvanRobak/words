@@ -14,6 +14,26 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFF3EA),
         elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20), // Додаємо відступ зліва
+          child: IconButton(
+            icon: const Icon(Icons.settings, color: Colors.black),
+            onPressed: () {
+              // Додайте дію для кнопки налаштувань
+            },
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20), // Додаємо відступ справа
+            child: IconButton(
+              icon: const Icon(Icons.person, color: Colors.black),
+              onPressed: () {
+                // Додайте дію для кнопки профілю
+              },
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -53,6 +73,8 @@ class HomeScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 25),
+                    shadowColor: Colors.black,
+                    elevation: 10,
                   ),
                   child: const Center(
                     child: Text(
@@ -76,6 +98,8 @@ class HomeScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 25),
+                    shadowColor: Colors.black,
+                    elevation: 10,
                   ),
                   child: const Center(
                     child: Text(
@@ -106,6 +130,8 @@ class HomeScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(50),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 25),
+                    shadowColor: Colors.black,
+                    elevation: 10,
                   ),
                   child: const Center(
                     child: Text(
