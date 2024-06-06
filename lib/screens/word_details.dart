@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/word.dart';
 import '../utils/text_utils.dart';
+import '../utils/text_storage.dart';
 import '../providers/folder_provider.dart';
 
 class WordDetailScreen extends ConsumerStatefulWidget {
@@ -11,7 +11,7 @@ class WordDetailScreen extends ConsumerStatefulWidget {
   const WordDetailScreen({super.key, required this.word});
 
   @override
-  ConsumerState<WordDetailScreen> createState() => _WordDetailScreenState();
+  _WordDetailScreenState createState() => _WordDetailScreenState();
 }
 
 class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
@@ -34,21 +34,13 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
 
   void _handleTyping() {
     setState(() {});
-    _saveText();
-  }
-
-  Future<void> _saveText() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(widget.word.word, _textController.text);
-    await prefs.setStringList(
-        '${widget.word.word}_userExamples', widget.word.userExamples);
+    TextStorage.saveText(widget.word, _textController.text);
   }
 
   Future<void> _loadSavedText() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedText = prefs.getString(widget.word.word);
-    final savedExamples =
-        prefs.getStringList('${widget.word.word}_userExamples');
+    final loadedData = await TextStorage.loadText(widget.word);
+    final savedText = loadedData['savedText'] as String?;
+    final savedExamples = loadedData['savedExamples'] as List<String>?;
 
     if (savedText != null) {
       _textController.text = savedText;
@@ -65,14 +57,14 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
     setState(() {
       widget.word.userExamples.add('');
     });
-    _saveText();
+    TextStorage.saveText(widget.word, _textController.text);
   }
 
   void _removeExample(int index) {
     setState(() {
       widget.word.userExamples.removeAt(index);
     });
-    _saveText();
+    TextStorage.saveText(widget.word, _textController.text);
   }
 
   void _toggleTranslation() {
@@ -172,7 +164,8 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                               ),
                               onChanged: (value) {
                                 widget.word.userExamples[i] = value;
-                                _saveText();
+                                TextStorage.saveText(
+                                    widget.word, _textController.text);
                               },
                               decoration: const InputDecoration(
                                 hintText: 'Your example',
@@ -185,7 +178,8 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                               textInputAction: TextInputAction.done,
                               onSubmitted: (value) {
                                 widget.word.userExamples[i] = value;
-                                _saveText();
+                                TextStorage.saveText(
+                                    widget.word, _textController.text);
                                 FocusScope.of(context).unfocus();
                               },
                             ),
@@ -224,10 +218,8 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                         ),
                       ),
                       DropdownButton<String>(
-                        alignment: Alignment.center,
-                        borderRadius: BorderRadius.circular(15),
                         hint: const Text(
-                          "Folder",
+                          "Select Folder",
                           style: TextStyle(color: Colors.white),
                         ),
                         value: selectedFolder,
