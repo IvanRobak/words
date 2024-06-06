@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/word.dart';
 import '../utils/text_utils.dart';
 import '../utils/text_storage.dart';
+import '../utils/user_examples_storage.dart';
 import '../providers/folder_provider.dart';
 
 class WordDetailScreen extends ConsumerStatefulWidget {
@@ -40,7 +41,8 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
   Future<void> _loadSavedText() async {
     final loadedData = await TextStorage.loadText(widget.word);
     final savedText = loadedData['savedText'] as String?;
-    final savedExamples = loadedData['savedExamples'] as List<String>?;
+    final savedExamples =
+        await UserExamplesStorage.loadUserExamples(widget.word);
 
     if (savedText != null) {
       _textController.text = savedText;
@@ -57,14 +59,21 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
     setState(() {
       widget.word.userExamples.add('');
     });
-    TextStorage.saveText(widget.word, _textController.text);
+    UserExamplesStorage.saveUserExamples(widget.word);
   }
 
   void _removeExample(int index) {
     setState(() {
       widget.word.userExamples.removeAt(index);
     });
-    TextStorage.saveText(widget.word, _textController.text);
+    UserExamplesStorage.saveUserExamples(widget.word);
+  }
+
+  void _updateExample(int index, String value) {
+    setState(() {
+      widget.word.userExamples[index] = value;
+    });
+    UserExamplesStorage.saveUserExamples(widget.word);
   }
 
   void _toggleTranslation() {
@@ -163,9 +172,7 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                                 text: widget.word.userExamples[i],
                               ),
                               onChanged: (value) {
-                                widget.word.userExamples[i] = value;
-                                TextStorage.saveText(
-                                    widget.word, _textController.text);
+                                _updateExample(i, value);
                               },
                               decoration: const InputDecoration(
                                 hintText: 'Your example',
@@ -177,9 +184,7 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                               maxLines: null,
                               textInputAction: TextInputAction.done,
                               onSubmitted: (value) {
-                                widget.word.userExamples[i] = value;
-                                TextStorage.saveText(
-                                    widget.word, _textController.text);
+                                _updateExample(i, value);
                                 FocusScope.of(context).unfocus();
                               },
                             ),
