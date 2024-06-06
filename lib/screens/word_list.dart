@@ -90,6 +90,7 @@ class _WordListScreenState extends State<WordListScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('All words'),
       ),
       body: Column(
@@ -165,14 +166,16 @@ class _WordListScreenState extends State<WordListScreen> {
                 IconButton(
                   icon: const Icon(Icons.arrow_back),
                   onPressed: previousPage,
-                  color: currentPage > 0 ? Colors.blue : Colors.grey,
+                  color: currentPage > 0
+                      ? Theme.of(context).colorScheme.secondary
+                      : Colors.grey,
                 ),
                 Text(getCurrentPageRange()),
                 IconButton(
                   icon: const Icon(Icons.arrow_forward),
                   onPressed: nextPage,
                   color: (currentPage + 1) * wordsPerPage < filteredWords.length
-                      ? Colors.blue
+                      ? Theme.of(context).colorScheme.secondary
                       : Colors.grey,
                 ),
               ],
