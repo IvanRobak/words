@@ -23,5 +23,4 @@ class FolderNotifier extends ChangeNotifier {
   }
 }
 
-// Провайдер для доступу до FolderNotifier
 final folderProvider = ChangeNotifierProvider((ref) => FolderNotifier());

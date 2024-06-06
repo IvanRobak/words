@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:words/models/word.dart';
-import 'package:words/utils/text_utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/word.dart';
+import '../utils/text_utils.dart';
+import '../providers/folder_provider.dart';
 
-class WordDetailScreen extends StatefulWidget {
+class WordDetailScreen extends ConsumerStatefulWidget {
   final Word word;
 
   const WordDetailScreen({super.key, required this.word});
 
   @override
-  State<WordDetailScreen> createState() => _WordDetailScreenState();
+  ConsumerState<WordDetailScreen> createState() => _WordDetailScreenState();
 }
 
-class _WordDetailScreenState extends State<WordDetailScreen> {
+class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
   final TextEditingController _textController = TextEditingController();
   bool isTranslationVisible = false;
+  String? selectedFolder;
 
   @override
   void initState() {
@@ -86,6 +89,8 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
       exampleText,
       wordText,
     );
+
+    final folderNotifier = ref.watch(folderProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -218,14 +223,28 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                          ),
+                      DropdownButton<String>(
+                        alignment: Alignment.center,
+                        borderRadius: BorderRadius.circular(15),
+                        hint: const Text(
+                          "Folder",
+                          style: TextStyle(color: Colors.white),
                         ),
-                        child: const Text('Hobby'),
+                        value: selectedFolder,
+                        items: folderNotifier.folders
+                            .map((folder) => DropdownMenuItem<String>(
+                                  value: folder.name,
+                                  child: Text(folder.name),
+                                ))
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedFolder = value;
+                          });
+                          // Виконати необхідні дії після вибору папки
+                        },
+                        dropdownColor: const Color(0xFF426CD8),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
