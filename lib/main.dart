@@ -9,6 +9,7 @@ final theme = ThemeData(
     primary: const Color.fromARGB(255, 65, 93, 104),
     secondary: const Color.fromARGB(255, 255, 145, 0),
     background: const Color(0xFFFFF3EA),
+    surface: const Color.fromARGB(255, 233, 225, 219),
   ),
 );
 

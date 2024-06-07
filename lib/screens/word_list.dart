@@ -1,49 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words/providers/word_provider.dart';
+import 'package:words/widgets/filter.dart';
 import 'package:words/widgets/word_button.dart';
 import 'package:words/services/word_loader.dart';
 import '../models/word.dart';
 
-class WordListScreen extends StatefulWidget {
+class WordListScreen extends ConsumerStatefulWidget {
   const WordListScreen({super.key});
 
   @override
-  State<WordListScreen> createState() => _WordListScreenState();
+  ConsumerState<WordListScreen> createState() => _WordListScreenState();
 }
 
-class _WordListScreenState extends State<WordListScreen> {
-  List<Word> words = [];
-  List<Word> filteredWords = [];
+class _WordListScreenState extends ConsumerState<WordListScreen> {
+  TextEditingController searchController = TextEditingController();
   int columns = 2; // Поточна кількість стовпців
   final List<int> columnOptions = [2, 3]; // Можливі варіанти
-  TextEditingController searchController = TextEditingController();
   int currentPage = 0; // Поточна сторінка
   final int wordsPerPage = 20; // Кількість слів на сторінку
 
   @override
   void initState() {
     super.initState();
-    loadWordsFromJson();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadWordsFromJson();
+    });
   }
 
   Future<void> loadWordsFromJson() async {
     final loadedWords = await loadWords();
-    setState(() {
-      words = loadedWords;
-      filteredWords = loadedWords;
-    });
-  }
-
-  void filterWords(String query) {
-    final List<Word> results = words.where((word) {
-      final String wordText = word.word.toLowerCase();
-      final String input = query.toLowerCase();
-      return wordText.startsWith(input);
-    }).toList();
-
-    setState(() {
-      filteredWords = results;
-      currentPage = 0; // Скидаємо на першу сторінку при пошуку
-    });
+    ref.read(wordFilterProvider.notifier).setWords(loadedWords);
   }
 
   @override
@@ -52,7 +39,7 @@ class _WordListScreenState extends State<WordListScreen> {
     super.dispose();
   }
 
-  List<Word> getCurrentPageWords() {
+  List<Word> getCurrentPageWords(List<Word> filteredWords) {
     final start = currentPage * wordsPerPage;
     final end = start + wordsPerPage;
     return filteredWords.sublist(
@@ -60,7 +47,8 @@ class _WordListScreenState extends State<WordListScreen> {
   }
 
   void nextPage() {
-    if ((currentPage + 1) * wordsPerPage < filteredWords.length) {
+    if ((currentPage + 1) * wordsPerPage <
+        ref.read(wordFilterProvider).length) {
       setState(() {
         currentPage++;
       });
@@ -77,16 +65,16 @@ class _WordListScreenState extends State<WordListScreen> {
 
   String getCurrentPageRange() {
     final start = currentPage * wordsPerPage;
-    final end = (currentPage + 1) * wordsPerPage < filteredWords.length
-        ? (currentPage + 1) * wordsPerPage
-        : filteredWords.length;
+    final end =
+        (currentPage + 1) * wordsPerPage < ref.read(wordFilterProvider).length
+            ? (currentPage + 1) * wordsPerPage
+            : ref.read(wordFilterProvider).length;
     return '$start-$end';
   }
 
   @override
   Widget build(BuildContext context) {
-    final double mainAxisSpacing = columns == 2 ? 10 : 4;
-    final double crossAxisSpacing = columns == 2 ? 10 : 4;
+    final filteredWords = ref.watch(wordFilterProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -95,58 +83,21 @@ class _WordListScreenState extends State<WordListScreen> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 26),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    DropdownButton<int>(
-                      value: columns,
-                      items: columnOptions.map((int value) {
-                        return DropdownMenuItem<int>(
-                          value: value,
-                          child: Text(
-                            value.toString(),
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary),
-                          ),
-                        );
-                      }).toList(),
-                      onChanged: (int? newValue) {
-                        setState(() {
-                          columns = newValue!;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 100),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: TextField(
-                      controller: searchController,
-                      decoration: InputDecoration(
-                        labelText: 'Search',
-                        prefixIcon: const Icon(Icons.search),
-                        contentPadding: const EdgeInsets.all(5),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondary), // Колір підкреслення коли не в фокусі
-                        ),
-                      ),
-                      onChanged: (query) {
-                        filterWords(query);
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          FilterBar(
+            columns: columns,
+            columnOptions: columnOptions,
+            searchController: searchController,
+            onColumnsChanged: (int? newValue) {
+              setState(() {
+                columns = newValue!;
+              });
+            },
+            onSearchChanged: (query) {
+              ref.read(wordFilterProvider.notifier).filterWords(query);
+              setState(() {
+                currentPage = 0; // Скидаємо на першу сторінку при пошуку
+              });
+            },
           ),
           Expanded(
             child: filteredWords.isEmpty
@@ -156,22 +107,26 @@ class _WordListScreenState extends State<WordListScreen> {
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: columns,
-                        mainAxisSpacing: mainAxisSpacing,
-                        crossAxisSpacing: crossAxisSpacing,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
                         childAspectRatio: 3,
                       ),
-                      itemCount: getCurrentPageWords().length,
+                      itemCount: getCurrentPageWords(filteredWords).length,
                       itemBuilder: (context, index) {
-                        final word = getCurrentPageWords()[index];
+                        final word = getCurrentPageWords(filteredWords)[index];
                         return WordButton(word: word, columns: columns);
                       },
                     ),
                   ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          Container(
+            color: Theme.of(context)
+                .colorScheme
+                .surface, // Встановіть потрібний колір
+            padding: const EdgeInsets.only(bottom: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButton(
                   icon: const Icon(Icons.arrow_back),
@@ -190,7 +145,7 @@ class _WordListScreenState extends State<WordListScreen> {
                 ),
               ],
             ),
-          ),
+          )
         ],
       ),
     );

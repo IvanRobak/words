@@ -29,7 +29,7 @@ class WordButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(28),
             ),
             padding: EdgeInsets.symmetric(
                 vertical: verticalPadding, horizontal: horizontalPadding),
