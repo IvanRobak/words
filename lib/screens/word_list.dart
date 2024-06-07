@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/providers/word_provider.dart';
-import 'package:words/widgets/filter.dart';
-import 'package:words/widgets/word_button.dart';
 import 'package:words/services/word_loader.dart';
 import '../models/word.dart';
+import '../widgets/word_list_view.dart';
 
 class WordListScreen extends ConsumerStatefulWidget {
   const WordListScreen({super.key});
@@ -83,46 +82,27 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
       ),
       body: Column(
         children: [
-          FilterBar(
-            columns: columns,
-            columnOptions: columnOptions,
-            searchController: searchController,
-            onColumnsChanged: (int? newValue) {
-              setState(() {
-                columns = newValue!;
-              });
-            },
-            onSearchChanged: (query) {
-              ref.read(wordFilterProvider.notifier).filterWords(query);
-              setState(() {
-                currentPage = 0; // Скидаємо на першу сторінку при пошуку
-              });
-            },
-          ),
           Expanded(
-            child: filteredWords.isEmpty
-                ? const Center(child: CircularProgressIndicator())
-                : Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: columns,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 3,
-                      ),
-                      itemCount: getCurrentPageWords(filteredWords).length,
-                      itemBuilder: (context, index) {
-                        final word = getCurrentPageWords(filteredWords)[index];
-                        return WordButton(word: word, columns: columns);
-                      },
-                    ),
-                  ),
+            child: WordListView(
+              words: getCurrentPageWords(filteredWords),
+              columns: columns,
+              columnOptions: columnOptions,
+              searchController: searchController,
+              onColumnsChanged: (int? newValue) {
+                setState(() {
+                  columns = newValue!;
+                });
+              },
+              onSearchChanged: (query) {
+                ref.read(wordFilterProvider.notifier).filterWords(query);
+                setState(() {
+                  currentPage = 0; // Скидаємо на першу сторінку при пошуку
+                });
+              },
+            ),
           ),
           Container(
-            color: Theme.of(context)
-                .colorScheme
-                .surface, // Встановіть потрібний колір
+            color: Theme.of(context).colorScheme.surface,
             padding: const EdgeInsets.only(bottom: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -145,7 +125,7 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

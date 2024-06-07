@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/providers/word_provider.dart';
 import 'package:words/providers/favorite_provider.dart';
-import 'package:words/widgets/filter.dart';
+import '../widgets/word_list_view.dart';
 
 class FavoriteScreen extends ConsumerStatefulWidget {
   const FavoriteScreen({super.key});
@@ -44,53 +44,19 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
         backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('Favorite Words'),
       ),
-      body: Column(
-        children: [
-          FilterBar(
-            columns: columns,
-            columnOptions: columnOptions,
-            searchController: searchController,
-            onColumnsChanged: (int? newValue) {
-              setState(() {
-                columns = newValue!;
-              });
-            },
-            onSearchChanged: (query) {
-              ref.read(wordFilterProvider.notifier).filterWords(query);
-            },
-          ),
-          Expanded(
-            child: filteredWords.isEmpty
-                ? const Center(child: Text('No favorite words'))
-                : Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: columns,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        childAspectRatio: 3,
-                      ),
-                      itemCount: filteredWords.length,
-                      itemBuilder: (context, index) {
-                        final word = filteredWords[index];
-                        return ListTile(
-                          title: Text(word.word),
-                          subtitle: Text(word.description),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              ref
-                                  .read(favoriteProvider.notifier)
-                                  .removeWord(word);
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-          ),
-        ],
+      body: WordListView(
+        words: filteredWords,
+        columns: columns,
+        columnOptions: columnOptions,
+        searchController: searchController,
+        onColumnsChanged: (int? newValue) {
+          setState(() {
+            columns = newValue!;
+          });
+        },
+        onSearchChanged: (query) {
+          ref.read(wordFilterProvider.notifier).filterWords(query);
+        },
       ),
     );
   }
