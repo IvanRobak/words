@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:words/screens/home.dart';
+import 'package:words/screens/tabs.dart';
 
 final theme = ThemeData(
   colorScheme: ColorScheme.fromSwatch(
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: const HomeScreen(),
+      home: const TabsScreen(),
     );
   }
 }

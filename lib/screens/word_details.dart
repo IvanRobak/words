@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words/providers/favorite_provider.dart';
 import '../models/word.dart';
 import '../utils/text_utils.dart';
 import '../utils/text_storage.dart';
@@ -21,7 +22,7 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
   final TextEditingController _textController = TextEditingController();
   bool isTranslationVisible = false;
   String? selectedFolder;
-  bool isLoading = true; // Додаємо стан завантаження
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -58,7 +59,7 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
     }
 
     setState(() {
-      isLoading = false; // Завершення завантаження
+      isLoading = false;
     });
   }
 
@@ -91,6 +92,9 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final favoriteWords = ref.watch(favoriteProvider);
+    final isFavorite = favoriteWords.contains(widget.word);
+
     final exampleText = widget.word.example;
     final wordText = widget.word.word;
     final exampleSpans = buildExampleSpans(
@@ -107,7 +111,8 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
       ),
       body: isLoading
           ? const Center(
-              child: CircularProgressIndicator()) // Індикатор прогресу
+              child: CircularProgressIndicator(),
+            )
           : Padding(
               padding: const EdgeInsets.symmetric(vertical: 30),
               child: Card(
@@ -125,6 +130,22 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        IconButton(
+                          icon: Icon(isFavorite
+                              ? Icons.favorite
+                              : Icons.favorite_border),
+                          onPressed: () {
+                            if (isFavorite) {
+                              ref
+                                  .read(favoriteProvider.notifier)
+                                  .removeWord(widget.word);
+                            } else {
+                              ref
+                                  .read(favoriteProvider.notifier)
+                                  .addWord(widget.word);
+                            }
+                          },
+                        ),
                         const SizedBox(height: 30),
                         Center(
                           child: Text(
