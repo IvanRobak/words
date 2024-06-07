@@ -78,6 +78,7 @@ class _WordExamplesListState extends State<WordExamplesList> {
                 hintStyle: TextStyle(color: Colors.white),
               ),
               style: const TextStyle(color: Colors.white),
+              cursorColor: Colors.white,
               minLines: 1,
               maxLines: null,
               textInputAction: TextInputAction.done,

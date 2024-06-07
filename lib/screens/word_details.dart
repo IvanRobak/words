@@ -127,13 +127,113 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                       vertical: 30,
                       horizontal: 20,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        IconButton(
-                          icon: Icon(isFavorite
-                              ? Icons.favorite
-                              : Icons.favorite_border),
+                    child: Stack(children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const SizedBox(height: 30),
+                          Center(
+                            child: Text(
+                              widget.word.word,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 35,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Center(
+                            child: Text(
+                              widget.word.description,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 15,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                RichText(
+                                  textAlign:
+                                      TextAlign.center, // Центруємо текст
+                                  text: TextSpan(children: exampleSpans),
+                                ),
+                                const SizedBox(
+                                    height:
+                                        10), // Відстань між текстом і лінією
+                                Container(
+                                  height: 1,
+                                  width: 200, // Висота лінії
+                                  color: Colors.white, // Колір лінії
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 50),
+                          WordExamplesList(
+                            word: widget.word,
+                            onUpdate: _updateExample,
+                            onRemove: _removeExample,
+                            onAddExample: _addExample,
+                          ),
+                          const SizedBox(height: 80),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                onPressed: _toggleTranslation,
+                                child: Text(
+                                  isTranslationVisible
+                                      ? widget.word.translation
+                                      : 'ua',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              DropdownButton<String>(
+                                hint: const Text(
+                                  "Select Folder",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                value: selectedFolder,
+                                items: folderNotifier.folders
+                                    .map((folder) => DropdownMenuItem<String>(
+                                          value: folder.name,
+                                          child: Text(folder.name),
+                                        ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedFolder = value;
+                                  });
+                                  // Виконати необхідні дії після вибору папки
+                                },
+                                dropdownColor:
+                                    Theme.of(context).colorScheme.primary,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: IconButton(
+                          icon: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                           onPressed: () {
                             if (isFavorite) {
                               ref
@@ -146,90 +246,8 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                             }
                           },
                         ),
-                        const SizedBox(height: 30),
-                        Center(
-                          child: Text(
-                            widget.word.word,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 35,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Center(
-                          child: Text(
-                            widget.word.description,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 15,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: RichText(
-                            text: TextSpan(children: exampleSpans),
-                          ),
-                        ),
-                        const SizedBox(height: 50),
-                        WordExamplesList(
-                          word: widget.word,
-                          onUpdate: _updateExample,
-                          onRemove: _removeExample,
-                          onAddExample: _addExample,
-                        ),
-                        const SizedBox(height: 80),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                              onPressed: _toggleTranslation,
-                              child: Text(
-                                isTranslationVisible
-                                    ? widget.word.translation
-                                    : 'ua',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            DropdownButton<String>(
-                              hint: const Text(
-                                "Select Folder",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              value: selectedFolder,
-                              items: folderNotifier.folders
-                                  .map((folder) => DropdownMenuItem<String>(
-                                        value: folder.name,
-                                        child: Text(folder.name),
-                                      ))
-                                  .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedFolder = value;
-                                });
-                                // Виконати необхідні дії після вибору папки
-                              },
-                              dropdownColor:
-                                  Theme.of(context).colorScheme.primary,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                    ]),
                   ),
                 ),
               ),
