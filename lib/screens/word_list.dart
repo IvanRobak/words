@@ -107,7 +107,11 @@ class _WordListScreenState extends State<WordListScreen> {
                       items: columnOptions.map((int value) {
                         return DropdownMenuItem<int>(
                           value: value,
-                          child: Text(value.toString()),
+                          child: Text(
+                            value.toString(),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary),
+                          ),
                         );
                       }).toList(),
                       onChanged: (int? newValue) {
@@ -124,10 +128,16 @@ class _WordListScreenState extends State<WordListScreen> {
                     padding: const EdgeInsets.only(left: 16),
                     child: TextField(
                       controller: searchController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Search',
-                        prefixIcon: Icon(Icons.search),
-                        contentPadding: EdgeInsets.all(5),
+                        prefixIcon: const Icon(Icons.search),
+                        contentPadding: const EdgeInsets.all(5),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondary), // Колір підкреслення коли не в фокусі
+                        ),
                       ),
                       onChanged: (query) {
                         filterWords(query);
