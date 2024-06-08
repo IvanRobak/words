@@ -111,6 +111,9 @@ class _WordExamplesListState extends State<WordExamplesList> {
       children: [
         for (int i = 0; i < widget.word.userExamples.length; i++)
           _buildExampleField(i),
+        const SizedBox(
+          height: 10,
+        ),
         ElevatedButton(
           onPressed: () {
             widget.onAddExample();

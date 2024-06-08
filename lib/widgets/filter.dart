@@ -20,7 +20,7 @@ class FilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 26),
+      padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -31,14 +31,14 @@ class FilterBar extends StatelessWidget {
                 value: value,
                 child: Text(
                   value.toString(),
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary),
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.secondary),
                 ),
               );
             }).toList(),
             onChanged: onColumnsChanged,
           ),
-          const SizedBox(width: 100),
+          const SizedBox(width: 120),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16),
@@ -50,7 +50,9 @@ class FilterBar extends StatelessWidget {
                   contentPadding: const EdgeInsets.all(5),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                        color: Theme.of(context).colorScheme.secondary), // Колір підкреслення коли не в фокусі
+                        color: Theme.of(context)
+                            .colorScheme
+                            .secondary), // Колір підкреслення коли не в фокусі
                   ),
                 ),
                 onChanged: onSearchChanged,

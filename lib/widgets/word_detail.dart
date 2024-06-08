@@ -167,14 +167,14 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 50),
+                        const SizedBox(height: 80),
                         WordExamplesList(
                           word: widget.word,
                           onUpdate: _updateExample,
                           onRemove: _removeExample,
                           onAddExample: _addExample,
                         ),
-                        const SizedBox(height: 80),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

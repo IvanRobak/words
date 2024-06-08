@@ -80,53 +80,57 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
         backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('All words'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: WordListView(
-              words: getCurrentPageWords(filteredWords),
-              columns: columns,
-              columnOptions: columnOptions,
-              searchController: searchController,
-              onColumnsChanged: (int? newValue) {
-                setState(() {
-                  columns = newValue!;
-                });
-              },
-              onSearchChanged: (query) {
-                ref.read(wordFilterProvider.notifier).filterWords(query);
-                setState(() {
-                  currentPage = 0; // Скидаємо на першу сторінку при пошуку
-                });
-              },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          children: [
+            Expanded(
+              child: WordListView(
+                words: getCurrentPageWords(filteredWords),
+                columns: columns,
+                columnOptions: columnOptions,
+                searchController: searchController,
+                onColumnsChanged: (int? newValue) {
+                  setState(() {
+                    columns = newValue!;
+                  });
+                },
+                onSearchChanged: (query) {
+                  ref.read(wordFilterProvider.notifier).filterWords(query);
+                  setState(() {
+                    currentPage = 0; // Скидаємо на першу сторінку при пошуку
+                  });
+                },
+              ),
             ),
-          ),
-          Container(
-            color: Theme.of(context).colorScheme.surface,
-            padding: const EdgeInsets.only(bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: previousPage,
-                  color: currentPage > 0
-                      ? Theme.of(context).colorScheme.secondary
-                      : Colors.grey,
-                ),
-                Text(getCurrentPageRange()),
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward),
-                  onPressed: nextPage,
-                  color: (currentPage + 1) * wordsPerPage < filteredWords.length
-                      ? Theme.of(context).colorScheme.secondary
-                      : Colors.grey,
-                ),
-              ],
+            Container(
+              color: Theme.of(context).colorScheme.surface,
+              padding: const EdgeInsets.only(bottom: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: previousPage,
+                    color: currentPage > 0
+                        ? Theme.of(context).colorScheme.secondary
+                        : Colors.grey,
+                  ),
+                  Text(getCurrentPageRange()),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_forward),
+                    onPressed: nextPage,
+                    color:
+                        (currentPage + 1) * wordsPerPage < filteredWords.length
+                            ? Theme.of(context).colorScheme.secondary
+                            : Colors.grey,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

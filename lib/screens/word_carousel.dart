@@ -20,7 +20,14 @@ class WordCarouselScreen extends StatelessWidget {
         itemCount: words.length,
         itemBuilder: (context, index) {
           final word = words[index];
-          return WordDetail(word: word);
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 160),
+            child: SizedBox(
+              height:
+                  MediaQuery.of(context).size.height * 0.7, // Обмеження висоти
+              child: WordDetail(word: word),
+            ),
+          );
         },
       ),
     );
