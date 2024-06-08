@@ -34,7 +34,15 @@ class WordListView extends StatelessWidget {
         ),
         Expanded(
           child: words.isEmpty
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: Text(
+                    'No favorite words yet.',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontSize: 16,
+                    ),
+                  ),
+                )
               : Padding(
                   padding: const EdgeInsets.all(16),
                   child: GridView.builder(

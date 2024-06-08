@@ -162,17 +162,14 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 RichText(
-                                  textAlign:
-                                      TextAlign.center, // Центруємо текст
+                                  textAlign: TextAlign.center,
                                   text: TextSpan(children: exampleSpans),
                                 ),
-                                const SizedBox(
-                                    height:
-                                        10), // Відстань між текстом і лінією
+                                const SizedBox(height: 10),
                                 Container(
                                   height: 1,
-                                  width: 200, // Висота лінії
-                                  color: Colors.white, // Колір лінії
+                                  width: 200,
+                                  color: Colors.white,
                                 ),
                               ],
                             ),
@@ -216,7 +213,6 @@ class _WordDetailScreenState extends ConsumerState<WordDetailScreen> {
                                   setState(() {
                                     selectedFolder = value;
                                   });
-                                  // Виконати необхідні дії після вибору папки
                                 },
                                 dropdownColor:
                                     Theme.of(context).colorScheme.primary,
