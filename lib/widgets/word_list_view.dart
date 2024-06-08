@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:words/models/word.dart';
+import 'package:words/widgets/word_button.dart';
 import 'package:words/widgets/filter.dart';
-import '../models/word.dart';
-import 'word_button.dart';
 
 class WordListView extends StatelessWidget {
   final List<Word> words;
   final int columns;
-  final Function(int?) onColumnsChanged;
-  final Function(String) onSearchChanged;
-  final TextEditingController searchController;
   final List<int> columnOptions;
+  final TextEditingController searchController;
+  final ValueChanged<int?> onColumnsChanged;
+  final ValueChanged<String> onSearchChanged;
 
   const WordListView({
     super.key,
     required this.words,
     required this.columns,
+    required this.columnOptions,
+    required this.searchController,
     required this.onColumnsChanged,
     required this.onSearchChanged,
-    required this.searchController,
-    required this.columnOptions,
   });
 
   @override
@@ -33,32 +33,24 @@ class WordListView extends StatelessWidget {
           onSearchChanged: onSearchChanged,
         ),
         Expanded(
-          child: words.isEmpty
-              ? Center(
-                  child: Text(
-                    'No favorite words yet.',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 16,
-                    ),
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: columns,
-                      mainAxisSpacing: 10,
-                      crossAxisSpacing: 10,
-                      childAspectRatio: 3,
-                    ),
-                    itemCount: words.length,
-                    itemBuilder: (context, index) {
-                      final word = words[index];
-                      return WordButton(word: word, columns: columns);
-                    },
-                  ),
-                ),
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: columns,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: 3,
+            ),
+            itemCount: words.length,
+            itemBuilder: (context, index) {
+              final word = words[index];
+              return WordButton(
+                word: word,
+                columns: columns,
+                words: words,
+                index: index,
+              );
+            },
+          ),
         ),
       ],
     );

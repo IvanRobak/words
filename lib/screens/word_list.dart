@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words/models/word.dart';
 import 'package:words/providers/word_provider.dart';
+import 'package:words/widgets/word_list_view.dart';
 import 'package:words/services/word_loader.dart';
-import '../models/word.dart';
-import '../widgets/word_list_view.dart';
 
 class WordListScreen extends ConsumerStatefulWidget {
   const WordListScreen({super.key});
