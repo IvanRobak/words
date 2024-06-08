@@ -10,6 +10,7 @@ class WordCarouselScreen extends StatefulWidget {
       {super.key, required this.words, required this.initialIndex});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WordCarouselScreenState createState() => _WordCarouselScreenState();
 }
 
@@ -42,7 +43,7 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
             itemBuilder: (context, index) {
               final word = widget.words[index];
               return Padding(
-                padding: const EdgeInsets.only(bottom: 160),
+                padding: const EdgeInsets.only(bottom: 70),
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height *
                       0.7, // Обмеження висоти
