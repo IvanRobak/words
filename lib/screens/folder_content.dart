@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:words/widgets/word_detail.dart';
-import '../models/folder.dart';
+import 'package:words/models/folder.dart';
+import 'package:words/widgets/word_button.dart';
 
 class FolderContentScreen extends StatelessWidget {
   final Folder folder;
@@ -9,38 +9,40 @@ class FolderContentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int columns = 2;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(folder.name),
         backgroundColor: Theme.of(context).colorScheme.surface,
       ),
-      body: folder.words.isEmpty
-          ? Center(
-              child: Text('Вміст папки: ${folder.name}\nПапка пуста'),
-            )
-          : ListView.builder(
-              padding: const EdgeInsets.all(16.0),
-              itemCount: folder.words.length,
-              itemBuilder: (context, index) {
-                final word = folder.words[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: ListTile(
-                    title: Text(word.word),
-                    subtitle: Text(word.description),
-                    onTap: () {
-                      // Перехід на деталі слова
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WordDetail(word: word),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: columns,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: 3,
+                ),
+                itemCount: folder.words.length,
+                itemBuilder: (context, index) {
+                  final word = folder.words[index];
+                  return WordButton(
+                    word: word,
+                    columns: columns,
+                    words: folder.words,
+                    index: index,
+                  );
+                },
+              ),
             ),
+          ],
+        ),
+      ),
     );
   }
 }
