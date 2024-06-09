@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/screens/favorite.dart';
 import 'package:words/screens/home.dart';
+import 'package:words/screens/search.dart';
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
@@ -46,7 +47,8 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Додайте дію для кнопки
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const SearchScreen()));
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(

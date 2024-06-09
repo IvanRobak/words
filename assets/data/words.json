@@ -278,5 +278,75 @@
     "description": "A small vessel for traveling over water, propelled by oars, sails, or an engine.",
     "example": "They rowed the boat.",
     "translation": "човен"
+  },
+  {
+    "id": 41,
+    "word": "box",
+    "description": "A container with flat sides and a lid.",
+    "example": "She opened the box.",
+    "translation": "коробка"
+  },
+  {
+    "id": 42,
+    "word": "cake",
+    "description": "A sweet baked dessert.",
+    "example": "He baked a cake.",
+    "translation": "торт"
+  },
+  {
+    "id": 43,
+    "word": "door",
+    "description": "A movable barrier at the entrance to a building or room.",
+    "example": "She closed the door.",
+    "translation": "двері"
+  },
+  {
+    "id": 44,
+    "word": "frog",
+    "description": "A small tailless amphibian with long hind legs for leaping.",
+    "example": "He caught a frog.",
+    "translation": "жаба"
+  },
+  {
+    "id": 45,
+    "word": "gift",
+    "description": "Something given voluntarily without payment in return.",
+    "example": "She received a gift.",
+    "translation": "подарунок"
+  },
+  {
+    "id": 46,
+    "word": "hand",
+    "description": "The end part of a person's arm beyond the wrist.",
+    "example": "He raised his hand.",
+    "translation": "рука"
+  },
+  {
+    "id": 47,
+    "word": "leaf",
+    "description": "A flattened structure of a higher plant, typically green and blade-like.",
+    "example": "She picked a leaf.",
+    "translation": "листок"
+  },
+  {
+    "id": 48,
+    "word": "mouse",
+    "description": "A small rodent with a pointed nose, furry body, and long tail.",
+    "example": "He saw a mouse.",
+    "translation": "миша"
+  },
+  {
+    "id": 49,
+    "word": "ring",
+    "description": "A small circular band, typically of precious metal, worn on a finger.",
+    "example": "She wore a ring.",
+    "translation": "перстень"
+  },
+  {
+    "id": 50,
+    "word": "song",
+    "description": "A short musical composition with words.",
+    "example": "He sang a song.",
+    "translation": "пісня"
   }
 ]
