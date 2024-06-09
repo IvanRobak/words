@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:words/screens/folder_content.dart';
 import '../models/folder.dart';
 
 class FolderWidget extends StatefulWidget {
@@ -99,7 +100,13 @@ class _FolderWidgetState extends State<FolderWidget> {
             if (widget.folder.name.isEmpty) {
               _showRenameFolderDialog();
             } else {
-              // Додайте перехід до екрану папки зі словами
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      FolderContentScreen(folder: widget.folder),
+                ),
+              );
             }
           },
           child: Container(

@@ -6,7 +6,6 @@ import '../providers/folder_provider.dart';
 import '../utils/text_utils.dart';
 import '../utils/text_storage.dart';
 import '../utils/user_examples_storage.dart';
-import '../widgets/word_user_example_list.dart';
 
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
@@ -67,6 +66,10 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     setState(() {
       isTranslationVisible = !isTranslationVisible;
     });
+  }
+
+  void _addWordToFolder(String folderName) {
+    ref.read(folderProvider).addWordToFolder(folderName, widget.word);
   }
 
   @override
@@ -189,8 +192,10 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                               onChanged: (value) {
                                 setState(() {
                                   selectedFolder = value;
+                                  if (value != null) {
+                                    _addWordToFolder(value);
+                                  }
                                 });
-                                // Виконати необхідні дії після вибору папки
                               },
                               dropdownColor:
                                   Theme.of(context).colorScheme.primary,

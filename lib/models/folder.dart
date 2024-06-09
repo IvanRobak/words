@@ -8,4 +8,12 @@ class Folder {
     required this.name,
     required this.words,
   });
+
+  void addWord(Word word) {
+    words.add(word);
+  }
+
+  void removeWord(Word word) {
+    words.remove(word);
+  }
 }
