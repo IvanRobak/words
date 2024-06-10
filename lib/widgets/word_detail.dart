@@ -63,12 +63,18 @@ class _WordDetailState extends ConsumerState<WordDetail> {
 
     final exampleText = widget.word.example;
     final wordText = widget.word.word;
-    final exampleSpans = buildExampleSpans(
-      exampleText,
-      wordText,
-    );
+    final exampleSpans = buildExampleSpans(exampleText, wordText);
 
     final folderNotifier = ref.watch(folderProvider);
+
+    // Перевірка, чи значення selectedFolder є в списку папок
+    if (selectedFolder != null &&
+        !folderNotifier.folders
+            .any((folder) => folder.name == selectedFolder)) {
+      setState(() {
+        selectedFolder = null; // Скидання значення, якщо його немає в списку
+      });
+    }
 
     const imagePath = 'assets/images/apple.webp';
 
