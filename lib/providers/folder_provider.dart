@@ -4,7 +4,8 @@ import 'package:words/models/folder.dart';
 import 'package:words/models/word.dart';
 
 class FolderNotifier extends ChangeNotifier {
-  final List<Folder> _folders = [Folder(name: '', words: [])];
+  // final List<Folder> _folders = [Folder(name: '', words: [])];
+  final List<Folder> _folders = [];
 
   List<Folder> get folders => _folders;
 
@@ -26,6 +27,7 @@ class FolderNotifier extends ChangeNotifier {
   void addWordToFolder(String folderName, Word word) {
     for (var folder in _folders) {
       if (folder.name == folderName) {
+        word.selectedFolder = folderName;
         folder.addWord(word);
         notifyListeners();
         break;

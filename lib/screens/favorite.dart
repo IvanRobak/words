@@ -44,20 +44,30 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
         backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('Favorite Words'),
       ),
-      body: WordListView(
-        words: filteredWords,
-        columns: columns,
-        columnOptions: columnOptions,
-        searchController: searchController,
-        onColumnsChanged: (int? newValue) {
-          setState(() {
-            columns = newValue!;
-          });
-        },
-        onSearchChanged: (query) {
-          ref.read(wordFilterProvider.notifier).filterWords(query);
-        },
-      ),
+      body: filteredWords.isEmpty
+          ? const Center(
+              child: Text(
+                'No favorite words added yet.',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+          : WordListView(
+              words: filteredWords,
+              columns: columns,
+              columnOptions: columnOptions,
+              searchController: searchController,
+              onColumnsChanged: (int? newValue) {
+                setState(() {
+                  columns = newValue!;
+                });
+              },
+              onSearchChanged: (query) {
+                ref.read(wordFilterProvider.notifier).filterWords(query);
+              },
+            ),
     );
   }
 }

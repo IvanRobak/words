@@ -15,27 +15,37 @@ class FolderListScreen extends ConsumerWidget {
         backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('Your Folders'),
       ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(16.0),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16.0,
-          mainAxisSpacing: 16.0,
-        ),
-        itemCount: folderNotifier.folders.length,
-        itemBuilder: (context, index) {
-          final folder = folderNotifier.folders[index];
-          return FolderWidget(
-            folder: folder,
-            onNameChanged: (name) {
-              folderNotifier.updateFolderName(index, name);
-            },
-            onDelete: () {
-              folderNotifier.deleteFolder(index);
-            },
-          );
-        },
-      ),
+      body: folderNotifier.folders.isEmpty
+          ? const Center(
+              child: Text(
+                'No folders added yet.',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.grey,
+                ),
+              ),
+            )
+          : GridView.builder(
+              padding: const EdgeInsets.all(16.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16.0,
+                mainAxisSpacing: 16.0,
+              ),
+              itemCount: folderNotifier.folders.length,
+              itemBuilder: (context, index) {
+                final folder = folderNotifier.folders[index];
+                return FolderWidget(
+                  folder: folder,
+                  onNameChanged: (name) {
+                    folderNotifier.updateFolderName(index, name);
+                  },
+                  onDelete: () {
+                    folderNotifier.deleteFolder(index);
+                  },
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           folderNotifier.addFolder();

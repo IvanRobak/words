@@ -5,6 +5,7 @@ class Word {
   final String example;
   final String translation; // Додаємо властивість для перекладу
   List<String> userExamples;
+  String? selectedFolder;
 
   Word({
     required this.word,
@@ -13,6 +14,7 @@ class Word {
     required this.example,
     required this.translation, // Ініціалізуємо переклад
     required this.userExamples,
+    this.selectedFolder,
   });
 
   factory Word.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class Word {
       example: json['example'],
       translation: json['translation'], // Ініціалізуємо переклад
       userExamples: List<String>.from(json['userExamples'] ?? []),
+      selectedFolder: json['selectedFolder'],
     );
   }
 
@@ -34,6 +37,7 @@ class Word {
       'example': example,
       'userExamples': userExamples,
       'translation': translation,
+      'selectedFolder': selectedFolder,
     };
   }
 }

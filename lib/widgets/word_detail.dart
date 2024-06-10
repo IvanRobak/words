@@ -20,7 +20,6 @@ class WordDetail extends ConsumerStatefulWidget {
 class _WordDetailState extends ConsumerState<WordDetail> {
   final TextEditingController _textController = TextEditingController();
   bool isTranslationVisible = false;
-  String? selectedFolder;
   bool isLoading = true;
 
   @override
@@ -182,7 +181,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                 "Select Folder",
                                 style: TextStyle(color: Colors.white),
                               ),
-                              value: selectedFolder,
+                              value: widget.word.selectedFolder,
                               items: folderNotifier.folders
                                   .map((folder) => DropdownMenuItem<String>(
                                         value: folder.name,
@@ -191,7 +190,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                   .toList(),
                               onChanged: (value) {
                                 setState(() {
-                                  selectedFolder = value;
+                                  widget.word.selectedFolder = value;
                                   if (value != null) {
                                     _addWordToFolder(value);
                                   }
