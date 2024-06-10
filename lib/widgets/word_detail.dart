@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/word.dart';
 import '../providers/favorite_provider.dart';
 import '../providers/folder_provider.dart';
@@ -20,13 +21,25 @@ class WordDetail extends ConsumerStatefulWidget {
 class _WordDetailState extends ConsumerState<WordDetail> {
   final TextEditingController _textController = TextEditingController();
   bool isTranslationVisible = false;
+  String? selectedFolder;
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _loadSavedText();
+    _loadSavedFolder();
     _textController.addListener(_handleTyping);
+  }
+
+  Future<void> _loadSavedFolder() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedFolderName = prefs.getString('selectedFolder_${widget.word.id}');
+    if (savedFolderName != null) {
+      setState(() {
+        selectedFolder = savedFolderName;
+      });
+    }
   }
 
   @override
@@ -67,8 +80,10 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     });
   }
 
-  void _addWordToFolder(String folderName) {
+  void _addWordToFolder(String folderName) async {
     ref.read(folderProvider).addWordToFolder(folderName, widget.word);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedFolder_${widget.word.id}', folderName);
   }
 
   @override
@@ -85,7 +100,6 @@ class _WordDetailState extends ConsumerState<WordDetail> {
 
     final folderNotifier = ref.watch(folderProvider);
 
-    // Path to the image asset
     const imagePath = 'assets/images/apple.webp';
 
     return isLoading
@@ -181,7 +195,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                 "Select Folder",
                                 style: TextStyle(color: Colors.white),
                               ),
-                              value: widget.word.selectedFolder,
+                              value: selectedFolder,
                               items: folderNotifier.folders
                                   .map((folder) => DropdownMenuItem<String>(
                                         value: folder.name,
@@ -190,7 +204,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                   .toList(),
                               onChanged: (value) {
                                 setState(() {
-                                  widget.word.selectedFolder = value;
+                                  selectedFolder = value;
                                   if (value != null) {
                                     _addWordToFolder(value);
                                   }
