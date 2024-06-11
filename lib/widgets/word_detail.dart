@@ -36,6 +36,9 @@ class _WordDetailState extends ConsumerState<WordDetail> {
         selectedFolder = savedFolderName;
       });
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -53,13 +56,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   void _addWordToFolder(String? folderName) async {
     final folderProviderNotifier = ref.read(folderProvider);
     if (folderName == null || folderName == 'None') {
-      // Видалення слова з усіх папок
-      for (var folder in folderProviderNotifier.folders) {
-        folderProviderNotifier.removeWordFromFolder(folder.name, widget.word);
-      }
-      setState(() {
-        selectedFolder = 'None';
-      });
+      folderProviderNotifier.removeWordFromAllFolders(widget.word);
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('selectedFolder_${widget.word.id}');
     } else {
@@ -72,11 +69,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   void _showNoFoldersMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text(
-          'No folders available. Create a folder first.',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
+        content: Text('No folders available. Create a folder first.'),
       ),
     );
   }
@@ -93,7 +86,6 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     final folderNotifier = ref.watch(folderProvider);
     final folders = folderNotifier.folders;
 
-    // Перевірка, чи існує selectedFolder у списку папок
     if (selectedFolder != null &&
         selectedFolder != 'None' &&
         !folders.any((folder) => folder.name == selectedFolder)) {
@@ -198,16 +190,13 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                           items: [
                             const DropdownMenuItem<String>(
                               value: 'None',
-                              alignment: Alignment.center,
                               child: Text('None'),
                             ),
                             ...folders.map((folder) => DropdownMenuItem<String>(
                                   value: folder.name,
-                                  alignment: Alignment.center,
                                   child: Text(folder.name),
                                 ))
                           ],
-                          alignment: Alignment.center,
                           onChanged: (value) {
                             if (folders.isEmpty) {
                               _showNoFoldersMessage();
