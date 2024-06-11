@@ -48,7 +48,7 @@ class FolderListScreen extends ConsumerWidget {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          folderNotifier.addFolder();
+          _showAddFolderDialog(context, folderNotifier);
         },
         backgroundColor: Colors.white,
         child: Icon(
@@ -56,6 +56,47 @@ class FolderListScreen extends ConsumerWidget {
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
+    );
+  }
+
+  void _showAddFolderDialog(
+      BuildContext context, FolderNotifier folderNotifier) {
+    final TextEditingController folderNameController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add New Folder'),
+          content: TextField(
+            controller: folderNameController,
+            decoration: const InputDecoration(hintText: 'Enter folder name'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Add'),
+              onPressed: () {
+                if (folderNameController.text.isNotEmpty) {
+                  folderNotifier.addFolder(folderNameController.text);
+                  Navigator.of(context).pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Folder name cannot be empty'),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -8,8 +8,8 @@ class FolderNotifier extends ChangeNotifier {
 
   List<Folder> get folders => _folders;
 
-  void addFolder() {
-    _folders.add(Folder(name: '', words: []));
+  void addFolder(String name) {
+    _folders.add(Folder(name: name, words: []));
     notifyListeners();
   }
 
