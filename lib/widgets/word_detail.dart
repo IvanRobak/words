@@ -36,9 +36,6 @@ class _WordDetailState extends ConsumerState<WordDetail> {
         selectedFolder = savedFolderName;
       });
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   @override
@@ -57,12 +54,18 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     final folderProviderNotifier = ref.read(folderProvider);
     if (folderName == null || folderName == 'None') {
       folderProviderNotifier.removeWordFromAllFolders(widget.word);
+      setState(() {
+        selectedFolder = 'None';
+      });
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('selectedFolder_${widget.word.id}');
     } else {
       folderProviderNotifier.addWordToFolder(folderName, widget.word);
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('selectedFolder_${widget.word.id}', folderName);
+      setState(() {
+        selectedFolder = folderName;
+      });
     }
   }
 
