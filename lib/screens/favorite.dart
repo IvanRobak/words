@@ -44,17 +44,10 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
         backgroundColor: Theme.of(context).colorScheme.background,
         title: const Text('Favorite Words'),
       ),
-      body: filteredWords.isEmpty
-          ? const Center(
-              child: Text(
-                'No favorite words added yet.',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
-              ),
-            )
-          : WordListView(
+      body: Column(
+        children: [
+          Expanded(
+            child: WordListView(
               words: filteredWords,
               columns: columns,
               columnOptions: columnOptions,
@@ -68,6 +61,24 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                 ref.read(wordFilterProvider.notifier).filterWords(query);
               },
             ),
+          ),
+          if (filteredWords.isEmpty)
+            const Expanded(
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'No favorite words found.',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
