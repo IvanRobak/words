@@ -41,43 +41,46 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('Favorite Words'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: WordListView(
-              words: filteredWords,
-              columns: columns,
-              columnOptions: columnOptions,
-              searchController: searchController,
-              onColumnsChanged: (int? newValue) {
-                setState(() {
-                  columns = newValue!;
-                });
-              },
-              onSearchChanged: (query) {
-                ref.read(wordFilterProvider.notifier).filterWords(query);
-              },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          children: [
+            Expanded(
+              child: WordListView(
+                words: filteredWords,
+                columns: columns,
+                columnOptions: columnOptions,
+                searchController: searchController,
+                onColumnsChanged: (int? newValue) {
+                  setState(() {
+                    columns = newValue!;
+                  });
+                },
+                onSearchChanged: (query) {
+                  ref.read(wordFilterProvider.notifier).filterWords(query);
+                },
+              ),
             ),
-          ),
-          if (filteredWords.isEmpty)
-            const Expanded(
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'No favorite words found.',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
+            if (filteredWords.isEmpty)
+              const Expanded(
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'No favorite words found.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

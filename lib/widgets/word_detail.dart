@@ -21,11 +21,13 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   bool isTranslationVisible = false;
   String? selectedFolder;
   bool isLoading = true;
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     _loadSavedFolder();
+    checkIfFavorite();
   }
 
   Future<void> _loadSavedFolder() async {
@@ -36,6 +38,13 @@ class _WordDetailState extends ConsumerState<WordDetail> {
         selectedFolder = savedFolderName;
       });
     }
+  }
+
+  void checkIfFavorite() {
+    final favoriteWords = ref.read(favoriteProvider);
+    setState(() {
+      isFavorite = favoriteWords.any((w) => w.id == widget.word.id);
+    });
   }
 
   @override
@@ -79,15 +88,12 @@ class _WordDetailState extends ConsumerState<WordDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final favoriteWords = ref.watch(favoriteProvider);
-    final isFavorite = favoriteWords.contains(widget.word);
+    final folderNotifier = ref.watch(folderProvider);
+    final folders = folderNotifier.folders;
 
     final exampleText = widget.word.example;
     final wordText = widget.word.word;
     final exampleSpans = buildExampleSpans(exampleText, wordText);
-
-    final folderNotifier = ref.watch(folderProvider);
-    final folders = folderNotifier.folders;
 
     if (selectedFolder != null &&
         selectedFolder != 'None' &&
@@ -230,10 +236,16 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                         ref
                             .read(favoriteProvider.notifier)
                             .removeWord(widget.word);
+                        setState(() {
+                          isFavorite = false;
+                        });
                       } else {
                         ref
                             .read(favoriteProvider.notifier)
                             .addWord(widget.word);
+                        setState(() {
+                          isFavorite = true;
+                        });
                       }
                     },
                   ),
