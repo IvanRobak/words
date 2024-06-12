@@ -35,11 +35,10 @@ class _AuthScreenState extends State<AuthScreen> {
         await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
       }
+      setState(() {}); // Оновлення стану після входу
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {}
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).clearSnackBars();
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error.message ?? 'Authefication failed.')),
       );
@@ -59,140 +58,171 @@ class _AuthScreenState extends State<AuthScreen> {
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: const Text('Login'),
-        actions: [
-          if (user != null)
-            Padding(
-              padding:
-                  const EdgeInsets.only(right: 20), // Додаємо відступ справа
-              child: IconButton(
-                icon: const Icon(Icons.logout, color: Colors.black),
-                onPressed: _logout,
-              ),
-            ),
-        ],
+        // actions: [
+        //   if (user != null)
+        //     Padding(
+        //       padding:
+        //           const EdgeInsets.only(right: 20), // Додаємо відступ справа
+        //       child: IconButton(
+        //         icon: const Icon(Icons.logout, color: Colors.black),
+        //         onPressed: _logout,
+        //       ),
+        //     ),
+        // ],
       ),
       body: Center(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Card(
-                color: Theme.of(context).colorScheme.background,
-                margin: const EdgeInsets.all(20),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 30, horizontal: 20),
-                    child: Form(
-                      key: _form,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'електронна пошта',
-                              labelStyle: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
-                              errorStyle: const TextStyle(color: Colors.red),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
-                              ),
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                            autocorrect: false,
-                            textCapitalization: TextCapitalization.none,
-                            validator: (value) {
-                              if (value == null ||
-                                  value.trim().isEmpty ||
-                                  !value.contains('@')) {
-                                return 'Введіть коректний емейл адрес.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _enteredEmail = value!;
-                            },
-                          ),
-                          TextFormField(
-                            obscureText: !_isPasswordVisible,
-                            decoration: InputDecoration(
-                              labelText: 'пароль',
-                              labelStyle: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
-                              errorStyle: const TextStyle(color: Colors.red),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .secondary),
-                              ),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _isPasswordVisible
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _isPasswordVisible = !_isPasswordVisible;
-                                  });
-                                },
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().length < 6) {
-                                return 'Введіть коректний пароль.';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _enteredPassword = value!;
-                            },
-                          ),
-                          const SizedBox(
-                            height: 100,
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              _submit();
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.surface),
-                            child: Text(
-                              _isLoggin ? 'Увійти' : 'Реєстрація',
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer),
-                            ),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isLoggin = !_isLoggin;
-                                });
-                              },
-                              child: Text(
-                                _isLoggin
-                                    ? 'Створити акаунт'
-                                    : 'Я вже зареєстрований',
-                                style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primaryContainer),
-                              ))
-                        ],
+          child: user != null
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Привіт, ${user.email}',
+                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                    ),
+                    const SizedBox(height: 40),
+                    ElevatedButton(
+                      onPressed: _logout,
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface),
+                      child: Text(
+                        'Вийти',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                     ),
-                  ),
+                  ],
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Card(
+                      color: Theme.of(context).colorScheme.background,
+                      margin: const EdgeInsets.all(20),
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 30, horizontal: 20),
+                          child: Form(
+                            key: _form,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    labelText: 'електронна пошта',
+                                    labelStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                    errorStyle:
+                                        const TextStyle(color: Colors.red),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary),
+                                    ),
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  autocorrect: false,
+                                  textCapitalization: TextCapitalization.none,
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.trim().isEmpty ||
+                                        !value.contains('@')) {
+                                      return 'Введіть коректний емейл адрес.';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _enteredEmail = value!;
+                                  },
+                                ),
+                                TextFormField(
+                                  obscureText: !_isPasswordVisible,
+                                  decoration: InputDecoration(
+                                    labelText: 'пароль',
+                                    labelStyle: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                    errorStyle:
+                                        const TextStyle(color: Colors.red),
+                                    enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _isPasswordVisible
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isPasswordVisible =
+                                              !_isPasswordVisible;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null ||
+                                        value.trim().length < 6) {
+                                      return 'Введіть коректний пароль.';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _enteredPassword = value!;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 100,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    _submit();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Theme.of(context)
+                                          .colorScheme
+                                          .surface),
+                                  child: Text(
+                                    _isLoggin ? 'Увійти' : 'Реєстрація',
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primaryContainer),
+                                  ),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isLoggin = !_isLoggin;
+                                      });
+                                    },
+                                    child: Text(
+                                      _isLoggin
+                                          ? 'Створити акаунт'
+                                          : 'Я вже зареєстрований',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primaryContainer),
+                                    ))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              )
-            ],
-          ),
         ),
       ),
     );

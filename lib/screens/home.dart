@@ -17,7 +17,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   void _navigateToCategories(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    print(user);
     if (user != null) {
       Navigator.push(
         context,
