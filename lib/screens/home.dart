@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:words/screens/auth.dart';
 import 'package:words/screens/category.dart';
 import 'package:words/screens/folder_list.dart';
+import 'package:words/screens/settings.dart';
 import 'package:words/screens/word_list.dart'; // Імпортуйте екран з категоріями
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -40,26 +41,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 20), // Додаємо відступ зліва
           child: IconButton(
-            icon: const Icon(Icons.settings, color: Colors.black),
+            icon: const Icon(Icons.menu, color: Colors.black),
             onPressed: () {
-              // Додайте дію для кнопки налаштувань
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsScreen()),
+              );
             },
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20), // Додаємо відступ справа
-            child: IconButton(
-              icon: const Icon(Icons.person, color: Colors.black),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AuthScreen()),
-                );
-              },
-            ),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
