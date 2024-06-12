@@ -18,9 +18,13 @@ class _AuthScreenState extends State<AuthScreen> {
   var _isPasswordVisible = false;
 
   void _submit() {
-    _form.currentState!.validate();
-    _form.currentState!.save();
+    final isValid = _form.currentState!.validate();
 
+    if (!isValid) {
+      return;
+    }
+
+    _form.currentState!.save();
     print(_enteredEmail);
     print(_enteredPassword);
   }
