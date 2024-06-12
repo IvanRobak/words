@@ -10,7 +10,20 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  final _form = GlobalKey<FormState>();
+  var _enteredEmail = '';
+  var _enteredPassword = '';
+
   var _isLoggin = false;
+  var _isPasswordVisible = false;
+
+  void _submit() {
+    _form.currentState!.validate();
+    _form.currentState!.save();
+
+    print(_enteredEmail);
+    print(_enteredPassword);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     padding: const EdgeInsets.symmetric(
                         vertical: 30, horizontal: 20),
                     child: Form(
+                      key: _form,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -59,9 +73,12 @@ class _AuthScreenState extends State<AuthScreen> {
                               }
                               return null;
                             },
-                            onSaved: (value) {},
+                            onSaved: (value) {
+                              _enteredEmail = value!;
+                            },
                           ),
                           TextFormField(
+                            obscureText: !_isPasswordVisible,
                             decoration: InputDecoration(
                               labelText: 'пароль',
                               labelStyle: TextStyle(
@@ -74,8 +91,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                         .secondary),
                               ),
                               suffixIcon: IconButton(
-                                icon: const Icon(Icons.visibility),
-                                onPressed: () {},
+                                icon: Icon(
+                                  _isPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isPasswordVisible = !_isPasswordVisible;
+                                  });
+                                },
                               ),
                             ),
                             validator: (value) {
@@ -84,13 +109,17 @@ class _AuthScreenState extends State<AuthScreen> {
                               }
                               return null;
                             },
-                            onSaved: (value) {},
+                            onSaved: (value) {
+                              _enteredPassword = value!;
+                            },
                           ),
                           const SizedBox(
                             height: 100,
                           ),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _submit();
+                            },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     Theme.of(context).colorScheme.surface),
