@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words/screens/auth.dart';
 import 'package:words/screens/folder_list.dart';
 import 'package:words/screens/word_list.dart';
 // import 'package:words/screens/categories_screen.dart'; // Імпортуйте екран з категоріями, коли він буде створений
@@ -35,7 +36,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: IconButton(
               icon: const Icon(Icons.person, color: Colors.black),
               onPressed: () {
-                // Додайте дію для кнопки профілю
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AuthScreen()),
+                );
               },
             ),
           ),

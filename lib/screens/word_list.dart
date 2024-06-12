@@ -17,7 +17,7 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
   int columns = 2; // Поточна кількість стовпців
   final List<int> columnOptions = [2, 3]; // Можливі варіанти
   int currentPage = 0; // Поточна сторінка
-  final int wordsPerPage = 20; // Кількість слів на сторінку
+  final int wordsPerPage = 40; // Кількість слів на сторінку
 
   @override
   void initState() {
@@ -77,7 +77,7 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('All words'),
       ),
       body: Padding(
