@@ -26,34 +26,50 @@ class _AuthScreenState extends State<AuthScreen> {
     }
 
     _form.currentState!.save();
-    print(_enteredEmail);
-    print(_enteredPassword);
 
     try {
       if (_isLoggin) {
-        final userCredential = await _firebase.signInWithEmailAndPassword(
+        await _firebase.signInWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
-        print(userCredential);
       } else {
-        final userCredential = await _firebase.createUserWithEmailAndPassword(
+        await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
-        print(userCredential);
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {}
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).clearSnackBars();
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(error.message ?? 'Authefication failed.')),
       );
     }
   }
 
+  void _logout() async {
+    await FirebaseAuth.instance.signOut();
+    setState(() {}); // Оновлення стану після виходу
+  }
+
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: const Text('Login'),
+        actions: [
+          if (user != null)
+            Padding(
+              padding:
+                  const EdgeInsets.only(right: 20), // Додаємо відступ справа
+              child: IconButton(
+                icon: const Icon(Icons.logout, color: Colors.black),
+                onPressed: _logout,
+              ),
+            ),
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(

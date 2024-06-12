@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:words/screens/auth.dart';
+import 'package:words/screens/category.dart';
 import 'package:words/screens/folder_list.dart';
-import 'package:words/screens/word_list.dart';
-// import 'package:words/screens/categories_screen.dart'; // Імпортуйте екран з категоріями, коли він буде створений
+import 'package:words/screens/word_list.dart'; // Імпортуйте екран з категоріями
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +15,22 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  void _navigateToCategories(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    print(user);
+    if (user != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CategoriesScreen()),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AuthScreen()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +118,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               SizedBox(
                 width: 250, // Задайте бажану ширину кнопки
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _navigateToCategories(context);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     shape: RoundedRectangleBorder(
