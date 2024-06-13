@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:words/screens/auth.dart';
 import 'package:words/screens/category.dart';
 import 'package:words/screens/folder_list.dart';
-import 'package:words/screens/settings.dart';
-import 'package:words/screens/word_list.dart'; // Імпортуйте екран з категоріями
+import 'package:words/screens/word_list.dart';
+import 'package:words/utils/show_settings.dart'; // Імпортуйте екран з категоріями
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -43,10 +43,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: IconButton(
             icon: const Icon(Icons.menu, color: Colors.black),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsScreen()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const SettingsScreen()),
+              // );
+              showSettingsScreen(context);
             },
           ),
         ),
