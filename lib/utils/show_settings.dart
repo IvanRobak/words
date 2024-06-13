@@ -24,8 +24,6 @@ void showSettingsScreen(BuildContext context) {
                 padding: const EdgeInsets.only(left: 20, top: 80),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
-                  borderRadius:
-                      const BorderRadius.vertical(top: Radius.circular(20)),
                 ),
                 child: const SettingsScreen(),
               ),

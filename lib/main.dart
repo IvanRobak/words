@@ -6,6 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 final theme = ThemeData(
+  pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder()}),
   colorScheme: ColorScheme.fromSwatch(
     primarySwatch: Colors.blueGrey,
   ).copyWith(

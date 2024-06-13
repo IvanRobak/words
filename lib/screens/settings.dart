@@ -1,9 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/screens/auth.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool soundEnabled = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSoundSetting();
+  }
+
+  Future<void> _loadSoundSetting() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      soundEnabled = prefs.getBool('soundEnabled') ?? true;
+    });
+  }
+
+  Future<void> _toggleSoundSetting(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      soundEnabled = value;
+    });
+    await prefs.setBool('soundEnabled', value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +58,40 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.notifications),
-              title: const Text('Notifications'),
-              onTap: () {},
+              leading: const Icon(Icons.volume_up),
+              title: const Text('Sound'),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _toggleSoundSetting(true);
+                    },
+                    child: Text(
+                      'On',
+                      style: TextStyle(
+                        color: soundEnabled ? Colors.white : Colors.grey,
+                        fontWeight:
+                            soundEnabled ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: () {
+                      _toggleSoundSetting(false);
+                    },
+                    child: Text(
+                      'Off',
+                      style: TextStyle(
+                        color: !soundEnabled ? Colors.white : Colors.grey,
+                        fontWeight:
+                            !soundEnabled ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.color_lens),
