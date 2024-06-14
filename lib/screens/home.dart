@@ -41,7 +41,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 20), // Додаємо відступ зліва
           child: IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
+            icon: Icon(Icons.menu,
+                color: Theme.of(context).colorScheme.onSecondary),
             onPressed: () {
               // Navigator.push(
               //   context,
@@ -58,20 +59,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.only(bottom: 30),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30),
                 child: Center(
-                  child: Text(
-                    'Discover\nwords',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 35,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'E',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 80, // Більший розмір для "E"
+                          fontWeight: FontWeight.bold,
+                          height: 0.9, // Зменшений міжрядковий інтервал
+                        ),
+                      ),
+                      Text(
+                        'words',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 20, // Менший розмір для "words"
+                          fontWeight: FontWeight.bold,
+                          height: 0.9, // Зменшений міжрядковий інтервал
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
+
               SizedBox(
                 width: 250, // Задайте бажану ширину кнопки
                 child: ElevatedButton(

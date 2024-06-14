@@ -26,7 +26,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       body:
           _selectedPageIndex == 0 ? const HomeScreen() : const FavoriteScreen(),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 233, 225, 219),
+        backgroundColor: Theme.of(context).colorScheme.surface,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

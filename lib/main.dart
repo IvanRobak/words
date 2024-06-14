@@ -4,19 +4,7 @@ import 'package:words/screens/tabs.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-
-final theme = ThemeData(
-  pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder()}),
-  colorScheme: ColorScheme.fromSwatch(
-    primarySwatch: Colors.blueGrey,
-  ).copyWith(
-    primary: const Color.fromARGB(255, 65, 93, 104),
-    secondary: const Color.fromARGB(255, 255, 145, 0),
-    background: const Color(0xFFFFF3EA),
-    surface: const Color.fromARGB(255, 233, 225, 219),
-  ),
-);
+import 'providers/theme_provider.dart'; // Імпортуйте провайдер теми
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,12 +18,15 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeNotifier = ref.watch(themeNotifierProvider);
+
     return MaterialApp(
-      theme: theme,
+      theme: themeNotifier.themeData,
       home: const TabsScreen(),
     );
   }

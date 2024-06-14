@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:words/screens/auth.dart';
+import 'package:words/providers/theme_provider.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool soundEnabled = true;
 
   @override
@@ -96,22 +98,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.color_lens),
               title: const Text('Appearance'),
-              onTap: () {},
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(themeNotifierProvider.notifier).toggleTheme();
+                    },
+                    child: Text(
+                      ref.watch(themeNotifierProvider).isDarkMode
+                          ? 'Dark'
+                          : 'Light',
+                      style: TextStyle(
+                        color: ref.watch(themeNotifierProvider).isDarkMode
+                            ? Colors.grey
+                            : Colors.white,
+                        fontWeight: ref.watch(themeNotifierProvider).isDarkMode
+                            ? FontWeight.normal
+                            : FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.language),
               title: const Text('Language'),
-              onTap: () {},
+              onTap: () {
+                // Навігація до налаштувань мови
+              },
             ),
             ListTile(
               leading: const Icon(Icons.lock),
               title: const Text('Privacy'),
-              onTap: () {},
+              onTap: () {
+                // Навігація до налаштувань приватності
+              },
             ),
             ListTile(
               leading: const Icon(Icons.info),
               title: const Text('About'),
-              onTap: () {},
+              onTap: () {
+                // Навігація до інформації про додаток
+              },
             ),
             ListTile(
               leading: const Icon(Icons.logout),
