@@ -67,10 +67,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'E',
+                        'All',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 80, // Більший розмір для "E"
+                          fontSize: 50, // Більший розмір для "E"
                           fontWeight: FontWeight.bold,
                           height: 0.9, // Зменшений міжрядковий інтервал
                         ),
@@ -112,7 +112,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   child: const Center(
                     child: Text(
-                      'All words',
+                      'Discover',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 21,

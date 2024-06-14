@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:words/screens/auth.dart';
 import 'package:words/providers/theme_provider.dart';
+import 'package:words/screens/language.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -126,7 +127,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               leading: const Icon(Icons.language),
               title: const Text('Language'),
               onTap: () {
-                // Навігація до налаштувань мови
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LanguageSettingsScreen()));
               },
             ),
             ListTile(
