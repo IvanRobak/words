@@ -5,6 +5,7 @@ import '../models/word.dart';
 import '../providers/favorite_provider.dart';
 import '../providers/folder_provider.dart';
 import '../utils/text_utils.dart';
+import '../services/translation_service.dart'; // Import TranslationService
 
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
@@ -23,9 +24,15 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   bool isLoading = true;
   bool isFavorite = false;
 
+  static const apiKey = '29a4a816eb0b4645b3ed319fbfde82e5';
+  static const endpoint = 'https://api.cognitive.microsofttranslator.com/';
+  static const location = 'westeurope';
+  late TranslationService translationService;
+
   @override
   void initState() {
     super.initState();
+    translationService = TranslationService(apiKey, endpoint, location);
     _loadSavedFolder();
     checkIfFavorite();
   }
@@ -57,6 +64,18 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     setState(() {
       isTranslationVisible = !isTranslationVisible;
     });
+  }
+
+  Future<void> _translateWord() async {
+    try {
+      final translation =
+          await translationService.translate(widget.word.word, 'en', 'uk');
+      setState(() {
+        widget.word.translation = translation;
+      });
+    } catch (e) {
+      print('Translation failed: $e');
+    }
   }
 
   void _addWordToFolder(String? folderName) async {
@@ -182,7 +201,8 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                           onPressed: _toggleTranslation,
                           child: Text(
                             isTranslationVisible
-                                ? widget.word.translation
+                                ? (widget.word.translation ??
+                                    'Translation not available')
                                 : 'ua',
                             style: const TextStyle(
                               color: Colors.white,

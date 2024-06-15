@@ -134,13 +134,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.lock),
-              title: const Text('Privacy'),
-              onTap: () {
-                // Навігація до налаштувань приватності
-              },
-            ),
-            ListTile(
               leading: const Icon(Icons.info),
               title: const Text('About'),
               onTap: () {

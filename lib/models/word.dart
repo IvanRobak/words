@@ -3,7 +3,7 @@ class Word {
   final String description;
   final int id;
   final String example;
-  final String translation; // Додаємо властивість для перекладу
+  String? translation; // Робимо властивість опціональною
   List<String> userExamples;
   String? selectedFolder;
 
@@ -12,7 +12,7 @@ class Word {
     required this.description,
     required this.id,
     required this.example,
-    required this.translation, // Ініціалізуємо переклад
+    this.translation, // Ініціалізуємо переклад як опціональний
     required this.userExamples,
     this.selectedFolder,
   });
@@ -23,7 +23,8 @@ class Word {
       description: json['description'],
       id: json['id'],
       example: json['example'],
-      translation: json['translation'], // Ініціалізуємо переклад
+      translation:
+          json['translation'], // Ініціалізуємо переклад як опціональний
       userExamples: List<String>.from(json['userExamples'] ?? []),
       selectedFolder: json['selectedFolder'],
     );
