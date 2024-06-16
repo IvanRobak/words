@@ -28,7 +28,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
 
   static const apiKey = '29a4a816eb0b4645b3ed319fbfde82e5';
   static const endpoint = 'https://api.cognitive.microsofttranslator.com/';
-  static const location = 'westeurope';
+  static const location = 'australiaeast';
   late TranslationService translationService;
   late ImageService imageService;
 
@@ -212,7 +212,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                 ),
                               ),
                       ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 70),
                     Center(
                       child: Text(
                         widget.word.description,
@@ -245,7 +245,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
