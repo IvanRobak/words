@@ -68,7 +68,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
         widget.word.translation = translation;
       });
     } catch (e) {
-      print('Translation failed: $e');
+      // print('Translation failed: $e');
     }
   }
 
@@ -79,7 +79,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
         imageUrl = url;
       });
     } catch (e) {
-      print('Failed to fetch image: $e');
+      // print('Failed to fetch image: $e');
     }
   }
 
