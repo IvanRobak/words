@@ -6,6 +6,7 @@ import '../providers/favorite_provider.dart';
 import '../providers/folder_provider.dart';
 import '../utils/text_utils.dart';
 import '../services/translation_service.dart'; // Import TranslationService
+import '../services/image_service.dart'; // Import ImageService
 
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
@@ -23,18 +24,23 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   String? selectedFolder;
   bool isLoading = true;
   bool isFavorite = false;
+  String? imageUrl;
 
   static const apiKey = '29a4a816eb0b4645b3ed319fbfde82e5';
   static const endpoint = 'https://api.cognitive.microsofttranslator.com/';
   static const location = 'westeurope';
   late TranslationService translationService;
+  late ImageService imageService;
 
   @override
   void initState() {
     super.initState();
     translationService = TranslationService(apiKey, endpoint, location);
+    imageService = ImageService();
     _loadSavedFolder();
     checkIfFavorite();
+    _translateWord();
+    _fetchImage(); // Fetch image when the widget initializes
   }
 
   Future<void> _loadSavedFolder() async {
@@ -54,18 +60,6 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     });
   }
 
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
-
-  void _toggleTranslation() {
-    setState(() {
-      isTranslationVisible = !isTranslationVisible;
-    });
-  }
-
   Future<void> _translateWord() async {
     try {
       final translation =
@@ -76,6 +70,29 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     } catch (e) {
       print('Translation failed: $e');
     }
+  }
+
+  Future<void> _fetchImage() async {
+    try {
+      final url = await imageService.fetchImageUrl(widget.word.word);
+      setState(() {
+        imageUrl = url;
+      });
+    } catch (e) {
+      print('Failed to fetch image: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  void _toggleTranslation() {
+    setState(() {
+      isTranslationVisible = !isTranslationVisible;
+    });
   }
 
   void _addWordToFolder(String? folderName) async {
@@ -120,8 +137,6 @@ class _WordDetailState extends ConsumerState<WordDetail> {
       selectedFolder = null;
     }
 
-    const imagePath = 'assets/images/apple.webp';
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 30),
       child: Card(
@@ -152,14 +167,15 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Center(
-                      child: Image.asset(
-                        imagePath,
-                        height: 160,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                    if (imageUrl != null)
+                      Center(
+                        child: Image.network(
+                          imageUrl!,
+                          height: 160,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
                     const SizedBox(height: 20),
                     Center(
                       child: Text(
