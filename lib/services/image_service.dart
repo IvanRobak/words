@@ -17,7 +17,8 @@ class ImageService {
 
     // Запит до API
     final response = await http.get(
-      Uri.parse('$endpoint?query=$query&client_id=$apiKey'),
+      Uri.parse(
+          '$endpoint?query=$query&client_id=$apiKey&orientation=landscape'),
     );
 
     if (response.statusCode == 200) {

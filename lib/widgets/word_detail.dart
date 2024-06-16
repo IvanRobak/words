@@ -169,12 +169,48 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                     const SizedBox(height: 20),
                     if (imageUrl != null)
                       Center(
-                        child: Image.network(
-                          imageUrl!,
-                          height: 160,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
+                        child: imageUrl != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  height: 160,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors
+                                        .grey, // Це забезпечить фон, якщо зображення не заповнює весь контейнер
+                                  ),
+                                  child: Image.network(
+                                    imageUrl!,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        color: Colors.grey,
+                                        height: 160,
+                                        width: double.infinity,
+                                        child: const Center(
+                                          child: Text(
+                                            'Image not available',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Container(
+                                  color: Colors.grey,
+                                  height: 160,
+                                  width: double.infinity,
+                                  child: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                              ),
                       ),
                     const SizedBox(height: 20),
                     Center(
