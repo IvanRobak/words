@@ -6,7 +6,7 @@ import '../models/word.dart';
 import '../providers/favorite_provider.dart';
 import '../providers/folder_provider.dart';
 import '../utils/text_utils.dart';
-import '../services/translation_service.dart'; // Import ImageService
+import '../services/translation_service.dart';
 
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
@@ -29,10 +29,14 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   late TranslationService translationService;
   late FirebaseImageService firebaseImageService;
 
+  static const apiKey = '29a4a816eb0b4645b3ed319fbfde82e5';
+  static const endpoint = 'https://api.cognitive.microsofttranslator.com/';
+  static const location = 'australiaeast';
+
   @override
   void initState() {
     super.initState();
-    // translationService = TranslationService(apiKey, endpoint, location);
+    translationService = TranslationService(apiKey, endpoint, location);
     firebaseImageService = FirebaseImageService();
     _loadSavedFolder();
     checkIfFavorite();
@@ -48,7 +52,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
         imageUrl = url;
       });
     } catch (e) {
-      print('Failed to fetch image: $e');
+      // print('Failed to fetch image: $e');
     }
   }
 

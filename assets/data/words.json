@@ -22,34 +22,27 @@
   },
   {
     "id": 4,
-    "word": "a",
-    "description": "Indefinite article",
-    "example": "She has a book.",
-    "imageUrl": "gs://words-385e3.appspot.com/a.webp"
-  },
-  {
-    "id": 5,
     "word": "I",
     "description": "First person singular",
     "example": "I am happy.",
     "imageUrl": "gs://words-385e3.appspot.com/I.webp"
   },
   {
-    "id": 6,
+    "id": 5,
     "word": "you",
     "description": "Second person singular or plural",
     "example": "You are my friend.",
     "imageUrl": "gs://words-385e3.appspot.com/you.webp"
   },
   {
-    "id": 7,
+    "id": 6,
     "word": "it",
     "description": "Third person singular neutral pronoun",
     "example": "It is a dog.",
     "imageUrl": "gs://words-385e3.appspot.com/it.webp"
   },
   {
-    "id": 8,
+    "id": 7,
     "word": "in",
     "description": "Expressing the situation",
     "example": "The cat is in the box.",
