@@ -43,6 +43,7 @@ dependencies:
   firebase_auth: ^5.1.0
   http: ^1.2.1
   cached_network_image: ^3.3.1
+  firebase_storage: ^12.0.1
 
 dev_dependencies:
   flutter_test:
@@ -70,7 +71,7 @@ flutter:
   assets:
     - assets/data/words.json
     - assets/images/apple.webp
-    - assets/images/chat.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

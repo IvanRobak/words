@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:words/services/firebase_image_service.dart';
 import '../models/word.dart';
 import '../providers/favorite_provider.dart';
 import '../providers/folder_provider.dart';
 import '../utils/text_utils.dart';
-import '../services/translation_service.dart'; // Import TranslationService
-import '../services/image_service.dart'; // Import ImageService
+import '../services/translation_service.dart'; // Import ImageService
 
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
@@ -26,21 +26,30 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   bool isFavorite = false;
   String? imageUrl;
 
-  static const apiKey = '29a4a816eb0b4645b3ed319fbfde82e5';
-  static const endpoint = 'https://api.cognitive.microsofttranslator.com/';
-  static const location = 'australiaeast';
   late TranslationService translationService;
-  late ImageService imageService;
+  late FirebaseImageService firebaseImageService;
 
   @override
   void initState() {
     super.initState();
-    translationService = TranslationService(apiKey, endpoint, location);
-    imageService = ImageService();
+    // translationService = TranslationService(apiKey, endpoint, location);
+    firebaseImageService = FirebaseImageService();
     _loadSavedFolder();
     checkIfFavorite();
     _translateWord();
-    _fetchImage(); // Fetch image when the widget initializes
+    _fetchImage();
+  }
+
+  Future<void> _fetchImage() async {
+    try {
+      final url =
+          await firebaseImageService.fetchImageUrl(widget.word.imageUrl);
+      setState(() {
+        imageUrl = url;
+      });
+    } catch (e) {
+      print('Failed to fetch image: $e');
+    }
   }
 
   Future<void> _loadSavedFolder() async {
@@ -69,17 +78,6 @@ class _WordDetailState extends ConsumerState<WordDetail> {
       });
     } catch (e) {
       // print('Translation failed: $e');
-    }
-  }
-
-  Future<void> _fetchImage() async {
-    try {
-      final url = await imageService.fetchImageUrl(widget.word.word);
-      setState(() {
-        imageUrl = url;
-      });
-    } catch (e) {
-      // print('Failed to fetch image: $e');
     }
   }
 
@@ -173,7 +171,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Container(
-                                  height: 160,
+                                  height: 179,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
@@ -182,11 +180,11 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                   ),
                                   child: Image.network(
                                     imageUrl!,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.contain,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Container(
                                         color: Colors.grey,
-                                        height: 160,
+                                        height: 179,
                                         width: double.infinity,
                                         child: const Center(
                                           child: Text(
@@ -204,7 +202,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                 borderRadius: BorderRadius.circular(20),
                                 child: Container(
                                   color: Colors.grey,
-                                  height: 160,
+                                  height: 179,
                                   width: double.infinity,
                                   child: const Center(
                                     child: CircularProgressIndicator(),
