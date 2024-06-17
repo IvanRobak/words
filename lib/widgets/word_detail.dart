@@ -7,6 +7,7 @@ import '../providers/favorite_provider.dart';
 import '../providers/folder_provider.dart';
 import '../utils/text_utils.dart';
 import '../services/translation_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
@@ -182,23 +183,24 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                     color: Colors
                                         .grey, // Це забезпечить фон, якщо зображення не заповнює весь контейнер
                                   ),
-                                  child: Image.network(
-                                    imageUrl!,
+                                  child: CachedNetworkImage(
+                                    imageUrl: imageUrl!,
                                     fit: BoxFit.contain,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Container(
-                                        color: Colors.grey,
-                                        height: 179,
-                                        width: double.infinity,
-                                        child: const Center(
-                                          child: Text(
-                                            'Image not available',
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
+                                    placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Container(
+                                      color: Colors.grey,
+                                      height: 179,
+                                      width: double.infinity,
+                                      child: const Center(
+                                        child: Text(
+                                          'Image not available',
+                                          style: TextStyle(color: Colors.white),
                                         ),
-                                      );
-                                    },
+                                      ),
+                                    ),
                                   ),
                                 ),
                               )
