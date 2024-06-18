@@ -1,243 +1,261 @@
 [
-    {
-      "id": 1,
-      "word": "the",
-      "description": "Definite article",
-      "example": "The cat is black."
-    },
-    {
-      "id": 2,
-      "word": "to",
-      "description": "Expressing motion",
-      "example": "I am going to school."
-    },
-    {
-      "id": 3,
-      "word": "and",
-      "description": "Used to connect words",
-      "example": "I have a pen and a pencil."
-    },
-    {
-      "id": 4,
-      "word": "a",
-      "description": "Indefinite article",
-      "example": "She has a book."
-    },
-    {
-      "id": 5,
-      "word": "I",
-      "description": "First person singular",
-      "example": "I am happy."
-    },
-    {
-      "id": 6,
-      "word": "you",
-      "description": "Second person singular or plural",
-      "example": "You are my friend."
-    },
-    {
-      "id": 7,
-      "word": "it",
-      "description": "Third person singular neutral pronoun",
-      "example": "It is a dog."
-    },
-    {
-      "id": 8,
-      "word": "in",
-      "description": "Expressing the situation",
-      "example": "The cat is in the box."
-    },
-    {
-      "id": 9,
-      "word": "said",
-      "description": "Past tense of say",
-      "example": "She said hello."
-    },
-    {
-      "id": 10,
-      "word": "for",
-      "description": "Expressing purpose",
-      "example": "This gift is for you."
-    },
-    {
-      "id": 11,
-      "word": "up",
-      "description": "Toward a higher place",
-      "example": "He climbed up the ladder."
-    },
-    {
-      "id": 12,
-      "word": "look",
-      "description": "Direct one's gaze",
-      "example": "Look at the sky."
-    },
-    {
-      "id": 13,
-      "word": "is",
-      "description": "Third person singular of be",
-      "example": "She is happy."
-    },
-    {
-      "id": 14,
-      "word": "go",
-      "description": "Move from one place to another",
-      "example": "They go to school."
-    },
-    {
-      "id": 15,
-      "word": "we",
-      "description": "First person plural pronoun",
-      "example": "We are friends."
-    },
-    {
-      "id": 16,
-      "word": "little",
-      "description": "Small in size",
-      "example": "She has a little dog."
-    },
-    {
-      "id": 17,
-      "word": "down",
-      "description": "Toward a lower place",
-      "example": "The cat jumped down."
-    },
-    {
-      "id": 18,
-      "word": "can",
-      "description": "Able to",
-      "example": "I can swim."
-    },
-    {
-      "id": 19,
-      "word": "see",
-      "description": "Perceive with the eyes",
-      "example": "I see a bird."
-    },
-    {
-      "id": 20,
-      "word": "not",
-      "description": "Negation",
-      "example": "I do not like it."
-    },
-    {
-      "id": 21,
-      "word": "one",
-      "description": "Single unit",
-      "example": "She has one apple."
-    },
-    {
-      "id": 22,
-      "word": "my",
-      "description": "Belonging to me",
-      "example": "This is my book."
-    },
-    {
-      "id": 23,
-      "word": "me",
-      "description": "First person singular pronoun",
-      "example": "Give it to me."
-    },
-    {
-      "id": 24,
-      "word": "big",
-      "description": "Large in size",
-      "example": "He has a big dog."
-    },
-    {
-      "id": 25,
-      "word": "come",
-      "description": "Move toward a place",
-      "example": "Come here."
-    },
-    {
-      "id": 26,
-      "word": "blue",
-      "description": "Color",
-      "example": "The sky is blue."
-    },
-    {
-      "id": 27,
-      "word": "red",
-      "description": "Color",
-      "example": "She has a red dress."
-    },
-    {
-      "id": 28,
-      "word": "where",
-      "description": "In what place",
-      "example": "Where is my book?"
-    },
-    {
-      "id": 29,
-      "word": "jump",
-      "description": "Push oneself off a surface",
-      "example": "He can jump high."
-    },
-    {
-      "id": 30,
-      "word": "away",
-      "description": "To a different place",
-      "example": "He ran away."
-    },
-    {
-      "id": 31,
-      "word": "here",
-      "description": "In this place",
-      "example": "Come here."
-    },
-    {
-      "id": 32,
-      "word": "help",
-      "description": "Give assistance",
-      "example": "I will help you."
-    },
-    {
-      "id": 33,
-      "word": "make",
-      "description": "Create",
-      "example": "I will make a cake."
-    },
-    {
-      "id": 34,
-      "word": "yellow",
-      "description": "Color",
-      "example": "She has a yellow dress."
-    },
-    {
-      "id": 35,
-      "word": "two",
-      "description": "Number",
-      "example": "I have two apples."
-    },
-    {
-      "id": 36,
-      "word": "play",
-      "description": "Engage in activity for enjoyment",
-      "example": "They play games."
-    },
-    {
-      "id": 37,
-      "word": "run",
-      "description": "Move swiftly",
-      "example": "He can run fast."
-    },
-    {
-      "id": 38,
-      "word": "find",
-      "description": "Discover",
-      "example": "I will find my book."
-    },
-    {
-      "id": 39,
-      "word": "three",
-      "description": "Number",
-      "example": "She has three cats."
-    },
-    {
-      "id": 40,
-      "word": "funny",
-      "description": "Causing laughter",
-      "example": "The joke is funny."
-    }
-  ]
-  
+  {
+    "id": 1,
+    "word": "to",
+    "description": "Expressing motion",
+    "example": "I am going to school.",
+    "imageUrl": "gs://words-385e3.appspot.com/to.webp"
+  },
+  {
+    "id": 2,
+    "word": "and",
+    "description": "Used to connect words",
+    "example": "I have a pen and a pencil.",
+    "imageUrl": "gs://words-385e3.appspot.com/and.webp"
+  },
+  {
+    "id": 3,
+    "word": "I",
+    "description": "First person singular",
+    "example": "I am happy.",
+    "imageUrl": "gs://words-385e3.appspot.com/I.webp"
+  },
+  {
+    "id": 4,
+    "word": "you",
+    "description": "Second person singular or plural",
+    "example": "You are my friend.",
+    "imageUrl": "gs://words-385e3.appspot.com/you.webp"
+  },
+  {
+    "id": 5,
+    "word": "in",
+    "description": "Expressing the situation",
+    "example": "The cat is in the box.",
+    "imageUrl": "gs://words-385e3.appspot.com/in.webp"
+  },
+  {
+    "id": 6,
+    "word": "said",
+    "description": "Past tense of say",
+    "example": "She said hello.",
+    "imageUrl": "gs://words-385e3.appspot.com/said.webp"
+  },
+  {
+    "id": 7,
+    "word": "for",
+    "description": "Expressing purpose",
+    "example": "This gift is for you.",
+    "imageUrl": "gs://words-385e3.appspot.com/for.webp"
+  },
+  {
+    "id": 8,
+    "word": "up",
+    "description": "Toward a higher place",
+    "example": "He climbed up the ladder.",
+    "imageUrl": "gs://words-385e3.appspot.com/up.webp"
+  },
+  {
+    "id": 9,
+    "word": "look",
+    "description": "Direct one's gaze",
+    "example": "Look at the sky.",
+    "imageUrl": "gs://words-385e3.appspot.com/look.webp"
+  },
+  {
+    "id": 10,
+    "word": "is",
+    "description": "Third person singular of be",
+    "example": "She is happy.",
+    "imageUrl": "gs://words-385e3.appspot.com/is.webp"
+  },
+  {
+    "id": 11,
+    "word": "go",
+    "description": "Move from one place to another",
+    "example": "They go to school.",
+    "imageUrl": "gs://words-385e3.appspot.com/go.webp"
+  },
+  {
+    "id": 12,
+    "word": "we",
+    "description": "First person plural pronoun",
+    "example": "We are friends.",
+    "imageUrl": "gs://words-385e3.appspot.com/we.webp"
+  },
+  {
+    "id": 13,
+    "word": "little",
+    "description": "Small in size",
+    "example": "She has a little dog.",
+    "imageUrl": "gs://words-385e3.appspot.com/little.webp"
+  },
+  {
+    "id": 14,
+    "word": "down",
+    "description": "Toward a lower place",
+    "example": "The cat jumped down.",
+    "imageUrl": "gs://words-385e3.appspot.com/down.webp"
+  },
+  {
+    "id": 15,
+    "word": "can",
+    "description": "Able to",
+    "example": "I can swim.",
+    "imageUrl": "gs://words-385e3.appspot.com/can.webp"
+  },
+  {
+    "id": 16,
+    "word": "see",
+    "description": "Perceive with the eyes",
+    "example": "I see a bird.",
+    "imageUrl": "gs://words-385e3.appspot.com/see.webp"
+  },
+  {
+    "id": 17,
+    "word": "not",
+    "description": "Negation",
+    "example": "I do not like it.",
+    "imageUrl": "gs://words-385e3.appspot.com/not.webp"
+  },
+  {
+    "id": 18,
+    "word": "one",
+    "description": "Single unit",
+    "example": "She has one apple.",
+    "imageUrl": "gs://words-385e3.appspot.com/one.webp"
+  },
+  {
+    "id": 19,
+    "word": "my",
+    "description": "Belonging to me",
+    "example": "This is my book.",
+    "imageUrl": "gs://words-385e3.appspot.com/my.webp"
+  },
+  {
+    "id": 20,
+    "word": "me",
+    "description": "First person singular pronoun",
+    "example": "Give it to me.",
+    "imageUrl": "gs://words-385e3.appspot.com/me.webp"
+  },
+  {
+    "id": 21,
+    "word": "big",
+    "description": "Large in size",
+    "example": "He has a big dog.",
+    "imageUrl": "gs://words-385e3.appspot.com/big.webp"
+  },
+  {
+    "id": 22,
+    "word": "come",
+    "description": "Move toward a place",
+    "example": "Come here.",
+    "imageUrl": "gs://words-385e3.appspot.com/come.webp"
+  },
+  {
+    "id": 23,
+    "word": "blue",
+    "description": "Color",
+    "example": "The sky is blue.",
+    "imageUrl": "gs://words-385e3.appspot.com/blue.webp"
+  },
+  {
+    "id": 24,
+    "word": "red",
+    "description": "Color",
+    "example": "She has a red dress.",
+    "imageUrl": "gs://words-385e3.appspot.com/red.webp"
+  },
+  {
+    "id": 25,
+    "word": "where",
+    "description": "In what place",
+    "example": "Where is my book?",
+    "imageUrl": "gs://words-385e3.appspot.com/where.webp"
+  },
+  {
+    "id": 26,
+    "word": "jump",
+    "description": "Push oneself off a surface",
+    "example": "He can jump high.",
+    "imageUrl": "gs://words-385e3.appspot.com/jump.webp"
+  },
+  {
+    "id": 27,
+    "word": "away",
+    "description": "To a different place",
+    "example": "He ran away.",
+    "imageUrl": "gs://words-385e3.appspot.com/away.webp"
+  },
+  {
+    "id": 28,
+    "word": "here",
+    "description": "In this place",
+    "example": "Come here.",
+    "imageUrl": "gs://words-385e3.appspot.com/here.webp"
+  },
+  {
+    "id": 29,
+    "word": "help",
+    "description": "Give assistance",
+    "example": "I will help you.",
+    "imageUrl": "gs://words-385e3.appspot.com/help.webp"
+  },
+  {
+    "id": 30,
+    "word": "make",
+    "description": "Create",
+    "example": "I will make a cake.",
+    "imageUrl": "gs://words-385e3.appspot.com/make.webp"
+  },
+  {
+    "id": 31,
+    "word": "yellow",
+    "description": "Color",
+    "example": "She has a yellow dress.",
+    "imageUrl": "gs://words-385e3.appspot.com/yellow.webp"
+  },
+  {
+    "id": 32,
+    "word": "two",
+    "description": "Number",
+    "example": "I have two apples.",
+    "imageUrl": "gs://words-385e3.appspot.com/two.webp"
+  },
+  {
+    "id": 33,
+    "word": "play",
+    "description": "Engage in activity for enjoyment",
+    "example": "They play games.",
+    "imageUrl": "gs://words-385e3.appspot.com/play.webp"
+  },
+  {
+    "id": 34,
+    "word": "run",
+    "description": "Move swiftly",
+    "example": "He can run fast.",
+    "imageUrl": "gs://words-385e3.appspot.com/run.webp"
+  },
+  {
+    "id": 35,
+    "word": "find",
+    "description": "Discover",
+    "example": "I will find my book.",
+    "imageUrl": "gs://words-385e3.appspot.com/find.webp"
+  },
+  {
+    "id": 36,
+    "word": "three",
+    "description": "Number",
+    "example": "She has three cats.",
+    "imageUrl": "gs://words-385e3.appspot.com/three.webp"
+  },
+  {
+    "id": 37,
+    "word": "funny",
+    "description": "Causing laughter",
+    "example": "The joke is funny.",
+    "imageUrl": "gs://words-385e3.appspot.com/funny.webp"
+  }
+]

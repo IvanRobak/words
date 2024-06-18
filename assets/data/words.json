@@ -1,51 +1,107 @@
 [
   {
     "id": 1,
-    "word": "the",
-    "description": "Definite article",
-    "example": "The cat is black.",
-    "imageUrl": "gs://words-385e3.appspot.com/the.webp"
-  },
-  {
-    "id": 2,
     "word": "to",
     "description": "Expressing motion",
     "example": "I am going to school.",
     "imageUrl": "gs://words-385e3.appspot.com/to.webp"
   },
   {
-    "id": 3,
+    "id": 2,
     "word": "and",
     "description": "Used to connect words",
     "example": "I have a pen and a pencil.",
     "imageUrl": "gs://words-385e3.appspot.com/and.webp"
   },
   {
-    "id": 4,
+    "id": 3,
     "word": "I",
     "description": "First person singular",
     "example": "I am happy.",
     "imageUrl": "gs://words-385e3.appspot.com/I.webp"
   },
   {
-    "id": 5,
+    "id": 4,
     "word": "you",
     "description": "Second person singular or plural",
     "example": "You are my friend.",
     "imageUrl": "gs://words-385e3.appspot.com/you.webp"
   },
   {
-    "id": 6,
-    "word": "it",
-    "description": "Third person singular neutral pronoun",
-    "example": "It is a dog.",
-    "imageUrl": "gs://words-385e3.appspot.com/it.webp"
-  },
-  {
-    "id": 7,
+    "id": 5,
     "word": "in",
     "description": "Expressing the situation",
     "example": "The cat is in the box.",
     "imageUrl": "gs://words-385e3.appspot.com/in.webp"
+  },
+  {
+    "id": 6,
+    "word": "said",
+    "description": "Past tense of say",
+    "example": "She said hello.",
+    "imageUrl": "gs://words-385e3.appspot.com/said.webp"
+  },
+  {
+    "id": 7,
+    "word": "for",
+    "description": "Expressing purpose",
+    "example": "This gift is for you.",
+    "imageUrl": "gs://words-385e3.appspot.com/for.webp"
+  },
+  {
+    "id": 8,
+    "word": "up",
+    "description": "Toward a higher place",
+    "example": "He climbed up the ladder.",
+    "imageUrl": "gs://words-385e3.appspot.com/up.webp"
+  },
+  {
+    "id": 9,
+    "word": "look",
+    "description": "Direct one's gaze",
+    "example": "Look at the sky.",
+    "imageUrl": "gs://words-385e3.appspot.com/look.webp"
+  },
+  {
+    "id": 10,
+    "word": "is",
+    "description": "Third person singular of be",
+    "example": "She is happy.",
+    "imageUrl": "gs://words-385e3.appspot.com/is.webp"
+  },
+  {
+    "id": 11,
+    "word": "go",
+    "description": "Move from one place to another",
+    "example": "They go to school.",
+    "imageUrl": "gs://words-385e3.appspot.com/go.webp"
+  },
+  {
+    "id": 12,
+    "word": "we",
+    "description": "First person plural pronoun",
+    "example": "We are friends.",
+    "imageUrl": "gs://words-385e3.appspot.com/we.webp"
+  },
+  {
+    "id": 13,
+    "word": "little",
+    "description": "Small in size",
+    "example": "She has a little dog.",
+    "imageUrl": "gs://words-385e3.appspot.com/little.webp"
+  },
+  {
+    "id": 14,
+    "word": "down",
+    "description": "Toward a lower place",
+    "example": "The cat jumped down.",
+    "imageUrl": "gs://words-385e3.appspot.com/down.webp"
+  },
+  {
+    "id": 15,
+    "word": "can",
+    "description": "Able to",
+    "example": "I can swim.",
+    "imageUrl": "gs://words-385e3.appspot.com/can.webp"
   }
 ]

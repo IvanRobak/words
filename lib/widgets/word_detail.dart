@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/services/firebase_image_service.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import '../models/word.dart';
 import '../providers/favorite_provider.dart';
 import '../providers/folder_provider.dart';
@@ -15,7 +16,6 @@ class WordDetail extends ConsumerStatefulWidget {
   const WordDetail({super.key, required this.word});
 
   @override
-  // ignore: library_private_types_in_public_api
   _WordDetailState createState() => _WordDetailState();
 }
 
@@ -29,6 +29,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
 
   late TranslationService translationService;
   late FirebaseImageService firebaseImageService;
+  final FlutterTts _flutterTts = FlutterTts(); // Initialize the TTS
 
   static const apiKey = '29a4a816eb0b4645b3ed319fbfde82e5';
   static const endpoint = 'https://api.cognitive.microsofttranslator.com/';
@@ -43,6 +44,17 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     checkIfFavorite();
     _translateWord();
     _fetchImage();
+    _initTts();
+  }
+
+  Future<void> _initTts() async {
+    await _flutterTts.setLanguage('en-US');
+    await _flutterTts.setSpeechRate(0.5);
+    await _flutterTts.setVolume(1.0);
+    await _flutterTts.setPitch(1.0);
+    _flutterTts.setErrorHandler((msg) {
+      print("TTS Error: $msg"); // Handle TTS errors
+    });
   }
 
   Future<void> _fetchImage() async {
@@ -53,7 +65,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
         imageUrl = url;
       });
     } catch (e) {
-      // print('Failed to fetch image: $e');
+      // Handle error if needed
     }
   }
 
@@ -82,13 +94,14 @@ class _WordDetailState extends ConsumerState<WordDetail> {
         widget.word.translation = translation;
       });
     } catch (e) {
-      // print('Translation failed: $e');
+      // Handle error if needed
     }
   }
 
   @override
   void dispose() {
     _textController.dispose();
+    _flutterTts.stop(); // Stop the TTS
     super.dispose();
   }
 
@@ -123,6 +136,14 @@ class _WordDetailState extends ConsumerState<WordDetail> {
         content: Text('No folders available. Create a folder first.'),
       ),
     );
+  }
+
+  void _speakWord() async {
+    try {
+      await _flutterTts.speak(widget.word.word);
+    } catch (e) {
+      print("Error speaking word: $e"); // Handle speech error
+    }
   }
 
   @override
@@ -180,8 +201,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
-                                    color: Colors
-                                        .grey, // Це забезпечить фон, якщо зображення не заповнює весь контейнер
+                                    color: Colors.grey,
                                   ),
                                   child: CachedNetworkImage(
                                     imageUrl: imageUrl!,
@@ -216,18 +236,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                                 ),
                               ),
                       ),
-                    const SizedBox(height: 70),
-                    Center(
-                      child: Text(
-                        widget.word.description,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 100),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 15,
@@ -302,28 +311,41 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                 Positioned(
                   top: 0,
                   right: 0,
-                  child: IconButton(
-                    icon: Icon(
-                      isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    onPressed: () {
-                      if (isFavorite) {
-                        ref
-                            .read(favoriteProvider.notifier)
-                            .removeWord(widget.word);
-                        setState(() {
-                          isFavorite = false;
-                        });
-                      } else {
-                        ref
-                            .read(favoriteProvider.notifier)
-                            .addWord(widget.word);
-                        setState(() {
-                          isFavorite = true;
-                        });
-                      }
-                    },
+                  left: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.volume_up,
+                          color: Colors.white,
+                        ),
+                        onPressed: _speakWord, // Call _speakWord when pressed
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                        onPressed: () {
+                          if (isFavorite) {
+                            ref
+                                .read(favoriteProvider.notifier)
+                                .removeWord(widget.word);
+                            setState(() {
+                              isFavorite = false;
+                            });
+                          } else {
+                            ref
+                                .read(favoriteProvider.notifier)
+                                .addWord(widget.word);
+                            setState(() {
+                              isFavorite = true;
+                            });
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
