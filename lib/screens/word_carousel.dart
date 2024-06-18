@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
-import 'package:words/widgets/word_detail.dart';
+import 'package:words/widgets/word_details/word_detail.dart';
 
 class WordCarouselScreen extends StatefulWidget {
   final List<Word> words;
