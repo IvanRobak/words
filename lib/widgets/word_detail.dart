@@ -16,6 +16,7 @@ class WordDetail extends ConsumerStatefulWidget {
   const WordDetail({super.key, required this.word});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WordDetailState createState() => _WordDetailState();
 }
 
@@ -191,51 +192,45 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    if (imageUrl != null)
-                      Center(
+                    Center(
+                      child: Container(
+                        height: 179, // Фіксована висота для контейнера картинки
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.grey,
+                        ),
                         child: imageUrl != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
-                                child: Container(
-                                  height: 179,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.grey,
+                                child: CachedNetworkImage(
+                                  imageUrl: imageUrl!,
+                                  fit: BoxFit.contain,
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(),
                                   ),
-                                  child: CachedNetworkImage(
-                                    imageUrl: imageUrl!,
-                                    fit: BoxFit.contain,
-                                    placeholder: (context, url) => const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Container(
-                                      color: Colors.grey,
-                                      height: 179,
-                                      width: double.infinity,
-                                      child: const Center(
-                                        child: Text(
-                                          'Image not available',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    color: Colors.grey,
+                                    height: 179,
+                                    width: double.infinity,
+                                    child: const Center(
+                                      child: Text(
+                                        'Image not available',
+                                        style: TextStyle(color: Colors.white),
                                       ),
                                     ),
                                   ),
                                 ),
                               )
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Container(
-                                  color: Colors.grey,
-                                  height: 179,
-                                  width: double.infinity,
-                                  child: const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
+                            : const Center(
+                                child: Text(
+                                  'No image available',
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                       ),
+                    ),
                     const SizedBox(height: 100),
                     Container(
                       padding: const EdgeInsets.symmetric(
