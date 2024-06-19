@@ -17,7 +17,7 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
   int columns = 2; // Поточна кількість стовпців
   final List<int> columnOptions = [2, 3]; // Можливі варіанти
   int currentPage = 0; // Поточна сторінка
-  final int wordsPerPage = 40; // Кількість слів на сторінку
+  final int wordsPerPage = 10; // Кількість слів на сторінку
 
   @override
   void initState() {
@@ -80,11 +80,11 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         title: const Text('All words'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: [
-            Expanded(
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: WordListView(
                 words: getCurrentPageWords(filteredWords),
                 columns: columns,
@@ -103,34 +103,35 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
                 },
               ),
             ),
-            Container(
-              color: Theme.of(context).colorScheme.surface,
-              padding: const EdgeInsets.only(bottom: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: previousPage,
-                    color: currentPage > 0
-                        ? Theme.of(context).colorScheme.secondary
-                        : Colors.grey,
-                  ),
-                  Text(getCurrentPageRange()),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_forward),
-                    onPressed: nextPage,
-                    color:
-                        (currentPage + 1) * wordsPerPage < filteredWords.length
-                            ? Theme.of(context).colorScheme.secondary
-                            : Colors.grey,
-                  ),
-                ],
-              ),
+          ),
+          Container(
+            width:
+                MediaQuery.of(context).size.width, // Займає всю ширину екрану
+            color: Theme.of(context).colorScheme.surface,
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: previousPage,
+                  color: currentPage > 0
+                      ? Theme.of(context).colorScheme.secondary
+                      : Colors.grey,
+                ),
+                Text(getCurrentPageRange()),
+                IconButton(
+                  icon: const Icon(Icons.arrow_forward),
+                  onPressed: nextPage,
+                  color: (currentPage + 1) * wordsPerPage < filteredWords.length
+                      ? Theme.of(context).colorScheme.secondary
+                      : Colors.grey,
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
