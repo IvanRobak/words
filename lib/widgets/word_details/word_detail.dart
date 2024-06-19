@@ -150,6 +150,14 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     }
   }
 
+  void _learnWord() {
+    // Додайте вашу логіку для обробки натискання кнопки "Вчити"
+  }
+
+  void _knowWord() {
+    // Додайте вашу логіку для обробки натискання кнопки "Знаю"
+  }
+
   @override
   Widget build(BuildContext context) {
     final folderNotifier = ref.watch(folderProvider);
@@ -197,7 +205,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                     ),
                     const SizedBox(height: 20),
                     ImageSection(imageUrl: imageUrl),
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 20),
                     ExampleSection(exampleSpans: exampleSpans),
                     const SizedBox(height: 20),
                     BottomSection(
@@ -216,6 +224,28 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                         }
                       },
                       toggleTranslation: _toggleTranslation,
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30)),
+                          onPressed: _learnWord,
+                          child: const Text('Learn'),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30)),
+                          onPressed: _knowWord,
+                          child: const Text('I know'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
