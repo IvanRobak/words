@@ -17,7 +17,7 @@ class _WordListScreenState extends ConsumerState<WordListScreen> {
   int columns = 2; // Поточна кількість стовпців
   final List<int> columnOptions = [2, 3]; // Можливі варіанти
   int currentPage = 0; // Поточна сторінка
-  final int wordsPerPage = 10; // Кількість слів на сторінку
+  final int wordsPerPage = 30; // Кількість слів на сторінку
 
   @override
   void initState() {

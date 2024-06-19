@@ -237,6 +237,8 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                       });
                     }
                   },
+                  wordId:
+                      widget.word.id, // Передача wordId у компонент IconButtons
                 ),
               ],
             ),
