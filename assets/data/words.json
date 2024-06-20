@@ -220,5 +220,227 @@
     "word": "funny",
     "example": "The joke is funny.",
     "imageUrl": "gs://words-385e3.appspot.com/funny.webp"
+  },
+  {
+    "id": 38,
+    "word": "he",
+    "example": "He is here.",
+    "imageUrl": "gs://words-385e3.appspot.com/he.webp"
+  },
+  {
+    "id": 39,
+    "word": "was",
+    "example": "It was nice.",
+    "imageUrl": "gs://words-385e3.appspot.com/was.webp"
+  },
+  {
+    "id": 40,
+    "word": "that",
+    "example": "I like that.",
+    "imageUrl": "gs://words-385e3.appspot.com/that.webp"
+  },
+  {
+    "id": 41,
+    "word": "she",
+    "example": "She is kind.",
+    "imageUrl": "gs://words-385e3.appspot.com/she.webp"
+  },
+  {
+    "id": 42,
+    "word": "on",
+    "example": "It is on.",
+    "imageUrl": "gs://words-385e3.appspot.com/on.webp"
+  },
+  {
+    "id": 43,
+    "word": "they",
+    "example": "They are here.",
+    "imageUrl": "gs://words-385e3.appspot.com/they.webp"
+  },
+  {
+    "id": 44,
+    "word": "but",
+    "example": "I like it, but...",
+    "imageUrl": "gs://words-385e3.appspot.com/but.webp"
+  },
+  {
+    "id": 45,
+    "word": "at",
+    "example": "I am at home.",
+    "imageUrl": "gs://words-385e3.appspot.com/at.webp"
+  },
+  {
+    "id": 46,
+    "word": "with",
+    "example": "I am with you.",
+    "imageUrl": "gs://words-385e3.appspot.com/with.webp"
+  },
+  {
+    "id": 47,
+    "word": "all",
+    "example": "All are here.",
+    "imageUrl": "gs://words-385e3.appspot.com/all.webp"
+  },
+  {
+    "id": 48,
+    "word": "there",
+    "example": "There it is.",
+    "imageUrl": "gs://words-385e3.appspot.com/there.webp"
+  },
+  {
+    "id": 49,
+    "word": "out",
+    "example": "Go out.",
+    "imageUrl": "gs://words-385e3.appspot.com/out.webp"
+  },
+  {
+    "id": 50,
+    "word": "be",
+    "example": "Be happy.",
+    "imageUrl": "gs://words-385e3.appspot.com/be.webp"
+  },
+  {
+    "id": 51,
+    "word": "have",
+    "example": "I have it.",
+    "imageUrl": "gs://words-385e3.appspot.com/have.webp"
+  },
+  {
+    "id": 52,
+    "word": "am",
+    "example": "I am here.",
+    "imageUrl": "gs://words-385e3.appspot.com/am.webp"
+  },
+  {
+    "id": 53,
+    "word": "do",
+    "example": "I do it.",
+    "imageUrl": "gs://words-385e3.appspot.com/do.webp"
+  },
+  {
+    "id": 54,
+    "word": "did",
+    "example": "I did it.",
+    "imageUrl": "gs://words-385e3.appspot.com/did.webp"
+  },
+  {
+    "id": 55,
+    "word": "what",
+    "example": "What is this?",
+    "imageUrl": "gs://words-385e3.appspot.com/what.webp"
+  },
+  {
+    "id": 56,
+    "word": "get",
+    "example": "Get it now.",
+    "imageUrl": "gs://words-385e3.appspot.com/get.webp"
+  },
+  {
+    "id": 57,
+    "word": "like",
+    "example": "I like it.",
+    "imageUrl": "gs://words-385e3.appspot.com/like.webp"
+  },
+  {
+    "id": 58,
+    "word": "this",
+    "example": "This is mine.",
+    "imageUrl": "gs://words-385e3.appspot.com/this.webp"
+  },
+  {
+    "id": 59,
+    "word": "will",
+    "example": "I will go.",
+    "imageUrl": "gs://words-385e3.appspot.com/will.webp"
+  },
+  {
+    "id": 60,
+    "word": "yes",
+    "example": "Yes, I agree.",
+    "imageUrl": "gs://words-385e3.appspot.com/yes.webp"
+  },
+  {
+    "id": 61,
+    "word": "went",
+    "example": "I went there.",
+    "imageUrl": "gs://words-385e3.appspot.com/went.webp"
+  },
+  {
+    "id": 62,
+    "word": "are",
+    "example": "You are nice.",
+    "imageUrl": "gs://words-385e3.appspot.com/are.webp"
+  },
+  {
+    "id": 63,
+    "word": "now",
+    "example": "Now is the time.",
+    "imageUrl": "gs://words-385e3.appspot.com/now.webp"
+  },
+  {
+    "id": 64,
+    "word": "no",
+    "example": "No, thank you.",
+    "imageUrl": "gs://words-385e3.appspot.com/no.webp"
+  },
+  {
+    "id": 65,
+    "word": "came",
+    "example": "He came back.",
+    "imageUrl": "gs://words-385e3.appspot.com/came.webp"
+  },
+  {
+    "id": 66,
+    "word": "ride",
+    "example": "I ride a bike.",
+    "imageUrl": "gs://words-385e3.appspot.com/ride.webp"
+  },
+  {
+    "id": 67,
+    "word": "into",
+    "example": "Go into the room.",
+    "imageUrl": "gs://words-385e3.appspot.com/into.webp"
+  },
+  {
+    "id": 68,
+    "word": "good",
+    "example": "It is good.",
+    "imageUrl": "gs://words-385e3.appspot.com/good.webp"
+  },
+  {
+    "id": 69,
+    "word": "want",
+    "example": "I want it.",
+    "imageUrl": "gs://words-385e3.appspot.com/want.webp"
+  },
+  {
+    "id": 70,
+    "word": "too",
+    "example": "I like it too.",
+    "imageUrl": "gs://words-385e3.appspot.com/too.webp"
+  },
+  {
+    "id": 71,
+    "word": "pretty",
+    "example": "She is pretty.",
+    "imageUrl": "gs://words-385e3.appspot.com/pretty.webp"
+  },
+  {
+    "id": 72,
+    "word": "four",
+    "example": "Four apples.",
+    "imageUrl": "gs://words-385e3.appspot.com/four.webp"
+  },
+  {
+    "id": 73,
+    "word": "saw",
+    "example": "I saw it.",
+    "imageUrl": "gs://words-385e3.appspot.com/saw.webp"
+  },
+  {
+    "id": 74,
+    "word": "well",
+    "example": "I am well.",
+    "imageUrl": "gs://words-385e3.appspot.com/well.webp"
   }
 ]
