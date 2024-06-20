@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:words/screens/folder_content.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/folder.dart';
 
 class FolderWidget extends StatefulWidget {
   final Folder folder;
   final Function(String) onNameChanged;
+  final Function(Color) onColorChanged;
   final VoidCallback onDelete;
 
   const FolderWidget({
     super.key,
     required this.folder,
     required this.onNameChanged,
+    required this.onColorChanged,
     required this.onDelete,
   });
 
@@ -60,6 +63,44 @@ class _FolderWidgetState extends State<FolderWidget> {
     );
   }
 
+  void _showColorPickerDialog() {
+    Color pickerColor = widget.folder.color;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Виберіть колір папки'),
+          content: SingleChildScrollView(
+            child: ColorPicker(
+              pickerColor: pickerColor,
+              onColorChanged: (color) {
+                setState(() {
+                  pickerColor = color;
+                });
+              },
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Скасувати'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Зберегти'),
+              onPressed: () {
+                widget.onColorChanged(pickerColor);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _showOptionsMenu(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -74,6 +115,14 @@ class _FolderWidgetState extends State<FolderWidget> {
                 onTap: () {
                   Navigator.pop(context);
                   _showRenameFolderDialog();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.color_lens),
+                title: const Text('Змінити колір'),
+                onTap: () {
+                  Navigator.pop(context);
+                  _showColorPickerDialog();
                 },
               ),
               ListTile(
@@ -111,7 +160,7 @@ class _FolderWidgetState extends State<FolderWidget> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: widget.folder.color,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(

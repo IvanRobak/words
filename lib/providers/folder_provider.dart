@@ -8,13 +8,20 @@ class FolderNotifier extends ChangeNotifier {
 
   List<Folder> get folders => _folders;
 
-  void addFolder(String name) {
-    _folders.add(Folder(name: name, words: []));
+  void addFolder(String name, Color color) {
+    _folders.add(Folder(name: name, words: [], color: color));
     notifyListeners();
   }
 
   void updateFolderName(int index, String name) {
-    _folders[index] = Folder(name: name, words: folders[index].words);
+    _folders[index] = Folder(
+        name: name, words: folders[index].words, color: folders[index].color);
+    notifyListeners();
+  }
+
+  void updateFolderColor(int index, Color color) {
+    _folders[index] = Folder(
+        name: folders[index].name, words: folders[index].words, color: color);
     notifyListeners();
   }
 

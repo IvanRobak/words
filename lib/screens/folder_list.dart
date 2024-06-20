@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/providers/folder_provider.dart';
 import 'package:words/widgets/folder.dart';
@@ -40,6 +41,9 @@ class FolderListScreen extends ConsumerWidget {
                   onNameChanged: (name) {
                     folderNotifier.updateFolderName(index, name);
                   },
+                  onColorChanged: (color) {
+                    folderNotifier.updateFolderColor(index, color);
+                  },
                   onDelete: () {
                     folderNotifier.deleteFolder(index);
                   },
@@ -62,15 +66,29 @@ class FolderListScreen extends ConsumerWidget {
   void _showAddFolderDialog(
       BuildContext context, FolderNotifier folderNotifier) {
     final TextEditingController folderNameController = TextEditingController();
+    Color folderColor = Colors.blue; // Default color
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Add New Folder'),
-          content: TextField(
-            controller: folderNameController,
-            decoration: const InputDecoration(hintText: 'Enter folder name'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: folderNameController,
+                decoration:
+                    const InputDecoration(hintText: 'Enter folder name'),
+              ),
+              const SizedBox(height: 20),
+              ColorPicker(
+                pickerColor: folderColor,
+                onColorChanged: (color) {
+                  folderColor = color;
+                },
+              ),
+            ],
           ),
           actions: <Widget>[
             TextButton(
@@ -83,7 +101,8 @@ class FolderListScreen extends ConsumerWidget {
               child: const Text('Add'),
               onPressed: () {
                 if (folderNameController.text.isNotEmpty) {
-                  folderNotifier.addFolder(folderNameController.text);
+                  folderNotifier.addFolder(
+                      folderNameController.text, folderColor);
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
