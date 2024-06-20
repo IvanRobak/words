@@ -20,7 +20,11 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: widget.initialIndex);
+    _pageController = PageController(
+      initialPage: widget.initialIndex,
+      viewportFraction:
+          0.95, // Змінити частину екрана, яку займає кожна сторінка
+    );
   }
 
   @override

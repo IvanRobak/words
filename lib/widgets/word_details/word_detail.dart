@@ -175,10 +175,10 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.only(top: 20, bottom: 50),
       child: Card(
         color: Theme.of(context).colorScheme.primary,
-        margin: const EdgeInsets.all(20),
+        // margin: const EdgeInsets.all(20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
