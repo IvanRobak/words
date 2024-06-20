@@ -175,7 +175,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     }
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 30),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: Card(
         color: Theme.of(context).colorScheme.primary,
         margin: const EdgeInsets.all(20),
@@ -193,7 +193,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: 30),
+                    // const SizedBox(height: 30),
                     Center(
                       child: Text(
                         widget.word.word,
@@ -203,8 +203,31 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
                     ImageSection(imageUrl: imageUrl),
+                    const SizedBox(height: 20),
+                    IconButtons(
+                      isFavorite: isFavorite,
+                      onSpeakPressed: _speakWord,
+                      onFavoritePressed: () {
+                        if (isFavorite) {
+                          ref
+                              .read(favoriteProvider.notifier)
+                              .removeWord(widget.word);
+                          setState(() {
+                            isFavorite = false;
+                          });
+                        } else {
+                          ref
+                              .read(favoriteProvider.notifier)
+                              .addWord(widget.word);
+                          setState(() {
+                            isFavorite = true;
+                          });
+                        }
+                      },
+                      wordId: widget
+                          .word.id, // Передача wordId у компонент IconButtons
+                    ),
                     const SizedBox(height: 20),
                     ExampleSection(exampleSpans: exampleSpans),
                     const SizedBox(height: 20),
@@ -248,27 +271,6 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                       ],
                     ),
                   ],
-                ),
-                IconButtons(
-                  isFavorite: isFavorite,
-                  onSpeakPressed: _speakWord,
-                  onFavoritePressed: () {
-                    if (isFavorite) {
-                      ref
-                          .read(favoriteProvider.notifier)
-                          .removeWord(widget.word);
-                      setState(() {
-                        isFavorite = false;
-                      });
-                    } else {
-                      ref.read(favoriteProvider.notifier).addWord(widget.word);
-                      setState(() {
-                        isFavorite = true;
-                      });
-                    }
-                  },
-                  wordId:
-                      widget.word.id, // Передача wordId у компонент IconButtons
                 ),
               ],
             ),

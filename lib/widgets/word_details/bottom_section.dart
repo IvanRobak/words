@@ -37,7 +37,7 @@ class BottomSection extends StatelessWidget {
         ),
         DropdownButton<String>(
           hint: const Text(
-            "Select Folder",
+            "Folder",
             style: TextStyle(color: Colors.white),
           ),
           value: selectedFolder,

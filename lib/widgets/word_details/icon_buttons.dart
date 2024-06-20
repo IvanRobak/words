@@ -16,42 +16,37 @@ class IconButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: -15,
-      right: 0,
-      left: 0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 40, // Встановіть ширину, яка дорівнює ширині іконок
-            child: Center(
-              child: Text(
-                '#$wordId', // Використання wordId для відображення номера
-                style: const TextStyle(
-                  color: Color.fromARGB(150, 245, 244, 244),
-                  fontSize: 16,
-                ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 40, // Встановіть ширину, яка дорівнює ширині іконок
+          child: Center(
+            child: Text(
+              '#$wordId', // Використання wordId для відображення номера
+              style: const TextStyle(
+                color: Color.fromARGB(150, 245, 244, 244),
+                fontSize: 16,
               ),
             ),
           ),
-          IconButton(
-            icon: Icon(
-              isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-            onPressed: onFavoritePressed,
+        ),
+        IconButton(
+          icon: Icon(
+            isFavorite ? Icons.favorite : Icons.favorite_border,
+            color: Theme.of(context).colorScheme.secondary,
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.volume_up,
-              color: Color.fromARGB(150, 245, 244, 244),
-            ),
-            onPressed: onSpeakPressed,
+          onPressed: onFavoritePressed,
+        ),
+        IconButton(
+          icon: const Icon(
+            Icons.volume_up,
+            color: Color.fromARGB(150, 245, 244, 244),
           ),
-        ],
-      ),
+          onPressed: onSpeakPressed,
+        ),
+      ],
     );
   }
 }
