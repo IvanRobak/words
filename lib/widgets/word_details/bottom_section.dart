@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:words/models/folder.dart';
 
 class BottomSection extends StatelessWidget {
   final bool isTranslationVisible;
   final String? translation;
   final String? selectedFolder;
-  final List<String> folders;
+  final List<Folder> folders;
   final Function(String?) onFolderChanged;
   final VoidCallback toggleTranslation;
 
@@ -46,10 +47,30 @@ class BottomSection extends StatelessWidget {
               value: 'None',
               child: Text('None'),
             ),
-            ...folders.map((folder) => DropdownMenuItem<String>(
-                  value: folder,
-                  child: Text(folder),
-                )),
+            ...folders.map(
+              (folder) => DropdownMenuItem<String>(
+                value: folder.name,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 10,
+                      height: 10,
+                      color: folder.color,
+                    ),
+                    const SizedBox(width: 8),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 80),
+                      child: Text(
+                        folder.name.length > 12
+                            ? '${folder.name.substring(0, 12)}...'
+                            : folder.name,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
           onChanged: onFolderChanged,
           dropdownColor: Theme.of(context).colorScheme.primary,

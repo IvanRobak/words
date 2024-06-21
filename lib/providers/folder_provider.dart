@@ -31,14 +31,12 @@ class FolderNotifier extends ChangeNotifier {
   }
 
   void addWordToFolder(String folderName, Word word) {
-    // Спочатку видаляємо слово з будь-якої існуючої папки
     for (var folder in _folders) {
       if (folder.words.contains(word)) {
         folder.removeWord(word);
       }
     }
 
-    // Додаємо слово до нової папки
     for (var folder in _folders) {
       if (folder.name == folderName) {
         folder.addWord(word);

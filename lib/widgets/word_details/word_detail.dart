@@ -161,8 +161,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   @override
   Widget build(BuildContext context) {
     final folderNotifier = ref.watch(folderProvider);
-    final folders =
-        folderNotifier.folders.map((folder) => folder.name).toList();
+    final folders = folderNotifier.folders;
 
     final exampleText = widget.word.example;
     final wordText = widget.word.word;
@@ -170,7 +169,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
 
     if (selectedFolder != null &&
         selectedFolder != 'None' &&
-        !folders.contains(selectedFolder)) {
+        !folders.any((folder) => folder.name == selectedFolder)) {
       selectedFolder = null;
     }
 
@@ -178,7 +177,6 @@ class _WordDetailState extends ConsumerState<WordDetail> {
       padding: const EdgeInsets.only(top: 20, bottom: 50),
       child: Card(
         color: Theme.of(context).colorScheme.primary,
-        // margin: const EdgeInsets.all(20),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -193,7 +191,6 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // const SizedBox(height: 30),
                     Center(
                       child: Text(
                         widget.word.word,
@@ -225,8 +222,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                           });
                         }
                       },
-                      wordId: widget
-                          .word.id, // Передача wordId у компонент IconButtons
+                      wordId: widget.word.id,
                     ),
                     const SizedBox(height: 20),
                     ExampleSection(exampleSpans: exampleSpans),
