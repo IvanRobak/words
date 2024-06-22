@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/providers/word_provider.dart';
-import 'package:words/widgets/word_list_view.dart'; // Ensure this provider provides the list of words
+import 'package:words/services/word_loader.dart';
+import 'package:words/widgets/word_list_view.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
@@ -13,8 +14,21 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   TextEditingController searchController = TextEditingController();
-  int columns = 3; // Поточна кількість стовпців
+  int columns = 2; // Поточна кількість стовпців
   final List<int> columnOptions = [2, 3]; // Можливі варіанти
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadWordsFromJson();
+    });
+  }
+
+  Future<void> loadWordsFromJson() async {
+    final loadedWords = await loadWords();
+    ref.read(wordFilterProvider.notifier).setWords(loadedWords);
+  }
 
   @override
   Widget build(BuildContext context) {
