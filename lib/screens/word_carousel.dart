@@ -10,6 +10,7 @@ class WordCarouselScreen extends StatefulWidget {
       {super.key, required this.words, required this.initialIndex});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WordCarouselScreenState createState() => _WordCarouselScreenState();
 }
 
