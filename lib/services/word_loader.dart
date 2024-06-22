@@ -4,6 +4,8 @@ import '../models/word.dart';
 
 Future<List<Word>> loadWords() async {
   final String response = await rootBundle.loadString('assets/data/words.json');
-  final data = await json.decode(response) as List;
-  return data.map((json) => Word.fromJson(json)).toList();
+  final List<dynamic> data = json.decode(response);
+  return data
+      .map((json) => Word.fromJson(json as Map<String, dynamic>))
+      .toList();
 }

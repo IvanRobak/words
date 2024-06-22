@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:words/screens/auth.dart';
 import 'package:words/screens/category.dart';
 import 'package:words/screens/folder_list.dart';
-import 'package:words/screens/word_list.dart';
+import 'package:words/screens/word_group.dart';
 import 'package:words/utils/show_settings.dart'; // Імпортуйте екран з категоріями
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -96,7 +96,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const WordListScreen(),
+                        builder: (context) => const WordGroupScreen(),
                       ),
                     );
                   },
