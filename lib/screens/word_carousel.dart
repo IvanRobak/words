@@ -44,6 +44,20 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
     super.dispose();
   }
 
+  void _jumpToGroup(int groupStart) {
+    _pageController
+        .animateToPage(
+      groupStart,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    )
+        .then((_) {
+      setState(() {
+        _currentPageIndex = groupStart;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,37 +89,46 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.arrow_left),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_currentPageIndex >= 50) {
+                      int targetIndex = (_currentPageIndex ~/ 50 - 1) * 50;
+                      _jumpToGroup(targetIndex);
+                    } else {}
+                  },
                 ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      const Text('0-50'), // Доданий текстовий віджет
-                      Center(
-                        child: SizedBox(
-                          height: 80,
-                          width: 220,
-                          child: GridView.builder(
-                            itemCount: 50,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 10,
-                              mainAxisSpacing: 2,
-                              crossAxisSpacing: 1,
-                              childAspectRatio: 1.6,
-                            ),
-                            itemBuilder: (context, index) {
-                              return buildDot(index, context);
-                            },
+                Column(
+                  children: [
+                    Text(
+                        '${(_currentPageIndex ~/ 50) * 50}-${((_currentPageIndex ~/ 50) + 1) * 50}'),
+                    Center(
+                      child: SizedBox(
+                        height: 80,
+                        width: 220,
+                        child: GridView.builder(
+                          itemCount: 50,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 10,
+                            mainAxisSpacing: 2,
+                            crossAxisSpacing: 1,
+                            childAspectRatio: 1.6,
                           ),
+                          itemBuilder: (context, index) {
+                            return buildDot(index, context);
+                          },
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 IconButton(
                   icon: const Icon(Icons.arrow_right),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_currentPageIndex < widget.words.length - 50) {
+                      int targetIndex = (_currentPageIndex ~/ 50 + 1) * 50;
+                      _jumpToGroup(targetIndex);
+                    } else {}
+                  },
                 ),
               ],
             ),
@@ -116,11 +139,12 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   }
 
   Widget buildDot(int index, BuildContext context) {
+    _currentPageIndex ~/ 50;
     return Container(
-      // height: 5,
-      // width: 5,
       decoration: BoxDecoration(
-        color: _currentPageIndex == index ? Colors.blue : Colors.grey,
+        color: index < 50
+            ? (_currentPageIndex % 50 == index ? Colors.blue : Colors.grey)
+            : Colors.grey,
         shape: BoxShape.circle,
       ),
     );

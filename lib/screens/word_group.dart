@@ -46,7 +46,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
           itemBuilder: (context, index) {
             final start = index * 50;
             final end = start + 50;
-            final wordSlice = words.length > start
+            words.length > start
                 ? words.sublist(start, end > words.length ? words.length : end)
                 : <Word>[];
 
@@ -56,8 +56,8 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => WordCarouselScreen(
-                      words: wordSlice,
-                      initialIndex: 0,
+                      words: words, // Передаємо всі слова
+                      initialIndex: start,
                     ),
                   ),
                 );
