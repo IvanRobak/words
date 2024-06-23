@@ -15,8 +15,13 @@ import 'package:words/widgets/word_details/image_section.dart';
 
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
+  final VoidCallback onKnowPressed;
 
-  const WordDetail({super.key, required this.word});
+  const WordDetail({
+    super.key,
+    required this.word,
+    required this.onKnowPressed, // Додано цей параметр
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -155,7 +160,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   }
 
   void _knowWord() {
-    // Додайте вашу логіку для обробки натискання кнопки "Знаю"
+    widget.onKnowPressed(); // Викликаємо зворотний виклик
   }
 
   @override

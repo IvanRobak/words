@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
 import 'package:words/widgets/word_details/word_detail.dart';
@@ -17,6 +19,7 @@ class WordCarouselScreen extends StatefulWidget {
 class _WordCarouselScreenState extends State<WordCarouselScreen> {
   late PageController _pageController;
   int _currentPageIndex = 0;
+  Set<int> knownWords = {}; // Додайте цей стан
 
   @override
   void initState() {
@@ -58,6 +61,18 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
     });
   }
 
+  void _markWordAsKnown(int wordIndex) {
+    setState(() {
+      knownWords.add(wordIndex);
+    });
+    if (_currentPageIndex < widget.words.length - 1) {
+      _pageController.nextPage(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +90,10 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
                 padding: const EdgeInsets.only(bottom: 70),
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.7,
-                  child: WordDetail(word: word),
+                  child: WordDetail(
+                    word: word,
+                    onKnowPressed: () => _markWordAsKnown(index),
+                  ),
                 ),
               );
             },
@@ -139,12 +157,12 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   }
 
   Widget buildDot(int index, BuildContext context) {
-    _currentPageIndex ~/ 50;
+    int wordIndex = (_currentPageIndex ~/ 50) * 50 + index;
     return Container(
       decoration: BoxDecoration(
-        color: index < 50
-            ? (_currentPageIndex % 50 == index ? Colors.blue : Colors.grey)
-            : Colors.grey,
+        color: knownWords.contains(wordIndex)
+            ? Colors.green
+            : (_currentPageIndex % 50 == index ? Colors.blue : Colors.grey),
         shape: BoxShape.circle,
       ),
     );
