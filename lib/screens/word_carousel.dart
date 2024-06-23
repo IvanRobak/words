@@ -70,23 +70,44 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
             bottom: 10,
             left: 0,
             right: 0,
-            child: Center(
-              child: SizedBox(
-                height: 80,
-                width: 220,
-                child: GridView.builder(
-                  itemCount: 50, // П'ять рядів по десять квадратів
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 10, // 10 квадратів в рядку
-                    mainAxisSpacing: 2, // Відстань між рядками
-                    crossAxisSpacing: 1, // Відстань між стовпцями
-                    childAspectRatio: 1.6, // Співвідношення сторін елементів
-                  ),
-                  itemBuilder: (context, index) {
-                    return buildDot(index, context);
-                  },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.arrow_left),
+                  onPressed: () {},
                 ),
-              ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      const Text('0-50'), // Доданий текстовий віджет
+                      Center(
+                        child: SizedBox(
+                          height: 80,
+                          width: 220,
+                          child: GridView.builder(
+                            itemCount: 50,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 10,
+                              mainAxisSpacing: 2,
+                              crossAxisSpacing: 1,
+                              childAspectRatio: 1.6,
+                            ),
+                            itemBuilder: (context, index) {
+                              return buildDot(index, context);
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.arrow_right),
+                  onPressed: () {},
+                ),
+              ],
             ),
           ),
         ],
