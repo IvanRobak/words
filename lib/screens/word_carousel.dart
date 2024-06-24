@@ -185,7 +185,9 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
     Color dotColor;
 
     if (knownWords.contains(wordIndex)) {
-      dotColor = Theme.of(context).colorScheme.primary;
+      dotColor = Theme.of(context).brightness == Brightness.dark
+          ? const Color.fromARGB(255, 89, 131, 148)
+          : Theme.of(context).colorScheme.primary;
     } else if (learnWords.contains(wordIndex)) {
       dotColor = Colors.purple;
     } else {

@@ -9,6 +9,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:words/services/translation_service.dart';
 import 'package:words/utils/text_utils.dart';
 import 'package:words/widgets/word_details/bottom_section.dart';
+import 'package:words/widgets/word_details/custom_buttons.dart';
 import 'package:words/widgets/word_details/example_section.dart';
 import 'package:words/widgets/word_details/icon_buttons.dart';
 import 'package:words/widgets/word_details/image_section.dart';
@@ -182,7 +183,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
 
     final exampleText = widget.word.example;
     final wordText = widget.word.word;
-    final exampleSpans = buildExampleSpans(exampleText, wordText);
+    final exampleSpans = buildExampleSpans(context, exampleText, wordText);
 
     if (selectedFolder != null &&
         selectedFolder != 'None' &&
@@ -267,54 +268,13 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: isLearn
-                                ? Colors.purple
-                                : Theme.of(context)
-                                        .elevatedButtonTheme
-                                        .style
-                                        ?.backgroundColor
-                                        ?.resolve({
-                                      MaterialState.pressed,
-                                      MaterialState.hovered,
-                                      MaterialState.focused
-                                    }) ??
-                                    Colors.white,
-                            foregroundColor: isLearn
-                                ? Colors.white
-                                : Theme.of(context)
-                                        .elevatedButtonTheme
-                                        .style
-                                        ?.foregroundColor
-                                        ?.resolve({
-                                      MaterialState.pressed,
-                                      MaterialState.hovered,
-                                      MaterialState.focused
-                                    }) ??
-                                    Colors.black,
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                          ),
+                        LearnButton(
+                          isLearn: isLearn,
                           onPressed: _learnWord,
-                          child: const Text('Learn'),
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: isKnown
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context)
-                                        .elevatedButtonTheme
-                                        .style
-                                        ?.backgroundColor
-                                        ?.resolve({}) ??
-                                    Colors.white,
-                            foregroundColor: isKnown
-                                ? Colors.white
-                                : Theme.of(context).colorScheme.primary,
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                          ),
+                        KnowButton(
+                          isKnown: isKnown,
                           onPressed: _knowWord,
-                          child: const Text('I know'),
                         ),
                       ],
                     ),
