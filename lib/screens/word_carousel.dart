@@ -66,24 +66,28 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
     setState(() {
       knownWords.add(wordIndex);
     });
-    if (_currentPageIndex < widget.words.length - 1) {
-      _pageController.nextPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
+    Future.delayed(Duration(milliseconds: 500), () {
+      if (_currentPageIndex < widget.words.length - 1) {
+        _pageController.nextPage(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   void _markWordAsLearn(int wordIndex) {
     setState(() {
       learnWords.add(wordIndex);
     });
-    if (_currentPageIndex < widget.words.length - 1) {
-      _pageController.nextPage(
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
+    Future.delayed(Duration(milliseconds: 500), () {
+      if (_currentPageIndex < widget.words.length - 1) {
+        _pageController.nextPage(
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
 
   @override
@@ -106,7 +110,7 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
                   child: WordDetail(
                     word: word,
                     onKnowPressed: () => _markWordAsKnown(index),
-                    onLearnressed: () => _markWordAsLearn(index),
+                    onLearnPressed: () => _markWordAsLearn(index),
                   ),
                 ),
               );

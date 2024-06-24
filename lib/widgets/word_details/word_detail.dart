@@ -16,13 +16,13 @@ import 'package:words/widgets/word_details/image_section.dart';
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
   final VoidCallback onKnowPressed;
-  final VoidCallback onLearnressed;
+  final VoidCallback onLearnPressed;
 
   const WordDetail(
       {super.key,
       required this.word,
       required this.onKnowPressed,
-      required this.onLearnressed // Додано цей параметр
+      required this.onLearnPressed // Додано цей параметр
       });
 
   @override
@@ -37,6 +37,8 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   bool isLoading = true;
   bool isFavorite = false;
   String? imageUrl;
+  bool isLearn = false;
+  bool isKnown = false;
 
   late TranslationService translationService;
   late FirebaseImageService firebaseImageService;
@@ -158,10 +160,18 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   }
 
   void _learnWord() {
-    widget.onLearnressed();
+    setState(() {
+      isLearn = true;
+      isKnown = false;
+    });
+    widget.onLearnPressed();
   }
 
   void _knowWord() {
+    setState(() {
+      isKnown = true;
+      isLearn = false;
+    });
     widget.onKnowPressed(); // Викликаємо зворотний виклик
   }
 
@@ -183,7 +193,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 50),
       child: Card(
-        color: Theme.of(context).colorScheme.primary,
+        color: Colors.grey,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -259,6 +269,11 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  isLearn ? Colors.purple : Colors.white,
+                              foregroundColor: isLearn
+                                  ? Colors.white
+                                  : Theme.of(context).colorScheme.primary,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30)),
                           onPressed: _learnWord,
@@ -266,6 +281,12 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
+                              backgroundColor: isKnown
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.white,
+                              foregroundColor: isKnown
+                                  ? Colors.white
+                                  : Theme.of(context).colorScheme.primary,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30)),
                           onPressed: _knowWord,
