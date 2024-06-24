@@ -31,7 +31,13 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        title: const Text('All words'),
+        title: Text('All words',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
+        iconTheme: IconThemeData(
+          color: Theme.of(context)
+              .colorScheme
+              .onSecondary, // Задаємо колір для значків
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

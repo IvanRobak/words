@@ -193,14 +193,14 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     return Padding(
       padding: const EdgeInsets.only(top: 20, bottom: 50),
       child: Card(
-        color: Colors.grey,
+        color: Theme.of(context).colorScheme.onSurface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 30,
+              vertical: 20,
               horizontal: 20,
             ),
             child: Stack(
@@ -211,9 +211,9 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                     Center(
                       child: Text(
                         widget.word.word,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 35,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 40,
                         ),
                       ),
                     ),
@@ -269,26 +269,50 @@ class _WordDetailState extends ConsumerState<WordDetail> {
                       children: [
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  isLearn ? Colors.purple : Colors.white,
-                              foregroundColor: isLearn
-                                  ? Colors.white
-                                  : Theme.of(context).colorScheme.primary,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30)),
+                            backgroundColor: isLearn
+                                ? Colors.purple
+                                : Theme.of(context)
+                                        .elevatedButtonTheme
+                                        .style
+                                        ?.backgroundColor
+                                        ?.resolve({
+                                      MaterialState.pressed,
+                                      MaterialState.hovered,
+                                      MaterialState.focused
+                                    }) ??
+                                    Colors.white,
+                            foregroundColor: isLearn
+                                ? Colors.white
+                                : Theme.of(context)
+                                        .elevatedButtonTheme
+                                        .style
+                                        ?.foregroundColor
+                                        ?.resolve({
+                                      MaterialState.pressed,
+                                      MaterialState.hovered,
+                                      MaterialState.focused
+                                    }) ??
+                                    Colors.black,
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                          ),
                           onPressed: _learnWord,
                           child: const Text('Learn'),
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: isKnown
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Colors.white,
-                              foregroundColor: isKnown
-                                  ? Colors.white
-                                  : Theme.of(context).colorScheme.primary,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30)),
+                            backgroundColor: isKnown
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                        .elevatedButtonTheme
+                                        .style
+                                        ?.backgroundColor
+                                        ?.resolve({}) ??
+                                    Colors.white,
+                            foregroundColor: isKnown
+                                ? Colors.white
+                                : Theme.of(context).colorScheme.primary,
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
+                          ),
                           onPressed: _knowWord,
                           child: const Text('I know'),
                         ),

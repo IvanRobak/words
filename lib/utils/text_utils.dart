@@ -8,12 +8,15 @@ List<TextSpan> buildExampleSpans(String exampleText, String wordText) {
   if (wordStartIndex == -1) {
     spans.add(TextSpan(
         text: exampleText,
-        style: const TextStyle(color: Colors.white, fontSize: 16)));
+        // ignore: prefer_const_constructors
+        style: TextStyle(
+            color: const Color.fromARGB(255, 51, 51, 51), fontSize: 16)));
   } else {
     if (wordStartIndex > 0) {
       spans.add(TextSpan(
           text: exampleText.substring(0, wordStartIndex),
-          style: const TextStyle(color: Colors.white, fontSize: 16)));
+          style: const TextStyle(
+              color: Color.fromARGB(255, 51, 51, 51), fontSize: 16)));
     }
     spans.add(TextSpan(
         text: exampleText.substring(
@@ -25,7 +28,8 @@ List<TextSpan> buildExampleSpans(String exampleText, String wordText) {
     if (wordStartIndex + wordText.length < exampleText.length) {
       spans.add(TextSpan(
           text: exampleText.substring(wordStartIndex + wordText.length),
-          style: const TextStyle(color: Colors.white, fontSize: 16)));
+          style: const TextStyle(
+              color: Color.fromARGB(255, 51, 51, 51), fontSize: 16)));
     }
   }
 

@@ -30,16 +30,16 @@ class BottomSection extends StatelessWidget {
             isTranslationVisible
                 ? (translation ?? 'Translation not available')
                 : 'ua',
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondary,
               fontSize: 16,
             ),
           ),
         ),
         DropdownButton<String>(
-          hint: const Text(
+          hint: Text(
             "Folder",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
           ),
           value: selectedFolder,
           items: [

@@ -23,7 +23,7 @@ class ExampleSection extends StatelessWidget {
           Container(
             height: 1,
             width: 200,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSecondary,
           ),
         ],
       ),

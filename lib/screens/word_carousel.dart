@@ -94,7 +94,13 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Word Carousel'),
+        title: Text('Word Carousel',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
+        iconTheme: IconThemeData(
+          color: Theme.of(context)
+              .colorScheme
+              .onSecondary, // Задаємо колір для значків
+        ),
       ),
       body: Stack(
         children: [

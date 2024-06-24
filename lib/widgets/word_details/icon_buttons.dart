@@ -25,8 +25,8 @@ class IconButtons extends StatelessWidget {
           child: Center(
             child: Text(
               '#$wordId', // Використання wordId для відображення номера
-              style: const TextStyle(
-                color: Color.fromARGB(150, 245, 244, 244),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
                 fontSize: 16,
               ),
             ),
@@ -40,9 +40,9 @@ class IconButtons extends StatelessWidget {
           onPressed: onFavoritePressed,
         ),
         IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.volume_up,
-            color: Color.fromARGB(150, 245, 244, 244),
+            color: Theme.of(context).colorScheme.onSecondary,
           ),
           onPressed: onSpeakPressed,
         ),
