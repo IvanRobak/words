@@ -19,7 +19,8 @@ class WordCarouselScreen extends StatefulWidget {
 class _WordCarouselScreenState extends State<WordCarouselScreen> {
   late PageController _pageController;
   int _currentPageIndex = 0;
-  Set<int> knownWords = {}; // Додайте цей стан
+  Set<int> knownWords = {};
+  Set<int> learnWords = {}; // Додайте цей стан
 
   @override
   void initState() {
@@ -73,6 +74,18 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
     }
   }
 
+  void _markWordAsLearn(int wordIndex) {
+    setState(() {
+      learnWords.add(wordIndex);
+    });
+    if (_currentPageIndex < widget.words.length - 1) {
+      _pageController.nextPage(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +106,7 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
                   child: WordDetail(
                     word: word,
                     onKnowPressed: () => _markWordAsKnown(index),
+                    onLearnressed: () => _markWordAsLearn(index),
                   ),
                 ),
               );
@@ -158,11 +172,19 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
 
   Widget buildDot(int index, BuildContext context) {
     int wordIndex = (_currentPageIndex ~/ 50) * 50 + index;
+    Color dotColor;
+
+    if (knownWords.contains(wordIndex)) {
+      dotColor = Theme.of(context).colorScheme.primary;
+    } else if (learnWords.contains(wordIndex)) {
+      dotColor = Colors.purple;
+    } else {
+      dotColor = _currentPageIndex % 50 == index ? Colors.green : Colors.grey;
+    }
+
     return Container(
       decoration: BoxDecoration(
-        color: knownWords.contains(wordIndex)
-            ? Colors.green
-            : (_currentPageIndex % 50 == index ? Colors.blue : Colors.grey),
+        color: dotColor,
         shape: BoxShape.circle,
       ),
     );
