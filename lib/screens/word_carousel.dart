@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/models/word.dart';
 import 'package:words/widgets/word_details/word_detail.dart';
 
@@ -40,6 +41,27 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
         });
       }
     });
+    _loadButtonStates(); // Завантаження стану кнопок
+  }
+
+  Future<void> _loadButtonStates() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      knownWords = (prefs.getStringList('knownWords') ?? [])
+          .map((id) => int.parse(id))
+          .toSet();
+      learnWords = (prefs.getStringList('learnWords') ?? [])
+          .map((id) => int.parse(id))
+          .toSet();
+    });
+  }
+
+  Future<void> _saveButtonState() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(
+        'knownWords', knownWords.map((id) => id.toString()).toList());
+    await prefs.setStringList(
+        'learnWords', learnWords.map((id) => id.toString()).toList());
   }
 
   @override
@@ -67,6 +89,7 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
       knownWords.add(wordIndex);
       learnWords.remove(wordIndex); // Видаляємо з learnWords
     });
+    _saveButtonState();
     Future.delayed(Duration(milliseconds: 500), () {
       if (_currentPageIndex < widget.words.length - 1) {
         _pageController.nextPage(
@@ -82,6 +105,7 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
       learnWords.add(wordIndex);
       knownWords.remove(wordIndex); // Видаляємо з knownWords
     });
+    _saveButtonState();
     Future.delayed(Duration(milliseconds: 500), () {
       if (_currentPageIndex < widget.words.length - 1) {
         _pageController.nextPage(
@@ -143,7 +167,9 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
                 Column(
                   children: [
                     Text(
-                        '${(_currentPageIndex ~/ 50) * 50}-${((_currentPageIndex ~/ 50) + 1) * 50}'),
+                        '${(_currentPageIndex ~/ 50) * 50}-${((_currentPageIndex ~/ 50) + 1) * 50}',
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary)),
                     Center(
                       child: SizedBox(
                         height: 80,
@@ -185,21 +211,32 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   Widget buildDot(int index, BuildContext context) {
     int wordIndex = (_currentPageIndex ~/ 50) * 50 + index;
     Color dotColor;
+    Border border;
 
     if (knownWords.contains(wordIndex)) {
       dotColor = Theme.of(context).brightness == Brightness.dark
           ? const Color.fromARGB(255, 89, 131, 148)
           : Theme.of(context).colorScheme.primary;
+      border = _currentPageIndex % 50 == index
+          ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 1)
+          : Border.all(color: Colors.transparent);
     } else if (learnWords.contains(wordIndex)) {
       dotColor = Colors.purple;
+      border = _currentPageIndex % 50 == index
+          ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 1)
+          : Border.all(color: Colors.transparent);
     } else {
-      dotColor = _currentPageIndex % 50 == index ? Colors.green : Colors.grey;
+      dotColor = Colors.grey;
+      border = _currentPageIndex % 50 == index
+          ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 1)
+          : Border.all(color: Colors.transparent);
     }
 
     return Container(
       decoration: BoxDecoration(
         color: dotColor,
         shape: BoxShape.circle,
+        border: border,
       ),
     );
   }
