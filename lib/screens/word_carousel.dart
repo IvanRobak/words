@@ -65,6 +65,7 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   void _markWordAsKnown(int wordIndex) {
     setState(() {
       knownWords.add(wordIndex);
+      learnWords.remove(wordIndex); // Видаляємо з learnWords
     });
     Future.delayed(Duration(milliseconds: 500), () {
       if (_currentPageIndex < widget.words.length - 1) {
@@ -79,6 +80,7 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   void _markWordAsLearn(int wordIndex) {
     setState(() {
       learnWords.add(wordIndex);
+      knownWords.remove(wordIndex); // Видаляємо з knownWords
     });
     Future.delayed(Duration(milliseconds: 500), () {
       if (_currentPageIndex < widget.words.length - 1) {

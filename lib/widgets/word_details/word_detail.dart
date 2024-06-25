@@ -41,6 +41,9 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   bool isLearn = false;
   bool isKnown = false;
 
+  List<int> learnWords = []; // Список слів, що в процесі вивчення
+  List<int> knownWords = []; // Список вивчених слів
+
   late TranslationService translationService;
   late FirebaseImageService firebaseImageService;
   final FlutterTts _flutterTts = FlutterTts(); // Initialize the TTS
@@ -59,6 +62,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     _translateWord();
     _fetchImage();
     _initTts();
+    _loadButtonStates(); // Завантаження стану кнопок
   }
 
   Future<void> _initTts() async {
@@ -112,11 +116,23 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     }
   }
 
-  @override
-  void dispose() {
-    _textController.dispose();
-    _flutterTts.stop(); // Stop the TTS
-    super.dispose();
+  Future<void> _loadButtonStates() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isLearn = prefs.getBool('isLearn_${widget.word.id}') ?? false;
+      isKnown = prefs.getBool('isKnown_${widget.word.id}') ?? false;
+      if (isLearn) {
+        learnWords.add(widget.word.id);
+      }
+      if (isKnown) {
+        knownWords.add(widget.word.id);
+      }
+    });
+  }
+
+  Future<void> _saveButtonState(String key, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, value);
   }
 
   void _toggleTranslation() {
@@ -164,7 +180,11 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     setState(() {
       isLearn = true;
       isKnown = false;
+      learnWords.add(widget.word.id); // Додаємо слово до списку learnWords
+      knownWords.remove(widget.word.id); // Видаляємо слово зі списку knownWords
     });
+    _saveButtonState('isLearn_${widget.word.id}', true);
+    _saveButtonState('isKnown_${widget.word.id}', false);
     widget.onLearnPressed();
   }
 
@@ -172,8 +192,19 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     setState(() {
       isKnown = true;
       isLearn = false;
+      knownWords.add(widget.word.id); // Додаємо слово до списку knownWords
+      learnWords.remove(widget.word.id); // Видаляємо слово зі списку learnWords
     });
-    widget.onKnowPressed(); // Викликаємо зворотний виклик
+    _saveButtonState('isKnown_${widget.word.id}', true);
+    _saveButtonState('isLearn_${widget.word.id}', false);
+    widget.onKnowPressed();
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    _flutterTts.stop(); // Stop the TTS
+    super.dispose();
   }
 
   @override
