@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
+import 'package:words/providers/button_provider.dart';
 import 'package:words/widgets/dot_builder.dart';
 import 'package:words/widgets/word_details/word_detail.dart';
 
-class WordCarouselScreen extends StatefulWidget {
+class WordCarouselScreen extends ConsumerStatefulWidget {
   final List<Word> words;
   final int initialIndex;
 
@@ -18,40 +19,44 @@ class WordCarouselScreen extends StatefulWidget {
   _WordCarouselScreenState createState() => _WordCarouselScreenState();
 }
 
-class _WordCarouselScreenState extends State<WordCarouselScreen> {
+class _WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
   PageController? _pageController;
   int _currentPageIndex = 0;
-  Set<int> knownWords = {};
-  Set<int> learnWords = {};
   bool isLoading = true; // Додаємо цей стан
 
   @override
   void initState() {
     super.initState();
-    _loadButtonStates().then((_) {
-      int firstUnselectedIndex = _findFirstUnselectedIndex();
-      _pageController = PageController(
-        initialPage: firstUnselectedIndex,
-        viewportFraction: 0.95,
-      );
+    _initializePageController();
+  }
 
-      setState(() {
-        _currentPageIndex = firstUnselectedIndex;
-        isLoading = false; // Завантаження завершено
-      });
+  Future<void> _initializePageController() async {
+    await ref.read(knownWordsProvider.notifier).loadKnownWords();
+    await ref.read(learnWordsProvider.notifier).loadLearnWords();
+    int firstUnselectedIndex = _findFirstUnselectedIndex();
+    _pageController = PageController(
+      initialPage: firstUnselectedIndex,
+      viewportFraction: 0.95,
+    );
 
-      _pageController!.addListener(() {
-        final nextPage = _pageController!.page?.round();
-        if (nextPage != null && nextPage != _currentPageIndex) {
-          setState(() {
-            _currentPageIndex = nextPage;
-          });
-        }
-      });
+    setState(() {
+      _currentPageIndex = firstUnselectedIndex;
+      isLoading = false; // Завантаження завершено
+    });
+
+    _pageController!.addListener(() {
+      final nextPage = _pageController!.page?.round();
+      if (nextPage != null && nextPage != _currentPageIndex) {
+        setState(() {
+          _currentPageIndex = nextPage;
+        });
+      }
     });
   }
 
   int _findFirstUnselectedIndex() {
+    final knownWords = ref.read(knownWordsProvider);
+    final learnWords = ref.read(learnWordsProvider);
     for (int i = 0; i < widget.words.length; i++) {
       if (!knownWords.contains(i) && !learnWords.contains(i)) {
         return i;
@@ -61,38 +66,14 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   }
 
   int _findFirstUnselectedInRange(int start, int end) {
+    final knownWords = ref.read(knownWordsProvider);
+    final learnWords = ref.read(learnWordsProvider);
     for (int i = start; i < end; i++) {
       if (!knownWords.contains(i) && !learnWords.contains(i)) {
         return i;
       }
     }
     return start; // Якщо всі слова обрані, повертаємо початок діапазону
-  }
-
-  Future<void> _loadButtonStates() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      knownWords = (prefs.getStringList('knownWords') ?? [])
-          .map((id) => int.parse(id))
-          .toSet();
-      learnWords = (prefs.getStringList('learnWords') ?? [])
-          .map((id) => int.parse(id))
-          .toSet();
-    });
-  }
-
-  Future<void> _saveButtonState() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(
-        'knownWords', knownWords.map((id) => id.toString()).toList());
-    await prefs.setStringList(
-        'learnWords', learnWords.map((id) => id.toString()).toList());
-  }
-
-  @override
-  void dispose() {
-    _pageController?.dispose();
-    super.dispose();
   }
 
   void _jumpToGroup(int groupStart) {
@@ -114,11 +95,8 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   }
 
   void _markWordAsKnown(int wordIndex) {
-    setState(() {
-      knownWords.add(wordIndex);
-      learnWords.remove(wordIndex); // Видаляємо з learnWords
-    });
-    _saveButtonState();
+    ref.read(knownWordsProvider.notifier).add(wordIndex);
+    ref.read(learnWordsProvider.notifier).remove(wordIndex);
     Future.delayed(Duration(milliseconds: 500), () {
       if (_pageController != null &&
           _currentPageIndex < widget.words.length - 1) {
@@ -131,11 +109,8 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
   }
 
   void _markWordAsLearn(int wordIndex) {
-    setState(() {
-      learnWords.add(wordIndex);
-      knownWords.remove(wordIndex); // Видаляємо з knownWords
-    });
-    _saveButtonState();
+    ref.read(learnWordsProvider.notifier).add(wordIndex);
+    ref.read(knownWordsProvider.notifier).remove(wordIndex);
     Future.delayed(Duration(milliseconds: 500), () {
       if (_pageController != null &&
           _currentPageIndex < widget.words.length - 1) {
@@ -145,6 +120,12 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
         );
       } else {}
     });
+  }
+
+  @override
+  void dispose() {
+    _pageController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -232,8 +213,12 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
                             childAspectRatio: 1.6,
                           ),
                           itemBuilder: (context, index) {
-                            return buildDot(index, _currentPageIndex,
-                                knownWords, learnWords, context);
+                            return buildDot(
+                                index,
+                                _currentPageIndex,
+                                ref.watch(knownWordsProvider),
+                                ref.watch(learnWordsProvider),
+                                context);
                           },
                         ),
                       ),
