@@ -37,6 +37,39 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await prefs.setBool('soundEnabled', value);
   }
 
+  Future<void> _clearSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+
+    final BuildContext currentContext = context;
+
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop(); // Закрити діалогове вікно
+
+    showDialog(
+      // ignore: use_build_context_synchronously
+      context: currentContext,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(
+            'Data Cleared',
+            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          ),
+          content: Text('Shared preferences cleared',
+              style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -148,6 +181,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text('Clear Data'),
+              onTap: _clearSharedPreferences,
             ),
           ],
         ),

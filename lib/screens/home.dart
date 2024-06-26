@@ -44,10 +44,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             icon: Icon(Icons.menu,
                 color: Theme.of(context).colorScheme.onSecondary),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const SettingsScreen()),
-              // );
               showSettingsScreen(context);
             },
           ),
