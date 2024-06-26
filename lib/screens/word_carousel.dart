@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/models/word.dart';
+import 'package:words/widgets/dot_builder.dart';
 import 'package:words/widgets/word_details/word_detail.dart';
 
 class WordCarouselScreen extends StatefulWidget {
@@ -18,30 +19,54 @@ class WordCarouselScreen extends StatefulWidget {
 }
 
 class _WordCarouselScreenState extends State<WordCarouselScreen> {
-  late PageController _pageController;
+  PageController? _pageController;
   int _currentPageIndex = 0;
   Set<int> knownWords = {};
-  Set<int> learnWords = {}; // Додайте цей стан
+  Set<int> learnWords = {};
+  bool isLoading = true; // Додаємо цей стан
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(
-      initialPage: widget.initialIndex,
-      viewportFraction: 0.95,
-    );
+    _loadButtonStates().then((_) {
+      int firstUnselectedIndex = _findFirstUnselectedIndex();
+      _pageController = PageController(
+        initialPage: firstUnselectedIndex,
+        viewportFraction: 0.95,
+      );
 
-    _currentPageIndex = widget.initialIndex;
+      setState(() {
+        _currentPageIndex = firstUnselectedIndex;
+        isLoading = false; // Завантаження завершено
+      });
 
-    _pageController.addListener(() {
-      final nextPage = _pageController.page?.round();
-      if (nextPage != null && nextPage != _currentPageIndex) {
-        setState(() {
-          _currentPageIndex = nextPage;
-        });
-      }
+      _pageController!.addListener(() {
+        final nextPage = _pageController!.page?.round();
+        if (nextPage != null && nextPage != _currentPageIndex) {
+          setState(() {
+            _currentPageIndex = nextPage;
+          });
+        }
+      });
     });
-    _loadButtonStates(); // Завантаження стану кнопок
+  }
+
+  int _findFirstUnselectedIndex() {
+    for (int i = 0; i < widget.words.length; i++) {
+      if (!knownWords.contains(i) && !learnWords.contains(i)) {
+        return i;
+      }
+    }
+    return 0; // Якщо всі слова обрані, повертаємо 0
+  }
+
+  int _findFirstUnselectedInRange(int start, int end) {
+    for (int i = start; i < end; i++) {
+      if (!knownWords.contains(i) && !learnWords.contains(i)) {
+        return i;
+      }
+    }
+    return start; // Якщо всі слова обрані, повертаємо початок діапазону
   }
 
   Future<void> _loadButtonStates() async {
@@ -66,22 +91,26 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _pageController?.dispose();
     super.dispose();
   }
 
   void _jumpToGroup(int groupStart) {
-    _pageController
-        .animateToPage(
-      groupStart,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    )
-        .then((_) {
-      setState(() {
-        _currentPageIndex = groupStart;
+    int groupEnd = groupStart + 50;
+    int targetIndex = _findFirstUnselectedInRange(groupStart, groupEnd);
+    if (_pageController != null) {
+      _pageController!
+          .animateToPage(
+        targetIndex,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      )
+          .then((_) {
+        setState(() {
+          _currentPageIndex = targetIndex;
+        });
       });
-    });
+    } else {}
   }
 
   void _markWordAsKnown(int wordIndex) {
@@ -91,12 +120,13 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
     });
     _saveButtonState();
     Future.delayed(Duration(milliseconds: 500), () {
-      if (_currentPageIndex < widget.words.length - 1) {
-        _pageController.nextPage(
+      if (_pageController != null &&
+          _currentPageIndex < widget.words.length - 1) {
+        _pageController!.nextPage(
           duration: Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
-      }
+      } else {}
     });
   }
 
@@ -107,17 +137,35 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
     });
     _saveButtonState();
     Future.delayed(Duration(milliseconds: 500), () {
-      if (_currentPageIndex < widget.words.length - 1) {
-        _pageController.nextPage(
+      if (_pageController != null &&
+          _currentPageIndex < widget.words.length - 1) {
+        _pageController!.nextPage(
           duration: Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
-      }
+      } else {}
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // Якщо стан завантажується, показуємо індикатор завантаження
+    if (isLoading) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Word Carousel',
+              style:
+                  TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
+          iconTheme: IconThemeData(
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
+        ),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Word Carousel',
@@ -158,7 +206,7 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
                 IconButton(
                   icon: const Icon(Icons.arrow_left),
                   onPressed: () {
-                    if (_currentPageIndex >= 50) {
+                    if (_pageController != null && _currentPageIndex >= 50) {
                       int targetIndex = (_currentPageIndex ~/ 50 - 1) * 50;
                       _jumpToGroup(targetIndex);
                     } else {}
@@ -184,7 +232,8 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
                             childAspectRatio: 1.6,
                           ),
                           itemBuilder: (context, index) {
-                            return buildDot(index, context);
+                            return buildDot(index, _currentPageIndex,
+                                knownWords, learnWords, context);
                           },
                         ),
                       ),
@@ -194,7 +243,8 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
                 IconButton(
                   icon: const Icon(Icons.arrow_right),
                   onPressed: () {
-                    if (_currentPageIndex < widget.words.length - 50) {
+                    if (_pageController != null &&
+                        _currentPageIndex < widget.words.length - 1) {
                       int targetIndex = (_currentPageIndex ~/ 50 + 1) * 50;
                       _jumpToGroup(targetIndex);
                     } else {}
@@ -204,39 +254,6 @@ class _WordCarouselScreenState extends State<WordCarouselScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget buildDot(int index, BuildContext context) {
-    int wordIndex = (_currentPageIndex ~/ 50) * 50 + index;
-    Color dotColor;
-    Border border;
-
-    if (knownWords.contains(wordIndex)) {
-      dotColor = Theme.of(context).brightness == Brightness.dark
-          ? const Color.fromARGB(255, 89, 131, 148)
-          : Theme.of(context).colorScheme.primary;
-      border = _currentPageIndex % 50 == index
-          ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 1)
-          : Border.all(color: Colors.transparent);
-    } else if (learnWords.contains(wordIndex)) {
-      dotColor = Colors.purple;
-      border = _currentPageIndex % 50 == index
-          ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 1)
-          : Border.all(color: Colors.transparent);
-    } else {
-      dotColor = Colors.grey;
-      border = _currentPageIndex % 50 == index
-          ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 1)
-          : Border.all(color: Colors.transparent);
-    }
-
-    return Container(
-      decoration: BoxDecoration(
-        color: dotColor,
-        shape: BoxShape.circle,
-        border: border,
       ),
     );
   }
