@@ -65,6 +65,9 @@ class BottomSection extends StatelessWidget {
                             ? '${folder.name.substring(0, 12)}...'
                             : folder.name,
                         overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                        ),
                       ),
                     ),
                   ],
@@ -73,8 +76,8 @@ class BottomSection extends StatelessWidget {
             ),
           ],
           onChanged: onFolderChanged,
-          dropdownColor: Theme.of(context).colorScheme.onSurface,
-          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          dropdownColor: Theme.of(context).colorScheme.surface,
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         ),
       ],
     );

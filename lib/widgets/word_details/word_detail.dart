@@ -162,8 +162,12 @@ class _WordDetailState extends ConsumerState<WordDetail> {
 
   void _showNoFoldersMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('No folders available. Create a folder first.'),
+      SnackBar(
+        content: Text(
+          'No folders available. Create a folder first.',
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
       ),
     );
   }
