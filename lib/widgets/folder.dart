@@ -111,7 +111,11 @@ class _FolderWidgetState extends State<FolderWidget> {
             children: [
               ListTile(
                 leading: const Icon(Icons.edit),
-                title: const Text('Перейменувати'),
+                title: Text(
+                  'Перейменувати',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSecondary),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   _showRenameFolderDialog();
@@ -119,7 +123,11 @@ class _FolderWidgetState extends State<FolderWidget> {
               ),
               ListTile(
                 leading: const Icon(Icons.color_lens),
-                title: const Text('Змінити колір'),
+                title: Text(
+                  'Змінити колір',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSecondary),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   _showColorPickerDialog();
@@ -127,7 +135,11 @@ class _FolderWidgetState extends State<FolderWidget> {
               ),
               ListTile(
                 leading: const Icon(Icons.delete),
-                title: const Text('Видалити'),
+                title: Text(
+                  'Видалити',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSecondary),
+                ),
                 onTap: () {
                   Navigator.pop(context);
                   widget.onDelete();

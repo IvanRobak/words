@@ -13,8 +13,15 @@ class FolderListScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        title: const Text('Your Folders'),
+        title: Text(
+          'Your Folders',
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+        ),
+        iconTheme: IconThemeData(
+          color: Theme.of(context)
+              .colorScheme
+              .onSecondary, // Задаємо колір для значків
+        ),
       ),
       body: folderNotifier.folders.isEmpty
           ? const Center(
@@ -72,7 +79,10 @@ class FolderListScreen extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Add New Folder'),
+          title: Text(
+            'Add New Folder',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

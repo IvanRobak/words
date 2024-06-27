@@ -42,7 +42,10 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        title: const Text('Favorite Words'),
+        title: Text(
+          'Favorite Words',
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),

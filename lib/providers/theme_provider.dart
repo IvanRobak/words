@@ -56,6 +56,10 @@ class ThemeNotifier extends ChangeNotifier {
         onSecondary: _textColor,
         onSurface: _cardColorLight, // Додаємо колір картки
       ),
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(color: _textColor),
+        bodyMedium: TextStyle(color: _textColor),
+      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -91,6 +95,10 @@ class ThemeNotifier extends ChangeNotifier {
         surface: const Color(0xFF1E1E1E),
         onSecondary: _textColorDark,
         onSurface: _cardColorDark, // Додаємо колір картки
+      ),
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(color: _textColorDark),
+        bodyMedium: TextStyle(color: _textColorDark),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
@@ -134,6 +142,10 @@ final themeNotifierProvider = ChangeNotifierProvider<ThemeNotifier>((ref) {
         surface: const Color.fromARGB(255, 233, 225, 219),
         onSecondary: ThemeNotifier._textColor,
         onSurface: ThemeNotifier._cardColorLight, // Використовуємо змінну
+      ),
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(color: ThemeNotifier._textColor),
+        bodyMedium: TextStyle(color: ThemeNotifier._textColor),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(

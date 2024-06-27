@@ -36,7 +36,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search'),
+        title: Text(
+          'Search',
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+        ),
+        iconTheme: IconThemeData(
+          color: Theme.of(context)
+              .colorScheme
+              .onSecondary, // Задаємо колір для значків
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

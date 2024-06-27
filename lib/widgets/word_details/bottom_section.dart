@@ -73,8 +73,8 @@ class BottomSection extends StatelessWidget {
             ),
           ],
           onChanged: onFolderChanged,
-          dropdownColor: Theme.of(context).colorScheme.primary,
-          style: const TextStyle(color: Colors.white),
+          dropdownColor: Theme.of(context).colorScheme.onSurface,
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
         ),
       ],
     );
