@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
-import 'package:words/widgets/word_button.dart';
+import 'package:words/providers/button_provider.dart';
+import 'package:words/screens/word_carousel.dart';
+import 'package:words/widgets/custom_button.dart';
 import 'package:words/widgets/filter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WordListView extends StatelessWidget {
+class WordListView extends ConsumerWidget {
   final List<Word> words;
   final int columns;
   final List<int> columnOptions;
@@ -22,7 +25,10 @@ class WordListView extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final knownWords = ref.watch(knownWordsProvider);
+    final learnWords = ref.watch(learnWordsProvider);
+
     return Column(
       children: [
         FilterBar(
@@ -43,11 +49,23 @@ class WordListView extends StatelessWidget {
             itemCount: words.length,
             itemBuilder: (context, index) {
               final word = words[index];
-              return WordButton(
-                word: word,
-                columns: columns,
-                words: words,
-                index: index,
+              return CustomButton(
+                label: word.word,
+                isKnown: knownWords.contains(word.id),
+                isLearned: learnWords.contains(word.id),
+                onPressed: () {
+                  // Навігація до WordCarouselScreen з відповідним індексом
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WordCarouselScreen(
+                        words: words,
+                        initialIndex: index,
+                        searchForUnselectedIndex: false, // Передаємо параметр
+                      ),
+                    ),
+                  );
+                },
               );
             },
           ),

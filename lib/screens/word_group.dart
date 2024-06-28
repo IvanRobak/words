@@ -57,6 +57,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                     builder: (context) => WordCarouselScreen(
                       words: words,
                       initialIndex: start,
+                      searchForUnselectedIndex: true, // Передаємо параметр
                     ),
                   ),
                 );
@@ -97,8 +98,6 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                           ),
                           itemBuilder: (context, dotIndex) {
                             return SizedBox(
-                              // width: 10, // Збільшуємо розмір кружечків
-                              // height: 10,
                               child: buildDot(
                                 dotIndex,
                                 start,

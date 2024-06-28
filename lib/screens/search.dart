@@ -8,13 +8,12 @@ class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SearchScreenState createState() => _SearchScreenState();
+  SearchScreenState createState() => SearchScreenState();
 }
 
-class _SearchScreenState extends ConsumerState<SearchScreen> {
+class SearchScreenState extends ConsumerState<SearchScreen> {
   TextEditingController searchController = TextEditingController();
-  int columns = 2; // Поточна кількість стовпців
+  int columns = 3; // Поточна кількість стовпців
   final List<int> columnOptions = [2, 3]; // Можливі варіанти
 
   @override
@@ -41,9 +40,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         ),
         iconTheme: IconThemeData(
-          color: Theme.of(context)
-              .colorScheme
-              .onSecondary, // Задаємо колір для значків
+          color: Theme.of(context).colorScheme.onSecondary,
         ),
       ),
       body: Padding(

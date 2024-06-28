@@ -10,11 +10,13 @@ import 'package:words/widgets/word_details/word_detail.dart';
 class WordCarouselScreen extends ConsumerStatefulWidget {
   final List<Word> words;
   final int initialIndex;
+  final bool searchForUnselectedIndex;
 
   const WordCarouselScreen({
     super.key,
     required this.words,
     required this.initialIndex,
+    this.searchForUnselectedIndex = false,
   });
 
   @override
@@ -37,14 +39,18 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
       ref.read(knownWordsProvider.notifier).loadKnownWords(),
       ref.read(learnWordsProvider.notifier).loadLearnWords(),
     ]);
-    int firstUnselectedIndex = _findFirstUnselectedIndex();
+
+    int initialPage = widget.searchForUnselectedIndex
+        ? _findFirstUnselectedIndex()
+        : widget.initialIndex;
+
     _pageController = PageController(
-      initialPage: firstUnselectedIndex,
+      initialPage: initialPage,
       viewportFraction: 0.95,
     );
 
     setState(() {
-      _currentPageIndex = firstUnselectedIndex;
+      _currentPageIndex = initialPage;
       isLoading = false;
     });
 
