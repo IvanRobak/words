@@ -33,8 +33,10 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
   }
 
   Future<void> _initializePageController() async {
-    await ref.read(knownWordsProvider.notifier).loadKnownWords();
-    await ref.read(learnWordsProvider.notifier).loadLearnWords();
+    await Future.wait([
+      ref.read(knownWordsProvider.notifier).loadKnownWords(),
+      ref.read(learnWordsProvider.notifier).loadLearnWords(),
+    ]);
     int firstUnselectedIndex = _findFirstUnselectedIndex();
     _pageController = PageController(
       initialPage: firstUnselectedIndex,
@@ -67,23 +69,14 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
     return 0;
   }
 
-  void _markWordAsKnown(int wordIndex) {
-    ref.read(knownWordsProvider.notifier).add(wordIndex);
-    ref.read(learnWordsProvider.notifier).remove(wordIndex);
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (_pageController != null &&
-          _currentPageIndex < widget.words.length - 1) {
-        _pageController!.nextPage(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
-  }
-
-  void _markWordAsLearn(int wordIndex) {
-    ref.read(learnWordsProvider.notifier).add(wordIndex);
-    ref.read(knownWordsProvider.notifier).remove(wordIndex);
+  void _markWord(int wordIndex, bool isKnown) {
+    if (isKnown) {
+      ref.read(knownWordsProvider.notifier).add(wordIndex);
+      ref.read(learnWordsProvider.notifier).remove(wordIndex);
+    } else {
+      ref.read(learnWordsProvider.notifier).add(wordIndex);
+      ref.read(knownWordsProvider.notifier).remove(wordIndex);
+    }
     Future.delayed(const Duration(milliseconds: 500), () {
       if (_pageController != null &&
           _currentPageIndex < widget.words.length - 1) {
@@ -140,8 +133,8 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
                   height: MediaQuery.of(context).size.height * 0.7,
                   child: WordDetail(
                     word: word,
-                    onKnowPressed: () => _markWordAsKnown(index),
-                    onLearnPressed: () => _markWordAsLearn(index),
+                    onKnowPressed: () => _markWord(index, true),
+                    onLearnPressed: () => _markWord(index, false),
                   ),
                 ),
               );
