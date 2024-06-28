@@ -61,7 +61,7 @@ class WordListView extends ConsumerWidget {
                       builder: (context) => WordCarouselScreen(
                         words: words,
                         initialIndex: index,
-                        searchForUnselectedIndex: false, // Передаємо параметр
+                        // searchForUnselectedIndex: false, // Передаємо параметр
                       ),
                     ),
                   );

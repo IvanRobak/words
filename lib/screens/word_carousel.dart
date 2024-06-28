@@ -1,22 +1,19 @@
-// main_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/widgets/carousel_footer.dart';
 import 'package:words/widgets/word_details/word_detail.dart';
+import 'package:words/widgets/word_button_list.dart';
 
 class WordCarouselScreen extends ConsumerStatefulWidget {
   final List<Word> words;
   final int initialIndex;
-  final bool searchForUnselectedIndex;
 
   const WordCarouselScreen({
     super.key,
     required this.words,
     required this.initialIndex,
-    this.searchForUnselectedIndex = false,
   });
 
   @override
@@ -27,6 +24,7 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
   PageController? _pageController;
   int _currentPageIndex = 0;
   bool isLoading = true;
+  bool isGridMode = false; // Додаємо стан для перемикання режиму
 
   @override
   void initState() {
@@ -40,17 +38,13 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
       ref.read(learnWordsProvider.notifier).loadLearnWords(),
     ]);
 
-    int initialPage = widget.searchForUnselectedIndex
-        ? _findFirstUnselectedIndex()
-        : widget.initialIndex;
-
     _pageController = PageController(
-      initialPage: initialPage,
+      initialPage: widget.initialIndex,
       viewportFraction: 0.95,
     );
 
     setState(() {
-      _currentPageIndex = initialPage;
+      _currentPageIndex = widget.initialIndex;
       isLoading = false;
     });
 
@@ -64,15 +58,10 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
     });
   }
 
-  int _findFirstUnselectedIndex() {
-    final knownWords = ref.read(knownWordsProvider);
-    final learnWords = ref.read(learnWordsProvider);
-    for (int i = 0; i < widget.words.length; i++) {
-      if (!knownWords.contains(i) && !learnWords.contains(i)) {
-        return i;
-      }
-    }
-    return 0;
+  void _toggleViewMode() {
+    setState(() {
+      isGridMode = !isGridMode;
+    });
   }
 
   void _markWord(int wordIndex, bool isKnown) {
@@ -125,33 +114,46 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
         iconTheme: IconThemeData(
           color: Theme.of(context).colorScheme.onSecondary,
         ),
+        actions: [
+          IconButton(
+            icon: Icon(isGridMode ? Icons.view_carousel : Icons.grid_view),
+            onPressed: _toggleViewMode,
+          ),
+        ],
       ),
       body: Stack(
         children: [
-          PageView.builder(
-            controller: _pageController,
-            itemCount: widget.words.length,
-            itemBuilder: (context, index) {
-              final word = widget.words[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 70),
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  child: WordDetail(
-                    word: word,
-                    onKnowPressed: () => _markWord(index, true),
-                    onLearnPressed: () => _markWord(index, false),
+          if (!isGridMode)
+            PageView.builder(
+              controller: _pageController,
+              itemCount: widget.words.length,
+              itemBuilder: (context, index) {
+                final word = widget.words[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 70),
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: WordDetail(
+                      word: word,
+                      onKnowPressed: () => _markWord(index, true),
+                      onLearnPressed: () => _markWord(index, false),
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-          CarouselFooter(
-            currentPageIndex: _currentPageIndex,
-            totalWords: widget.words.length,
-            pageController: _pageController!,
-            ref: ref,
-          ),
+                );
+              },
+            )
+          else
+            WordButtonList(
+              words: widget.words,
+              columns: 4,
+            ),
+          if (!isGridMode)
+            CarouselFooter(
+              currentPageIndex: _currentPageIndex,
+              totalWords: widget.words.length,
+              pageController: _pageController!,
+              ref: ref,
+            ),
         ],
       ),
     );
