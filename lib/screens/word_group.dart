@@ -1,5 +1,8 @@
+// word_group_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/providers/word_provider.dart';
 import 'package:words/screens/word_carousel.dart';
@@ -25,6 +28,18 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
     ref.read(wordFilterProvider.notifier).setWords(words);
   }
 
+  int _findFirstUnselectedIndex(List<Word> words) {
+    final knownWords = ref.read(knownWordsProvider);
+    final learnWords = ref.read(learnWordsProvider);
+    for (int i = 0; i < words.length; i++) {
+      if (!knownWords.contains(words[i].id) &&
+          !learnWords.contains(words[i].id)) {
+        return i;
+      }
+    }
+    return 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     final words = ref.watch(wordFilterProvider);
@@ -47,17 +62,20 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
           itemBuilder: (context, index) {
             final start = index * 50;
             final end = start + 50;
-            words.sublist(start, end > words.length ? words.length : end);
+            final wordSubset =
+                words.sublist(start, end > words.length ? words.length : end);
+            final firstUnselectedIndex = _findFirstUnselectedIndex(wordSubset);
 
             return GestureDetector(
               onTap: () {
+                final initialIndex = start + firstUnselectedIndex;
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => WordCarouselScreen(
                       words: words,
-                      initialIndex: start,
-                      searchForUnselectedIndex: true, // Передаємо параметр
+                      initialIndex:
+                          initialIndex, // Передаємо правильний параметр
                     ),
                   ),
                 );
@@ -98,7 +116,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                           ),
                           itemBuilder: (context, dotIndex) {
                             return SizedBox(
-                              child: buildDot(
+                              child: buildDotWithoutHighlight(
                                 dotIndex,
                                 start,
                                 knownWords,

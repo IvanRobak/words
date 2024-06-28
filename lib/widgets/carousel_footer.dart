@@ -16,8 +16,8 @@ class CarouselFooter extends StatelessWidget {
     required this.totalWords,
     required this.pageController,
     required this.ref,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   void _jumpToGroup(int groupStart) {
     int groupEnd = groupStart + 50;
