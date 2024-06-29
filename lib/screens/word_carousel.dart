@@ -143,17 +143,20 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
               },
             )
           else
-            WordButtonList(
-              words: widget.words,
-              columns: 4,
+            Padding(
+              padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+              child: WordButtonList(
+                words: widget.words.sublist(0, 50), // Відображаємо лише 50
+                columns: 3,
+              ),
             ),
-          if (!isGridMode)
-            CarouselFooter(
-              currentPageIndex: _currentPageIndex,
-              totalWords: widget.words.length,
-              pageController: _pageController!,
-              ref: ref,
-            ),
+          // if (!isGridMode)
+          CarouselFooter(
+            currentPageIndex: _currentPageIndex,
+            totalWords: widget.words.length,
+            pageController: _pageController!,
+            ref: ref,
+          ),
         ],
       ),
     );

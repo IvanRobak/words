@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/favorite_provider.dart';
 import 'package:words/providers/folder_provider.dart';
+import 'package:words/providers/button_provider.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:words/services/translation_service.dart';
@@ -190,6 +191,12 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     _saveButtonState('isLearn_${widget.word.id}', true);
     _saveButtonState('isKnown_${widget.word.id}', false);
     widget.onLearnPressed();
+    ref
+        .read(learnWordsProvider.notifier)
+        .add(widget.word.id); // Оновлюємо провайдер
+    ref
+        .read(knownWordsProvider.notifier)
+        .remove(widget.word.id); // Оновлюємо провайдер
   }
 
   void _knowWord() {
@@ -202,6 +209,12 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     _saveButtonState('isKnown_${widget.word.id}', true);
     _saveButtonState('isLearn_${widget.word.id}', false);
     widget.onKnowPressed();
+    ref
+        .read(knownWordsProvider.notifier)
+        .add(widget.word.id); // Оновлюємо провайдер
+    ref
+        .read(learnWordsProvider.notifier)
+        .remove(widget.word.id); // Оновлюємо провайдер
   }
 
   @override

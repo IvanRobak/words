@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class KnownWordsNotifier extends StateNotifier<Set<int>> {
   KnownWordsNotifier() : super({}) {
     loadKnownWords();
@@ -59,7 +58,6 @@ class LearnWordsNotifier extends StateNotifier<Set<int>> {
         'learnWords', state.map((id) => id.toString()).toList());
   }
 }
-
 
 final knownWordsProvider =
     StateNotifierProvider<KnownWordsNotifier, Set<int>>((ref) {

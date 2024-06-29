@@ -20,35 +20,33 @@ class WordButtonList extends ConsumerWidget {
     final knownWords = ref.watch(knownWordsProvider);
     final learnWords = ref.watch(learnWordsProvider);
 
-    return Expanded(
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: columns,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 4,
-        ),
-        itemCount: words.length,
-        itemBuilder: (context, index) {
-          final word = words[index];
-          return CustomButton(
-            label: word.word,
-            isKnown: knownWords.contains(word.id),
-            isLearned: learnWords.contains(word.id),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => WordCarouselScreen(
-                    words: words,
-                    initialIndex: index,
-                  ),
-                ),
-              );
-            },
-          );
-        },
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: columns,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 10,
+        childAspectRatio: 4,
       ),
+      itemCount: words.length,
+      itemBuilder: (context, index) {
+        final word = words[index];
+        return CustomButton(
+          label: word.word,
+          isKnown: knownWords.contains(word.id),
+          isLearned: learnWords.contains(word.id),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WordCarouselScreen(
+                  words: words,
+                  initialIndex: index,
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
