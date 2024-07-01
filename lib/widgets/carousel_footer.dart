@@ -3,23 +3,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/widgets/dot_builder.dart';
 
-class CarouselFooter extends StatelessWidget {
+class CarouselFooter extends ConsumerWidget {
   final int currentPageIndex;
   final int totalWords;
   final PageController pageController;
-  final WidgetRef ref;
 
-  CarouselFooter({
+  const CarouselFooter({
+    super.key,
     required this.currentPageIndex,
     required this.totalWords,
     required this.pageController,
-    required this.ref,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final knownWords = ref.watch(knownWordsProvider);
     final learnWords = ref.watch(learnWordsProvider);
+
+    print('CarouselFooter - Current known words: $knownWords');
+    print('CarouselFooter - Current learn words: $learnWords');
 
     return Positioned(
       bottom: 10,

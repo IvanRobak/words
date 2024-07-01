@@ -18,7 +18,10 @@ class LearnButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: isLearn
             ? Colors.purple
-            : Theme.of(context).elevatedButtonTheme.style?.backgroundColor
+            : Theme.of(context)
+                    .elevatedButtonTheme
+                    .style
+                    ?.backgroundColor
                     ?.resolve({
                   MaterialState.pressed,
                   MaterialState.hovered,
@@ -27,7 +30,10 @@ class LearnButton extends StatelessWidget {
                 Colors.white,
         foregroundColor: isLearn
             ? Colors.white
-            : Theme.of(context).elevatedButtonTheme.style?.foregroundColor
+            : Theme.of(context)
+                    .elevatedButtonTheme
+                    .style
+                    ?.foregroundColor
                     ?.resolve({
                   MaterialState.pressed,
                   MaterialState.hovered,
@@ -60,7 +66,10 @@ class KnowButton extends StatelessWidget {
             ? (Theme.of(context).brightness == Brightness.dark
                 ? const Color.fromARGB(255, 89, 131, 148)
                 : Theme.of(context).colorScheme.primary)
-            : Theme.of(context).elevatedButtonTheme.style?.backgroundColor
+            : Theme.of(context)
+                    .elevatedButtonTheme
+                    .style
+                    ?.backgroundColor
                     ?.resolve({
                   MaterialState.pressed,
                   MaterialState.hovered,
@@ -69,7 +78,10 @@ class KnowButton extends StatelessWidget {
                 Colors.white,
         foregroundColor: isKnown
             ? Colors.white
-            : Theme.of(context).elevatedButtonTheme.style?.foregroundColor
+            : Theme.of(context)
+                    .elevatedButtonTheme
+                    .style
+                    ?.foregroundColor
                     ?.resolve({
                   MaterialState.pressed,
                   MaterialState.hovered,

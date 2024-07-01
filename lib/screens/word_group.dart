@@ -1,5 +1,3 @@
-// word_group_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
@@ -23,9 +21,20 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
     _loadWords();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _loadWords();
+  }
+
   Future<void> _loadWords() async {
+    await Future.wait([
+      ref.read(knownWordsProvider.notifier).loadKnownWords(),
+      ref.read(learnWordsProvider.notifier).loadLearnWords(),
+    ]);
     final words = await loadWords();
     ref.read(wordFilterProvider.notifier).setWords(words);
+    setState(() {});
   }
 
   int _findFirstUnselectedIndex(List<Word> words) {
@@ -45,6 +54,9 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
     final words = ref.watch(wordFilterProvider);
     final knownWords = ref.watch(knownWordsProvider);
     final learnWords = ref.watch(learnWordsProvider);
+
+    print('Current known words: $knownWords');
+    print('Current learn words: $learnWords');
 
     return Scaffold(
       appBar: AppBar(
@@ -78,7 +90,11 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                           initialIndex, // Передаємо правильний параметр
                     ),
                   ),
-                );
+                ).then((_) {
+                  // Завантаження слів при поверненні з екрану каруселі.
+                  ref.read(knownWordsProvider.notifier).loadKnownWords();
+                  ref.read(learnWordsProvider.notifier).loadLearnWords();
+                });
               },
               child: Card(
                 elevation: 4.0,

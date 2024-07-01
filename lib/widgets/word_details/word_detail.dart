@@ -20,15 +20,14 @@ class WordDetail extends ConsumerStatefulWidget {
   final VoidCallback onKnowPressed;
   final VoidCallback onLearnPressed;
 
-  const WordDetail(
-      {super.key,
-      required this.word,
-      required this.onKnowPressed,
-      required this.onLearnPressed // Додано цей параметр
-      });
+  const WordDetail({
+    super.key,
+    required this.word,
+    required this.onKnowPressed,
+    required this.onLearnPressed,
+  });
 
   @override
-  // ignore: library_private_types_in_public_api
   _WordDetailState createState() => _WordDetailState();
 }
 
@@ -42,12 +41,12 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   bool isLearn = false;
   bool isKnown = false;
 
-  List<int> learnWords = []; // Список слів, що в процесі вивчення
-  List<int> knownWords = []; // Список вивчених слів
+  List<int> learnWords = [];
+  List<int> knownWords = [];
 
   late TranslationService translationService;
   late FirebaseImageService firebaseImageService;
-  final FlutterTts _flutterTts = FlutterTts(); // Initialize the TTS
+  final FlutterTts _flutterTts = FlutterTts();
 
   static const apiKey = '29a4a816eb0b4645b3ed319fbfde82e5';
   static const endpoint = 'https://api.cognitive.microsofttranslator.com/';
@@ -63,7 +62,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     _translateWord();
     _fetchImage();
     _initTts();
-    _loadButtonStates(); // Завантаження стану кнопок
+    _loadButtonStates();
   }
 
   Future<void> _initTts() async {
@@ -71,9 +70,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
     await _flutterTts.setSpeechRate(0.5);
     await _flutterTts.setVolume(1.0);
     await _flutterTts.setPitch(1.0);
-    _flutterTts.setErrorHandler((msg) {
-      // print("TTS Error: $msg"); // Handle TTS errors
-    });
+    _flutterTts.setErrorHandler((msg) {});
   }
 
   Future<void> _fetchImage() async {
@@ -83,9 +80,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
       setState(() {
         imageUrl = url;
       });
-    } catch (e) {
-      // Handle error if needed
-    }
+    } catch (e) {}
   }
 
   Future<void> _loadSavedFolder() async {
@@ -112,9 +107,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
       setState(() {
         widget.word.translation = translation;
       });
-    } catch (e) {
-      // Handle error if needed
-    }
+    } catch (e) {}
   }
 
   Future<void> _loadButtonStates() async {
@@ -176,51 +169,41 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   void _speakWord() async {
     try {
       await _flutterTts.speak(widget.word.word);
-    } catch (e) {
-      // print("Error speaking word: $e"); // Handle speech error
-    }
+    } catch (e) {}
   }
 
   void _learnWord() {
     setState(() {
       isLearn = true;
       isKnown = false;
-      learnWords.add(widget.word.id); // Додаємо слово до списку learnWords
-      knownWords.remove(widget.word.id); // Видаляємо слово зі списку knownWords
+      learnWords.add(widget.word.id);
+      knownWords.remove(widget.word.id);
     });
     _saveButtonState('isLearn_${widget.word.id}', true);
     _saveButtonState('isKnown_${widget.word.id}', false);
     widget.onLearnPressed();
-    ref
-        .read(learnWordsProvider.notifier)
-        .add(widget.word.id); // Оновлюємо провайдер
-    ref
-        .read(knownWordsProvider.notifier)
-        .remove(widget.word.id); // Оновлюємо провайдер
+    ref.read(learnWordsProvider.notifier).add(widget.word.id);
+    ref.read(knownWordsProvider.notifier).remove(widget.word.id);
   }
 
   void _knowWord() {
     setState(() {
       isKnown = true;
       isLearn = false;
-      knownWords.add(widget.word.id); // Додаємо слово до списку knownWords
-      learnWords.remove(widget.word.id); // Видаляємо слово зі списку learnWords
+      knownWords.add(widget.word.id);
+      learnWords.remove(widget.word.id);
     });
     _saveButtonState('isKnown_${widget.word.id}', true);
     _saveButtonState('isLearn_${widget.word.id}', false);
     widget.onKnowPressed();
-    ref
-        .read(knownWordsProvider.notifier)
-        .add(widget.word.id); // Оновлюємо провайдер
-    ref
-        .read(learnWordsProvider.notifier)
-        .remove(widget.word.id); // Оновлюємо провайдер
+    ref.read(knownWordsProvider.notifier).add(widget.word.id);
+    ref.read(learnWordsProvider.notifier).remove(widget.word.id);
   }
 
   @override
   void dispose() {
     _textController.dispose();
-    _flutterTts.stop(); // Stop the TTS
+    _flutterTts.stop();
     super.dispose();
   }
 

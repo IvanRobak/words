@@ -12,19 +12,28 @@ Widget buildDot(int index, int currentPageIndex, Set<int> knownWords,
     dotColor = Theme.of(context).brightness == Brightness.dark
         ? const Color.fromARGB(255, 89, 131, 148)
         : Theme.of(context).colorScheme.primary;
-    border = currentPageIndex % 50 == index
-        ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 1)
-        : Border.all(color: Colors.transparent);
+    border = Border.all(
+      color: currentPageIndex % 50 == index
+          ? Theme.of(context).colorScheme.secondary
+          : Colors.transparent,
+      width: 1,
+    );
   } else if (learnWords.contains(wordIndex)) {
     dotColor = Colors.purple;
-    border = currentPageIndex % 50 == index
-        ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 1)
-        : Border.all(color: Colors.transparent);
+    border = Border.all(
+      color: currentPageIndex % 50 == index
+          ? Theme.of(context).colorScheme.secondary
+          : Colors.transparent,
+      width: 1,
+    );
   } else {
     dotColor = Colors.grey;
-    border = currentPageIndex % 50 == index
-        ? Border.all(color: Theme.of(context).colorScheme.secondary, width: 1)
-        : Border.all(color: Colors.transparent);
+    border = Border.all(
+      color: currentPageIndex % 50 == index
+          ? Theme.of(context).colorScheme.secondary
+          : Colors.transparent,
+      width: 1,
+    );
   }
 
   return Container(
@@ -33,6 +42,8 @@ Widget buildDot(int index, int currentPageIndex, Set<int> knownWords,
       shape: BoxShape.circle,
       border: border,
     ),
+    width: 20,
+    height: 20,
   );
 }
 
@@ -50,6 +61,9 @@ Widget buildDotWithoutHighlight(int index, int start, Set<int> knownWords,
   } else {
     dotColor = Colors.grey;
   }
+
+  // print(
+  //     'Word index: $wordIndex, Dot color: $dotColor, Known words: $knownWords, Learn words: $learnWords');
 
   return Container(
     decoration: BoxDecoration(
