@@ -28,10 +28,10 @@ class WordDetail extends ConsumerStatefulWidget {
   });
 
   @override
-  _WordDetailState createState() => _WordDetailState();
+  WordDetailState createState() => WordDetailState();
 }
 
-class _WordDetailState extends ConsumerState<WordDetail> {
+class WordDetailState extends ConsumerState<WordDetail> {
   final TextEditingController _textController = TextEditingController();
   bool isTranslationVisible = false;
   String? selectedFolder;
@@ -74,13 +74,10 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   }
 
   Future<void> _fetchImage() async {
-    try {
-      final url =
-          await firebaseImageService.fetchImageUrl(widget.word.imageUrl);
-      setState(() {
-        imageUrl = url;
-      });
-    } catch (e) {}
+    final url = await firebaseImageService.fetchImageUrl(widget.word.imageUrl);
+    setState(() {
+      imageUrl = url;
+    });
   }
 
   Future<void> _loadSavedFolder() async {
@@ -101,13 +98,11 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   }
 
   Future<void> _translateWord() async {
-    try {
-      final translation =
-          await translationService.translate(widget.word.word, 'en', 'uk');
-      setState(() {
-        widget.word.translation = translation;
-      });
-    } catch (e) {}
+    final translation =
+        await translationService.translate(widget.word.word, 'en', 'uk');
+    setState(() {
+      widget.word.translation = translation;
+    });
   }
 
   Future<void> _loadButtonStates() async {
@@ -167,9 +162,7 @@ class _WordDetailState extends ConsumerState<WordDetail> {
   }
 
   void _speakWord() async {
-    try {
-      await _flutterTts.speak(widget.word.word);
-    } catch (e) {}
+    await _flutterTts.speak(widget.word.word);
   }
 
   void _learnWord() {

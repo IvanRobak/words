@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 Widget buildDot(int index, int currentPageIndex, Set<int> knownWords,
     Set<int> learnWords, BuildContext context) {
-  int wordIndex = (currentPageIndex ~/ 50) * 50 + index;
+  int wordIndex = (currentPageIndex ~/ 50) * 50 + index + 1; // Додаємо 1 тут
   Color dotColor;
   Border border;
 
@@ -49,7 +49,7 @@ Widget buildDot(int index, int currentPageIndex, Set<int> knownWords,
 
 Widget buildDotWithoutHighlight(int index, int start, Set<int> knownWords,
     Set<int> learnWords, BuildContext context) {
-  int wordIndex = start + index;
+  int wordIndex = start + index + 1; // Додаємо 1 тут
   Color dotColor;
 
   if (knownWords.contains(wordIndex)) {
@@ -61,9 +61,6 @@ Widget buildDotWithoutHighlight(int index, int start, Set<int> knownWords,
   } else {
     dotColor = Colors.grey;
   }
-
-  // print(
-  //     'Word index: $wordIndex, Dot color: $dotColor, Known words: $knownWords, Learn words: $learnWords');
 
   return Container(
     decoration: BoxDecoration(

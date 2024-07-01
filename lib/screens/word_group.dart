@@ -55,9 +55,6 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
     final knownWords = ref.watch(knownWordsProvider);
     final learnWords = ref.watch(learnWordsProvider);
 
-    print('Current known words: $knownWords');
-    print('Current learn words: $learnWords');
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,

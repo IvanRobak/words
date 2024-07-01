@@ -20,9 +20,6 @@ class CarouselFooter extends ConsumerWidget {
     final knownWords = ref.watch(knownWordsProvider);
     final learnWords = ref.watch(learnWordsProvider);
 
-    print('CarouselFooter - Current known words: $knownWords');
-    print('CarouselFooter - Current learn words: $learnWords');
-
     return Positioned(
       bottom: 10,
       left: 0,

@@ -4,6 +4,7 @@ import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/widgets/word_button_list.dart';
 import 'package:words/widgets/word_details/word_detail.dart';
+import 'package:words/widgets/dot_builder.dart';
 
 class WordCarouselScreen extends ConsumerStatefulWidget {
   final List<Word> words;
@@ -54,8 +55,6 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
         setState(() {
           _currentPageIndex = nextPage;
         });
-        print(
-            'Page controller listener: Current page index is $_currentPageIndex');
       }
     });
   }
@@ -70,32 +69,16 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
     if (isMarkingWord) return;
     isMarkingWord = true;
 
-    print('Marking word $wordId as ${isKnown ? 'known' : 'learning'}');
-
     if (isKnown) {
-      print('Before adding to known words: ${ref.read(knownWordsProvider)}');
       ref.read(knownWordsProvider.notifier).add(wordId);
-      print('After adding to known words: ${ref.read(knownWordsProvider)}');
-      print(
-          'Before removing from learn words: ${ref.read(learnWordsProvider)}');
       ref.read(learnWordsProvider.notifier).remove(wordId);
-      print('After removing from learn words: ${ref.read(learnWordsProvider)}');
     } else {
-      print('Before adding to learn words: ${ref.read(learnWordsProvider)}');
       ref.read(learnWordsProvider.notifier).add(wordId);
-      print('After adding to learn words: ${ref.read(learnWordsProvider)}');
-      print(
-          'Before removing from known words: ${ref.read(knownWordsProvider)}');
       ref.read(knownWordsProvider.notifier).remove(wordId);
-      print('After removing from known words: ${ref.read(knownWordsProvider)}');
     }
-
-    print('Known words after marking: ${ref.read(knownWordsProvider)}');
-    print('Learn words after marking: ${ref.read(learnWordsProvider)}');
 
     setState(() {
       _currentPageIndex += 1;
-      print('Set state: Current page index $_currentPageIndex');
     });
 
     Future.delayed(const Duration(milliseconds: 300), () {
@@ -106,54 +89,8 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
           curve: Curves.easeInOut,
         );
       }
-      print('Current page index after marking: $_currentPageIndex');
       isMarkingWord = false;
     });
-  }
-
-  Widget buildDot(int index, int currentPageIndex, Set<int> knownWords,
-      Set<int> learnWords, BuildContext context) {
-    int wordIndex = (currentPageIndex ~/ 50) * 50 + index + 1; // Додаємо 1 тут
-    Color dotColor;
-    Border border;
-
-    if (knownWords.contains(wordIndex)) {
-      dotColor = Theme.of(context).brightness == Brightness.dark
-          ? const Color.fromARGB(255, 89, 131, 148)
-          : Theme.of(context).colorScheme.primary;
-      border = Border.all(
-        color: currentPageIndex % 50 == index
-            ? Theme.of(context).colorScheme.secondary
-            : Colors.transparent,
-        width: 1,
-      );
-    } else if (learnWords.contains(wordIndex)) {
-      dotColor = Colors.purple;
-      border = Border.all(
-        color: currentPageIndex % 50 == index
-            ? Theme.of(context).colorScheme.secondary
-            : Colors.transparent,
-        width: 1,
-      );
-    } else {
-      dotColor = Colors.grey;
-      border = Border.all(
-        color: currentPageIndex % 50 == index
-            ? Theme.of(context).colorScheme.secondary
-            : Colors.transparent,
-        width: 1,
-      );
-    }
-
-    return Container(
-      decoration: BoxDecoration(
-        color: dotColor,
-        shape: BoxShape.circle,
-        border: border,
-      ),
-      width: 20,
-      height: 20,
-    );
   }
 
   @override
