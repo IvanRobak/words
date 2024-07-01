@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
-import 'package:words/widgets/word_button_list.dart';
 import 'package:words/widgets/word_details/word_detail.dart';
+import 'package:words/widgets/word_button_list.dart';
 import 'package:words/widgets/dot_builder.dart';
 
 class WordCarouselScreen extends ConsumerStatefulWidget {
@@ -24,7 +24,7 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
   PageController? _pageController;
   int _currentPageIndex = 0;
   bool isLoading = true;
-  bool isGridMode = false; // Додаємо стан для перемикання режиму
+  bool isGridMode = false;
   bool isMarkingWord = false;
 
   @override
@@ -120,6 +120,13 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
     final knownWords = ref.watch(knownWordsProvider);
     final learnWords = ref.watch(learnWordsProvider);
 
+    int groupStartIndex = (widget.initialIndex ~/ 50) * 50;
+    int groupEndIndex = groupStartIndex + 50;
+    List<Word> groupWords = widget.words.sublist(
+      groupStartIndex,
+      groupEndIndex > widget.words.length ? widget.words.length : groupEndIndex,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Word Carousel',
@@ -159,7 +166,7 @@ class WordCarouselScreenState extends ConsumerState<WordCarouselScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
               child: WordButtonList(
-                words: widget.words.sublist(0, 50), // Відображаємо лише 50
+                words: groupWords,
                 columns: 3,
               ),
             ),
