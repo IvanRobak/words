@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/providers/word_provider.dart';
-import 'package:words/screens/word_carousel.dart';
+import 'package:words/screens/group_carousel_screen.dart';
 import 'package:words/services/word_loader.dart';
 import 'package:words/widgets/dot_builder.dart';
 
@@ -21,20 +21,9 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
     _loadWords();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _loadWords();
-  }
-
   Future<void> _loadWords() async {
-    await Future.wait([
-      ref.read(knownWordsProvider.notifier).loadKnownWords(),
-      ref.read(learnWordsProvider.notifier).loadLearnWords(),
-    ]);
     final words = await loadWords();
     ref.read(wordFilterProvider.notifier).setWords(words);
-    setState(() {});
   }
 
   int _findFirstUnselectedIndex(List<Word> words) {
@@ -52,8 +41,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
   @override
   Widget build(BuildContext context) {
     final words = ref.watch(wordFilterProvider);
-    final knownWords = ref.watch(knownWordsProvider);
-    final learnWords = ref.watch(learnWordsProvider);
+    final totalGroups = (words.length / 50).ceil();
 
     return Scaffold(
       appBar: AppBar(
@@ -67,9 +55,9 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
-          itemCount: (words.length / 50).ceil(),
-          itemBuilder: (context, index) {
-            final start = index * 50;
+          itemCount: totalGroups,
+          itemBuilder: (context, groupIndex) {
+            final start = groupIndex * 50;
             final end = start + 50;
             final wordSubset =
                 words.sublist(start, end > words.length ? words.length : end);
@@ -81,17 +69,12 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => WordCarouselScreen(
-                      words: words,
-                      initialIndex:
-                          initialIndex, // Передаємо правильний параметр
+                    builder: (context) => GroupCarouselScreen(
+                      words: wordSubset,
+                      initialIndex: initialIndex - start,
                     ),
                   ),
-                ).then((_) {
-                  // Завантаження слів при поверненні з екрану каруселі.
-                  ref.read(knownWordsProvider.notifier).loadKnownWords();
-                  ref.read(learnWordsProvider.notifier).loadLearnWords();
-                });
+                );
               },
               child: Card(
                 elevation: 4.0,
@@ -122,18 +105,18 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                           itemCount: 50,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 10, // 10 кружечків в рядку
+                            crossAxisCount: 10,
                             mainAxisSpacing: 4.0,
                             crossAxisSpacing: 8.0,
-                            childAspectRatio: 1, // Співвідношення сторін 1:1
+                            childAspectRatio: 1,
                           ),
                           itemBuilder: (context, dotIndex) {
                             return SizedBox(
                               child: buildDotWithoutHighlight(
                                 dotIndex,
                                 start,
-                                knownWords,
-                                learnWords,
+                                ref.watch(knownWordsProvider),
+                                ref.watch(learnWordsProvider),
                                 context,
                               ),
                             );
