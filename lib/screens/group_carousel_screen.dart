@@ -65,12 +65,13 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
   }
 
   void _markWord(int wordIndex, bool isKnown) {
+    final wordId = widget.words[wordIndex].id; // отримуємо id слова
     if (isKnown) {
-      ref.read(knownWordsProvider.notifier).add(wordIndex);
-      ref.read(learnWordsProvider.notifier).remove(wordIndex);
+      ref.read(knownWordsProvider.notifier).add(wordId);
+      ref.read(learnWordsProvider.notifier).remove(wordId);
     } else {
-      ref.read(learnWordsProvider.notifier).add(wordIndex);
-      ref.read(knownWordsProvider.notifier).remove(wordIndex);
+      ref.read(learnWordsProvider.notifier).add(wordId);
+      ref.read(knownWordsProvider.notifier).remove(wordId);
     }
     Future.delayed(const Duration(milliseconds: 500), () {
       if (_pageController != null &&

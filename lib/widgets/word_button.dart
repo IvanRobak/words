@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
-import 'package:words/screens/word_carousel.dart';
+import 'package:words/screens/group_carousel_screen.dart';
 
 class WordButton extends StatelessWidget {
   final Word word;
@@ -29,7 +29,7 @@ class WordButton extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  WordCarouselScreen(words: words, initialIndex: index),
+                  GroupCarouselScreen(words: words, initialIndex: index),
             ),
           );
         },

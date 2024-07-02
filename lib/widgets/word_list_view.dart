@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
-import 'package:words/screens/word_carousel.dart';
+import 'package:words/screens/group_carousel_screen.dart';
 import 'package:words/widgets/custom_button.dart';
 import 'package:words/widgets/filter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,7 +58,7 @@ class WordListView extends ConsumerWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WordCarouselScreen(
+                      builder: (context) => GroupCarouselScreen(
                         words: words,
                         initialIndex: index,
                         // searchForUnselectedIndex: false, // Передаємо параметр
