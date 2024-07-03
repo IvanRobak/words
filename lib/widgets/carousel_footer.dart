@@ -21,8 +21,7 @@ class CarouselFooter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final knownWords = ref.watch(knownWordsProvider);
     final learnWords = ref.watch(learnWordsProvider);
-    final wordsInCurrentGroup = totalWords - (currentPageIndex ~/ 50) * 50;
-    final itemCount = wordsInCurrentGroup > 50 ? 50 : wordsInCurrentGroup;
+    const itemCount = 50; // Завжди 50 кружечків
 
     return Positioned(
       bottom: 10,
@@ -31,7 +30,7 @@ class CarouselFooter extends ConsumerWidget {
       child: Column(
         children: [
           Text(
-            '$startIndex-${startIndex + itemCount - 1}',
+            '$startIndex-${startIndex + itemCount}',
             style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
           ),
           Center(
