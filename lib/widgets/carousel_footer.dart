@@ -21,6 +21,8 @@ class CarouselFooter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final knownWords = ref.watch(knownWordsProvider);
     final learnWords = ref.watch(learnWordsProvider);
+    final wordsInCurrentGroup = totalWords - (currentPageIndex ~/ 50) * 50;
+    final itemCount = wordsInCurrentGroup > 50 ? 50 : wordsInCurrentGroup;
 
     return Positioned(
       bottom: 10,
@@ -29,7 +31,7 @@ class CarouselFooter extends ConsumerWidget {
       child: Column(
         children: [
           Text(
-            '$startIndex-${startIndex + 50}',
+            '$startIndex-${startIndex + itemCount - 1}',
             style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
           ),
           Center(
@@ -37,7 +39,7 @@ class CarouselFooter extends ConsumerWidget {
               height: 80,
               width: 220,
               child: GridView.builder(
-                itemCount: 50,
+                itemCount: itemCount,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 10,
                   mainAxisSpacing: 2,
@@ -45,8 +47,9 @@ class CarouselFooter extends ConsumerWidget {
                   childAspectRatio: 1.6,
                 ),
                 itemBuilder: (context, index) {
+                  final adjustedIndex = (currentPageIndex ~/ 50) * 50 + index;
                   return buildDot(
-                    index + startIndex, // оновлено для правильного індексу
+                    adjustedIndex, // Коректний індекс для поточної групи
                     currentPageIndex,
                     knownWords,
                     learnWords,
