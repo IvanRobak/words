@@ -41,7 +41,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
   @override
   Widget build(BuildContext context) {
     final words = ref.watch(wordFilterProvider);
-    final totalGroups = (words.length / 50).ceil();
+    final totalGroups = (words.length / 3).ceil();
 
     return Scaffold(
       appBar: AppBar(
@@ -57,8 +57,8 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
         child: ListView.builder(
           itemCount: totalGroups,
           itemBuilder: (context, groupIndex) {
-            final start = groupIndex * 50;
-            final end = start + 50;
+            final start = groupIndex * 3;
+            final end = start + 3;
             final wordSubset =
                 words.sublist(start, end > words.length ? words.length : end);
             final firstUnselectedIndex = _findFirstUnselectedIndex(wordSubset);

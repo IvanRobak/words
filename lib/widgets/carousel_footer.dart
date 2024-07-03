@@ -47,10 +47,11 @@ class CarouselFooter extends ConsumerWidget {
                   childAspectRatio: 1.6,
                 ),
                 itemBuilder: (context, index) {
-                  final adjustedIndex = (currentPageIndex ~/ 50) * 50 + index;
+                  final adjustedIndex = startIndex + index;
                   return buildDot(
-                    adjustedIndex, // Коректний індекс для поточної групи
-                    currentPageIndex,
+                    adjustedIndex,
+                    currentPageIndex +
+                        startIndex, // Враховуємо стартовий індекс
                     knownWords,
                     learnWords,
                     context,
