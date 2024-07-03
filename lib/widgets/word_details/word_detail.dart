@@ -75,19 +75,52 @@ class WordDetailState extends ConsumerState<WordDetail> {
 
   Future<void> _fetchImage() async {
     final url = await firebaseImageService.fetchImageUrl(widget.word.imageUrl);
-    setState(() {
-      imageUrl = url;
-    });
+    if (mounted) {
+      setState(() {
+        imageUrl = url;
+      });
+    }
   }
 
   Future<void> _loadSavedFolder() async {
     final prefs = await SharedPreferences.getInstance();
     final savedFolderName = prefs.getString('selectedFolder_${widget.word.id}');
-    if (savedFolderName != null) {
+    if (mounted) {
       setState(() {
         selectedFolder = savedFolderName;
       });
     }
+  }
+
+  Future<void> _translateWord() async {
+    final translation =
+        await translationService.translate(widget.word.word, 'en', 'uk');
+    if (mounted) {
+      setState(() {
+        widget.word.translation = translation;
+      });
+    }
+  }
+
+  Future<void> _loadButtonStates() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (mounted) {
+      setState(() {
+        isLearn = prefs.getBool('isLearn_${widget.word.id}') ?? false;
+        isKnown = prefs.getBool('isKnown_${widget.word.id}') ?? false;
+        if (isLearn) {
+          learnWords.add(widget.word.id);
+        }
+        if (isKnown) {
+          knownWords.add(widget.word.id);
+        }
+      });
+    }
+  }
+
+  Future<void> _saveButtonState(String key, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, value);
   }
 
   void checkIfFavorite() {
@@ -95,33 +128,6 @@ class WordDetailState extends ConsumerState<WordDetail> {
     setState(() {
       isFavorite = favoriteWords.any((w) => w.id == widget.word.id);
     });
-  }
-
-  Future<void> _translateWord() async {
-    final translation =
-        await translationService.translate(widget.word.word, 'en', 'uk');
-    setState(() {
-      widget.word.translation = translation;
-    });
-  }
-
-  Future<void> _loadButtonStates() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      isLearn = prefs.getBool('isLearn_${widget.word.id}') ?? false;
-      isKnown = prefs.getBool('isKnown_${widget.word.id}') ?? false;
-      if (isLearn) {
-        learnWords.add(widget.word.id);
-      }
-      if (isKnown) {
-        knownWords.add(widget.word.id);
-      }
-    });
-  }
-
-  Future<void> _saveButtonState(String key, bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(key, value);
   }
 
   void _toggleTranslation() {
