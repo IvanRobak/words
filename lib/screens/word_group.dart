@@ -72,6 +72,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                     builder: (context) => GroupCarouselScreen(
                       words: wordSubset,
                       initialIndex: initialIndex - start,
+                      startIndex: start,
                     ),
                   ),
                 );

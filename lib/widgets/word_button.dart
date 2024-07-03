@@ -28,8 +28,11 @@ class WordButton extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  GroupCarouselScreen(words: words, initialIndex: index),
+              builder: (context) => GroupCarouselScreen(
+                words: words,
+                initialIndex: index,
+                startIndex: 0,
+              ),
             ),
           );
         },

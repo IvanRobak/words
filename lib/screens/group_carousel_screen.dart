@@ -9,11 +9,13 @@ import 'package:words/widgets/word_button_list.dart';
 class GroupCarouselScreen extends ConsumerStatefulWidget {
   final List<Word> words;
   final int initialIndex;
+  final int startIndex; // додано для передачі початкового індексу діапазону
 
   const GroupCarouselScreen({
     super.key,
     required this.words,
     required this.initialIndex,
+    required this.startIndex, // додано для передачі початкового індексу діапазону
   });
 
   @override
@@ -65,7 +67,7 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
   }
 
   void _markWord(int wordIndex, bool isKnown) {
-    final wordId = widget.words[wordIndex].id; // отримуємо id слова
+    final wordId = widget.words[wordIndex].id;
     if (isKnown) {
       ref.read(knownWordsProvider.notifier).add(wordId);
       ref.read(learnWordsProvider.notifier).remove(wordId);
@@ -126,8 +128,10 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
                     height: MediaQuery.of(context).size.height * 0.7,
                     child: WordDetail(
                       word: word,
-                      onKnowPressed: () => _markWord(index, true),
-                      onLearnPressed: () => _markWord(index, false),
+                      onKnowPressed: () => _markWord(
+                          index + widget.startIndex, true), // додано startIndex
+                      onLearnPressed: () => _markWord(index + widget.startIndex,
+                          false), // додано startIndex
                     ),
                   ),
                 );
@@ -145,6 +149,8 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
             currentPageIndex: _currentPageIndex,
             totalWords: widget.words.length,
             pageController: _pageController!,
+            startIndex: widget
+                .startIndex, // додано для передачі початкового індексу діапазону
           ),
         ],
       ),

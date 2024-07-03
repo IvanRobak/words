@@ -41,6 +41,7 @@ class WordButtonList extends ConsumerWidget {
                 builder: (context) => GroupCarouselScreen(
                   words: words,
                   initialIndex: index,
+                  startIndex: 0,
                 ),
               ),
             );
