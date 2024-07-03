@@ -7,14 +7,14 @@ class CarouselFooter extends ConsumerWidget {
   final int currentPageIndex;
   final int totalWords;
   final PageController pageController;
-  final int startIndex; // додано для передачі початкового індексу діапазону
+  final int startIndex;
 
   const CarouselFooter({
     super.key,
     required this.currentPageIndex,
     required this.totalWords,
     required this.pageController,
-    required this.startIndex, // додано для передачі початкового індексу діапазону
+    required this.startIndex,
   });
 
   @override
@@ -29,7 +29,7 @@ class CarouselFooter extends ConsumerWidget {
       child: Column(
         children: [
           Text(
-            '$startIndex-${startIndex + 50}', // оновлено для відображення правильного діапазону
+            '$startIndex-${startIndex + 50}',
             style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
           ),
           Center(

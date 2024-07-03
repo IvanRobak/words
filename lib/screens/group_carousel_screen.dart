@@ -67,7 +67,7 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
   }
 
   void _markWord(int wordIndex, bool isKnown) {
-    final wordId = widget.words[wordIndex].id;
+    final wordId = widget.words[wordIndex - widget.startIndex].id;
     if (isKnown) {
       ref.read(knownWordsProvider.notifier).add(wordId);
       ref.read(learnWordsProvider.notifier).remove(wordId);
@@ -128,10 +128,10 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
                     height: MediaQuery.of(context).size.height * 0.7,
                     child: WordDetail(
                       word: word,
-                      onKnowPressed: () => _markWord(
-                          index + widget.startIndex, true), // додано startIndex
-                      onLearnPressed: () => _markWord(index + widget.startIndex,
-                          false), // додано startIndex
+                      onKnowPressed: () =>
+                          _markWord(widget.startIndex + index, true),
+                      onLearnPressed: () =>
+                          _markWord(widget.startIndex + index, false),
                     ),
                   ),
                 );
