@@ -24,8 +24,8 @@ Widget buildDot(
   }
 
   border = Border.all(
-    color: currentPageIndex % 50 == index
-        ? Theme.of(context).colorScheme.secondary // Помаранчевий індикатор
+    color: currentPageIndex % 500 == index // більше ніж кількість слів
+        ? Theme.of(context).colorScheme.secondary
         : Colors.transparent,
     width: 1,
   );
