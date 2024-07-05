@@ -59,18 +59,13 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        title: const Text('Login'),
-        // actions: [
-        //   if (user != null)
-        //     Padding(
-        //       padding:
-        //           const EdgeInsets.only(right: 20), // Додаємо відступ справа
-        //       child: IconButton(
-        //         icon: const Icon(Icons.logout, color: Colors.black),
-        //         onPressed: _logout,
-        //       ),
-        //     ),
-        // ],
+        title: Text(
+          'Login',
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+        ),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -117,7 +112,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     labelStyle: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .primary),
+                                            .primaryContainer),
                                     errorStyle:
                                         const TextStyle(color: Colors.red),
                                     enabledBorder: UnderlineInputBorder(
@@ -149,7 +144,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     labelStyle: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .primary),
+                                            .primaryContainer),
                                     errorStyle:
                                         const TextStyle(color: Colors.red),
                                     enabledBorder: UnderlineInputBorder(

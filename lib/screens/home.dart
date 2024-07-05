@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:words/screens/auth.dart';
+import 'package:words/screens/settiings/auth.dart';
 import 'package:words/screens/category.dart';
 import 'package:words/screens/folder_list.dart';
 import 'package:words/screens/word_group.dart';

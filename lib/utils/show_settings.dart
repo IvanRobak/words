@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:words/screens/settings.dart';
+import 'package:words/screens/settiings/settings.dart';
 
 void showSettingsScreen(BuildContext context) {
   showModalBottomSheet(

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:words/screens/auth.dart';
+import 'package:words/screens/settiings/auth.dart';
 import 'package:words/providers/theme_provider.dart';
-import 'package:words/screens/language.dart';
+import 'package:words/screens/settiings/language.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
