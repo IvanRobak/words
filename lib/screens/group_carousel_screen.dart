@@ -3,19 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/widgets/carousel_footer.dart';
-import 'package:words/widgets/word_details/word_detail.dart';
 import 'package:words/widgets/word_button_list.dart';
+import 'package:words/widgets/word_details/word_detail.dart';
 
 class GroupCarouselScreen extends ConsumerStatefulWidget {
   final List<Word> words;
   final int initialIndex;
-  final int startIndex; // додано для передачі початкового індексу діапазону
+  final int startIndex;
+  final bool showFooter;
 
   const GroupCarouselScreen({
     super.key,
     required this.words,
     required this.initialIndex,
-    required this.startIndex, // додано для передачі початкового індексу діапазону
+    required this.startIndex,
+    this.showFooter = true,
   });
 
   @override
@@ -84,6 +86,10 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
         );
       }
     });
+
+    // Повідомляємо Navigator про зміни та інвалідуюмо favoriteProvider
+    // Navigator.of(context).pop(true);
+    // ref.invalidate(favoriteProvider);
   }
 
   @override
@@ -145,13 +151,13 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
                 columns: 3,
               ),
             ),
-          CarouselFooter(
-            currentPageIndex: _currentPageIndex,
-            totalWords: widget.words.length,
-            pageController: _pageController!,
-            startIndex: widget
-                .startIndex, // додано для передачі початкового індексу діапазону
-          ),
+          if (widget.showFooter)
+            CarouselFooter(
+              currentPageIndex: _currentPageIndex,
+              totalWords: widget.words.length,
+              pageController: _pageController!,
+              startIndex: widget.startIndex,
+            ),
         ],
       ),
     );

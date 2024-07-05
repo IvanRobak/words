@@ -22,5 +22,8 @@ class FavoriteNotifier extends StateNotifier<List<Word>> {
   bool isFavorite(Word word) {
     return state.any((w) => w.id == word.id);
   }
-}
 
+  List<Word> getFavorites() {
+    return state;
+  }
+}

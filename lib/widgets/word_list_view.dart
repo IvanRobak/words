@@ -27,7 +27,8 @@ class WordListView extends ConsumerWidget {
   });
 
   void _navigateToDetails(
-      BuildContext context, WidgetRef ref, List<Word> words, int index) {
+      BuildContext context, WidgetRef ref, List<Word> words, int index,
+      {bool showFooter = true}) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -35,11 +36,12 @@ class WordListView extends ConsumerWidget {
           words: words,
           initialIndex: index,
           startIndex: 0,
+          showFooter: showFooter, // Передаємо параметр showFooter
         ),
       ),
     ).then((_) {
       // Перезавантаження стану вручну
-      final favorites = ref.read(favoriteProvider.notifier).state;
+      final favorites = ref.read(favoriteProvider.notifier).getFavorites();
       ref.read(wordFilterProvider.notifier).setWords(favorites);
     });
   }
@@ -73,8 +75,8 @@ class WordListView extends ConsumerWidget {
                 label: word.word,
                 isKnown: knownWords.contains(word.id),
                 isLearned: learnWords.contains(word.id),
-                onPressed: () => _navigateToDetails(context, ref, words,
-                    index), // Використовуйте метод навігації
+                onPressed: () => _navigateToDetails(context, ref, words, index,
+                    showFooter: false), // Використовуємо showFooter: false
               );
             },
           ),
