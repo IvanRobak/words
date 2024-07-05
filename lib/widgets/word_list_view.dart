@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
+import 'package:words/providers/favorite_provider.dart';
+import 'package:words/providers/word_provider.dart';
 import 'package:words/screens/group_carousel_screen.dart';
 import 'package:words/widgets/custom_button.dart';
 import 'package:words/widgets/filter.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WordListView extends ConsumerWidget {
   final List<Word> words;
@@ -23,6 +25,24 @@ class WordListView extends ConsumerWidget {
     required this.onColumnsChanged,
     required this.onSearchChanged,
   });
+
+  void _navigateToDetails(
+      BuildContext context, WidgetRef ref, List<Word> words, int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GroupCarouselScreen(
+          words: words,
+          initialIndex: index,
+          startIndex: 0,
+        ),
+      ),
+    ).then((_) {
+      // Перезавантаження стану вручну
+      final favorites = ref.read(favoriteProvider.notifier).state;
+      ref.read(wordFilterProvider.notifier).setWords(favorites);
+    });
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -53,19 +73,8 @@ class WordListView extends ConsumerWidget {
                 label: word.word,
                 isKnown: knownWords.contains(word.id),
                 isLearned: learnWords.contains(word.id),
-                onPressed: () {
-                  // Навігація до WordCarouselScreen з відповідним індексом
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GroupCarouselScreen(
-                        words: words,
-                        initialIndex: index,
-                        startIndex: 0,
-                      ),
-                    ),
-                  );
-                },
+                onPressed: () => _navigateToDetails(context, ref, words,
+                    index), // Використовуйте метод навігації
               );
             },
           ),
