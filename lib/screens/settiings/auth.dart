@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -107,6 +105,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 TextFormField(
+                                  cursorColor:
+                                      Theme.of(context).colorScheme.onSecondary,
                                   decoration: InputDecoration(
                                     labelText: 'електронна пошта',
                                     labelStyle: TextStyle(
@@ -120,6 +120,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                           color: Theme.of(context)
                                               .colorScheme
                                               .secondary),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondary),
                                     ),
                                   ),
                                   keyboardType: TextInputType.emailAddress,
@@ -138,6 +144,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                   },
                                 ),
                                 TextFormField(
+                                  cursorColor:
+                                      Theme.of(context).colorScheme.onSecondary,
                                   obscureText: !_isPasswordVisible,
                                   decoration: InputDecoration(
                                     labelText: 'пароль',
@@ -152,6 +160,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                           color: Theme.of(context)
                                               .colorScheme
                                               .secondary),
+                                    ),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondary),
                                     ),
                                     suffixIcon: IconButton(
                                       icon: Icon(
