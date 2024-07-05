@@ -35,17 +35,30 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        title: const Text('Language Settings'),
+        title: Text(
+          'Language Settings',
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+        ),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
       ),
       body: ListView(
         children: [
           ListTile(
-            title: const Text('English'),
+            title: const Text('English', style: TextStyle(color: Colors.white)),
             trailing: Radio<String>(
               value: 'en',
               groupValue: _selectedLanguage,
+              activeColor: Theme.of(context).colorScheme.secondary,
+              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Theme.of(context).colorScheme.secondary;
+                }
+                return Colors.white;
+              }),
               onChanged: (String? value) {
                 if (value != null) {
                   _changeLanguage(value);
@@ -54,10 +67,18 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
             ),
           ),
           ListTile(
-            title: const Text('Українська'),
+            title:
+                const Text('Українська', style: TextStyle(color: Colors.white)),
             trailing: Radio<String>(
               value: 'uk',
               groupValue: _selectedLanguage,
+              activeColor: Theme.of(context).colorScheme.secondary,
+              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Theme.of(context).colorScheme.secondary;
+                }
+                return Colors.white;
+              }),
               onChanged: (String? value) {
                 if (value != null) {
                   _changeLanguage(value);
@@ -66,10 +87,18 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
             ),
           ),
           ListTile(
-            title: const Text('Français'),
+            title:
+                const Text('Français', style: TextStyle(color: Colors.white)),
             trailing: Radio<String>(
               value: 'fr',
               groupValue: _selectedLanguage,
+              activeColor: Theme.of(context).colorScheme.secondary,
+              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Theme.of(context).colorScheme.secondary;
+                }
+                return Colors.white;
+              }),
               onChanged: (String? value) {
                 if (value != null) {
                   _changeLanguage(value);
@@ -78,10 +107,17 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
             ),
           ),
           ListTile(
-            title: const Text('Español'),
+            title: const Text('Español', style: TextStyle(color: Colors.white)),
             trailing: Radio<String>(
               value: 'es',
               groupValue: _selectedLanguage,
+              activeColor: Theme.of(context).colorScheme.secondary,
+              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Theme.of(context).colorScheme.secondary;
+                }
+                return Colors.white;
+              }),
               onChanged: (String? value) {
                 if (value != null) {
                   _changeLanguage(value);
@@ -90,10 +126,18 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
             ),
           ),
           ListTile(
-            title: const Text('Italiano'),
+            title:
+                const Text('Italiano', style: TextStyle(color: Colors.white)),
             trailing: Radio<String>(
               value: 'it',
               groupValue: _selectedLanguage,
+              activeColor: Theme.of(context).colorScheme.secondary,
+              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Theme.of(context).colorScheme.secondary;
+                }
+                return Colors.white;
+              }),
               onChanged: (String? value) {
                 if (value != null) {
                   _changeLanguage(value);
@@ -102,10 +146,18 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
             ),
           ),
           ListTile(
-            title: const Text('Português'),
+            title:
+                const Text('Português', style: TextStyle(color: Colors.white)),
             trailing: Radio<String>(
               value: 'pt',
               groupValue: _selectedLanguage,
+              activeColor: Theme.of(context).colorScheme.secondary,
+              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Theme.of(context).colorScheme.secondary;
+                }
+                return Colors.white;
+              }),
               onChanged: (String? value) {
                 if (value != null) {
                   _changeLanguage(value);
@@ -114,10 +166,17 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
             ),
           ),
           ListTile(
-            title: const Text('Polski'),
+            title: const Text('Polski', style: TextStyle(color: Colors.white)),
             trailing: Radio<String>(
               value: 'pl',
               groupValue: _selectedLanguage,
+              activeColor: Theme.of(context).colorScheme.secondary,
+              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Theme.of(context).colorScheme.secondary;
+                }
+                return Colors.white;
+              }),
               onChanged: (String? value) {
                 if (value != null) {
                   _changeLanguage(value);
@@ -126,10 +185,17 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
             ),
           ),
           ListTile(
-            title: const Text('Norsk'),
+            title: const Text('Norsk', style: TextStyle(color: Colors.white)),
             trailing: Radio<String>(
               value: 'no',
               groupValue: _selectedLanguage,
+              activeColor: Theme.of(context).colorScheme.secondary,
+              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+                if (states.contains(MaterialState.selected)) {
+                  return Theme.of(context).colorScheme.secondary;
+                }
+                return Colors.white;
+              }),
               onChanged: (String? value) {
                 if (value != null) {
                   _changeLanguage(value);
