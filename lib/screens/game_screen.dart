@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
 import 'package:words/services/firebase_image_service.dart';
+import 'package:words/providers/button_provider.dart';
+import 'package:words/services/word_loader.dart'; // Імпорт функції завантаження слів
 
 class GameScreen extends ConsumerStatefulWidget {
   const GameScreen({super.key});
@@ -12,10 +14,9 @@ class GameScreen extends ConsumerStatefulWidget {
 }
 
 class _GameScreenState extends ConsumerState<GameScreen> {
-  late Word currentWord;
-  late List<String> options;
-  bool? isCorrect;
-  String? imageUrl;
+  late List<Word> learnWords;
+  Map<int, String> imageUrls = {};
+  int currentIndex = 0;
   bool isLoading = true;
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
@@ -23,36 +24,36 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   @override
   void initState() {
     super.initState();
-    _loadWord();
+    _loadLearnWords();
   }
 
-  Future<void> _loadWord() async {
-    // Для демонстрації завантажуємо випадкове слово
-    currentWord = Word(
-      id: 1,
-      word: 'to',
-      example: 'I am going to school.',
-      imageUrl: 'gs://words-385e3.appspot.com/to.webp',
-    );
+  Future<void> _loadLearnWords() async {
+    final learnWordIds = ref.read(learnWordsProvider);
+    final allWords = await loadWords(); // Завантажити всі слова
+    learnWords = allWords
+        .where((word) => learnWordIds.contains(word.id))
+        .toList(); // Фільтруємо слова
 
-    // Завантаження зображення з Firebase
-    imageUrl = await firebaseImageService.fetchImageUrl(currentWord.imageUrl);
+    for (var word in learnWords) {
+      final url = await firebaseImageService.fetchImageUrl(word.imageUrl);
+      imageUrls[word.id] = url;
+    }
 
-    options = _generateOptions();
     setState(() {
       isLoading = false;
     });
   }
 
-  List<String> _generateOptions() {
-    // Для демонстрації просто повертаємо список варіантів
-    return ['to', 'to', 'to', 'to'];
+  void _checkAnswer(String answer, Word word) {
+    // setState(() {
+    //   bool isCorrect = answer == word.word;
+    //   // логіку для обробки правильної або неправильної відповіді
+    // });
   }
 
-  void _checkAnswer(String answer) {
-    setState(() {
-      isCorrect = answer == currentWord.word;
-    });
+  List<String> _generateOptions(Word word) {
+    // Згенерувати варіанти відповіді
+    return ['to', 'to', 'to', 'to']; // Для демонстрації
   }
 
   @override
@@ -71,84 +72,89 @@ class _GameScreenState extends ConsumerState<GameScreen> {
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                color: Theme.of(context).colorScheme.onSurface,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        if (imageUrl != null)
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            ),
-                            child: Image.network(
-                              imageUrl!,
-                              height: 300,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        const SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: GridView.count(
-                            shrinkWrap: true,
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 4,
-                            children: options.map((option) {
-                              return ElevatedButton(
-                                onPressed: () => _checkAnswer(option),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: isCorrect == null
-                                      ? Theme.of(context).colorScheme.surface
-                                      : (option == currentWord.word
-                                          ? Colors.green
-                                          : Colors.red),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 5),
+          : PageView.builder(
+              controller: PageController(viewportFraction: 0.97),
+              itemCount: learnWords.length,
+              onPageChanged: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                final word = learnWords[index];
+                final options = _generateOptions(word);
+                final imageUrl = imageUrls[word.id];
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 250),
+                  child: Card(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            if (imageUrl != null)
+                              ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
                                 ),
-                                child: Text(
-                                  option,
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary,
-                                    fontSize: 18,
-                                  ),
-                                  textAlign: TextAlign.center,
+                                child: Image.network(
+                                  imageUrl,
+                                  height: 300,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
                                 ),
-                              );
-                            }).toList(),
-                          ),
+                              ),
+                            const SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: GridView.count(
+                                shrinkWrap: true,
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                childAspectRatio: 4,
+                                children: options.map((option) {
+                                  return ElevatedButton(
+                                    onPressed: () => _checkAnswer(option, word),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.surface,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 5),
+                                    ),
+                                    child: Text(
+                                      option,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
+                                        fontSize: 18,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            // Додати текст для відображення правильної або неправильної відповіді, якщо потрібно
+                          ],
                         ),
-                        // const SizedBox(height: 20),
-                        if (isCorrect != null)
-                          Text(
-                            isCorrect! ? 'Correct!' : 'Wrong! Try Again!',
-                            style: TextStyle(
-                              color: isCorrect! ? Colors.green : Colors.red,
-                              fontSize: 24,
-                            ),
-                          ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
     );
   }
