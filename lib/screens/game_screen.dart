@@ -3,18 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
-import 'package:words/services/word_loader.dart'; // Імпорт функції завантаження слів
+import 'package:words/services/word_loader.dart';
 
 class GameScreen extends ConsumerStatefulWidget {
   const GameScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _GameScreenState createState() => _GameScreenState();
+  GameScreenState createState() => GameScreenState();
 }
 
-class _GameScreenState extends ConsumerState<GameScreen> {
+class GameScreenState extends ConsumerState<GameScreen> {
   late List<Word> learnWords;
+  late List<Word> allWords;
   Map<int, String> imageUrls = {};
   int currentIndex = 0;
   bool isLoading = true;
@@ -29,10 +29,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
   Future<void> _loadLearnWords() async {
     final learnWordIds = ref.read(learnWordsProvider);
-    final allWords = await loadWords(); // Завантажити всі слова
-    learnWords = allWords
-        .where((word) => learnWordIds.contains(word.id))
-        .toList(); // Фільтруємо слова
+    allWords = await loadWords();
+    learnWords =
+        allWords.where((word) => learnWordIds.contains(word.id)).toList();
 
     for (var word in learnWords) {
       final url = await firebaseImageService.fetchImageUrl(word.imageUrl);
@@ -44,16 +43,29 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     });
   }
 
+  List<String> _generateOptions(Word word) {
+    final int wordIndex = allWords.indexWhere((w) => w.id == word.id);
+    List<Word> nearbyWords = [];
+
+    for (int i = -5; i <= 5; i++) {
+      if (i != 0 && wordIndex + i >= 0 && wordIndex + i < allWords.length) {
+        nearbyWords.add(allWords[wordIndex + i]);
+      }
+    }
+
+    nearbyWords.shuffle();
+    List<String> options = nearbyWords.take(3).map((w) => w.word).toList();
+    options.add(word.word);
+    options.shuffle();
+
+    return options;
+  }
+
   void _checkAnswer(String answer, Word word) {
     // setState(() {
     //   bool isCorrect = answer == word.word;
     //   // логіку для обробки правильної або неправильної відповіді
     // });
-  }
-
-  List<String> _generateOptions(Word word) {
-    // Згенерувати варіанти відповіді
-    return ['to', 'to', 'to', 'to']; // Для демонстрації
   }
 
   @override
