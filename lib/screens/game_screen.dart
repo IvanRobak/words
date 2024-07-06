@@ -79,6 +79,10 @@ class GameScreenState extends ConsumerState<GameScreen> {
     });
   }
 
+  String _getExampleWithPlaceholder(Word word) {
+    return word.example.replaceAll(word.word, '...');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,8 +128,8 @@ class GameScreenState extends ConsumerState<GameScreen> {
                         if (imageUrl != null)
                           ClipRRect(
                             borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
                             ),
                             child: Image.network(
                               imageUrl!,
@@ -146,7 +150,7 @@ class GameScreenState extends ConsumerState<GameScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16.0),
                                       child: Text(
-                                        word.example,
+                                        _getExampleWithPlaceholder(word),
                                         style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
