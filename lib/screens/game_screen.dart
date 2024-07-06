@@ -16,8 +16,11 @@ class GameScreenState extends ConsumerState<GameScreen> {
   late List<Word> learnWords;
   late List<Word> allWords;
   Map<int, String> imageUrls = {};
+  Map<int, List<String>> optionsMap =
+      {}; // Додаємо карту для зберігання варіантів
   int currentIndex = 0;
   bool isLoading = true;
+  bool showExample = false; // Додаємо змінну для контролю відображення прикладу
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
 
@@ -36,6 +39,8 @@ class GameScreenState extends ConsumerState<GameScreen> {
     for (var word in learnWords) {
       final url = await firebaseImageService.fetchImageUrl(word.imageUrl);
       imageUrls[word.id] = url;
+      optionsMap[word.id] =
+          _generateOptions(word); // Генеруємо варіанти під час завантаження
     }
 
     setState(() {
@@ -68,6 +73,12 @@ class GameScreenState extends ConsumerState<GameScreen> {
     // });
   }
 
+  void _toggleExample() {
+    setState(() {
+      showExample = !showExample;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,79 +101,109 @@ class GameScreenState extends ConsumerState<GameScreen> {
               onPageChanged: (index) {
                 setState(() {
                   currentIndex = index;
+                  showExample =
+                      false; // Скидаємо відображення прикладу при зміні сторінки
                 });
               },
               itemBuilder: (context, index) {
                 final word = learnWords[index];
-                final options = _generateOptions(word);
+                final options =
+                    optionsMap[word.id]!; // Використовуємо збережені варіанти
                 final imageUrl = imageUrls[word.id];
 
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 250),
+                  padding: const EdgeInsets.only(bottom: 190),
                   child: Card(
                     color: Theme.of(context).colorScheme.onSurface,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 2),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            if (imageUrl != null)
-                              ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                ),
-                                child: Image.network(
-                                  imageUrl,
-                                  height: 300,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            const SizedBox(height: 20),
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: GridView.count(
-                                shrinkWrap: true,
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                                childAspectRatio: 4,
-                                children: options.map((option) {
-                                  return ElevatedButton(
-                                    onPressed: () => _checkAnswer(option, word),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Theme.of(context).colorScheme.surface,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 5),
-                                    ),
-                                    child: Text(
-                                      option,
-                                      style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                        fontSize: 18,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  );
-                                }).toList(),
-                              ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (imageUrl != null)
+                          ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
                             ),
-                            const SizedBox(height: 20),
-                            // Додати текст для відображення правильної або неправильної відповіді, якщо потрібно
-                          ],
+                            child: Image.network(
+                              imageUrl!,
+                              height: 300,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          height:
+                              40, // Встановлюємо фіксовану висоту для контейнера
+                          child: Center(
+                            child: showExample
+                                ? GestureDetector(
+                                    onTap: _toggleExample,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16.0),
+                                      child: Text(
+                                        word.example,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondary,
+                                          fontSize: 16,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  )
+                                : IconButton(
+                                    icon: const Icon(Icons.lightbulb_outline),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                    onPressed: _toggleExample,
+                                  ),
+                          ),
                         ),
-                      ),
+                        const SizedBox(height: 5),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: GridView.count(
+                            shrinkWrap: true,
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 15,
+                            childAspectRatio: 4,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: options.map((option) {
+                              return ElevatedButton(
+                                onPressed: () => _checkAnswer(option, word),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.surface,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 5),
+                                ),
+                                child: Text(
+                                  option,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                    fontSize: 18,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        // Додати текст для відображення правильної або неправильної відповіді, якщо потрібно
+                      ],
                     ),
                   ),
                 );
