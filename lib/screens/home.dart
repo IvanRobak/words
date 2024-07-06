@@ -5,13 +5,13 @@ import 'package:words/screens/settiings/auth.dart';
 import 'package:words/screens/category.dart';
 import 'package:words/screens/folder_list.dart';
 import 'package:words/screens/word_group.dart';
-import 'package:words/utils/show_settings.dart'; // Імпортуйте екран з категоріями
+import 'package:words/utils/show_settings.dart';
+import 'package:words/screens/game_screen.dart'; // Додати імпорт екрану гри
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -39,7 +39,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 20), // Додаємо відступ зліва
+          padding: const EdgeInsets.only(left: 20),
           child: IconButton(
             icon: Icon(Icons.menu,
                 color: Theme.of(context).colorScheme.onSecondary),
@@ -66,38 +66,35 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         'All',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 50, // Більший розмір для "E"
+                          fontSize: 50,
                           fontWeight: FontWeight.bold,
-                          height: 0.9, // Зменшений міжрядковий інтервал
+                          height: 0.9,
                         ),
                       ),
                       Text(
                         'words',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 20, // Менший розмір для "words"
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          height: 0.9, // Зменшений міжрядковий інтервал
+                          height: 0.9,
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-
               SizedBox(
-                width: 250, // Задайте бажану ширину кнопки
+                width: 250,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const WordGroupScreen(),
-                      ),
+                          builder: (context) => const WordGroupScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    // backgroundColor: const Color.fromARGB(255, 65, 93, 104),
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
@@ -119,7 +116,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               const SizedBox(height: 30),
               SizedBox(
-                width: 250, // Задайте бажану ширину кнопки
+                width: 250,
                 child: ElevatedButton(
                   onPressed: () {
                     _navigateToCategories(context);
@@ -146,14 +143,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               const SizedBox(height: 30),
               SizedBox(
-                width: 250, // Задайте бажану ширину кнопки
+                width: 250,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const FolderListScreen(),
-                      ),
+                          builder: (context) => const FolderListScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -176,9 +172,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
               ),
-              const Expanded(
-                  child:
-                      SizedBox()), // Додаємо простір між кнопками та нижньою навігацією
+              const SizedBox(height: 30),
+              SizedBox(
+                width: 250,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const GameScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 25),
+                    shadowColor: Colors.black,
+                    elevation: 10,
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Play Game',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 21,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const Expanded(child: SizedBox()),
             ],
           ),
         ),
