@@ -27,21 +27,29 @@ class GameScreenState extends ConsumerState<GameScreen> {
   @override
   void initState() {
     super.initState();
-    _initialLoadFuture = _loadLearnWords();
+    _initialLoadFuture = _initializeData();
   }
 
-  Future<void> _loadLearnWords() async {
-    final learnWordIds = ref.read(learnWordsProvider);
-    allWords = await loadWords();
-    learnWords =
-        allWords.where((word) => learnWordIds.contains(word.id)).toList();
+  Future<void> _initializeData() async {
+    try {
+      // Чекаємо, поки дані з провайдера завантажаться
+      await ref.read(learnWordsProvider.notifier).loadLearnWords();
+      final learnWordIds = ref.read(learnWordsProvider);
 
-    // Паралельне завантаження зображень і варіантів
-    await Future.wait(learnWords.map((word) async {
-      final url = await firebaseImageService.fetchImageUrl(word.imageUrl);
-      imageUrls[word.id] = url;
-      optionsMap[word.id] = _generateOptions(word);
-    }));
+      allWords = await loadWords();
+
+      learnWords =
+          allWords.where((word) => learnWordIds.contains(word.id)).toList();
+
+      // Паралельне завантаження зображень і варіантів
+      await Future.wait(learnWords.map((word) async {
+        final url = await firebaseImageService.fetchImageUrl(word.imageUrl);
+        imageUrls[word.id] = url;
+        optionsMap[word.id] = _generateOptions(word);
+      }));
+    } catch (error) {
+      // error
+    }
   }
 
   List<String> _generateOptions(Word word) {
@@ -105,6 +113,8 @@ class GameScreenState extends ConsumerState<GameScreen> {
             ));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (learnWords.isEmpty) {
+            return const Center(child: Text('No words to learn'));
           } else {
             return PageView.builder(
               controller: PageController(viewportFraction: 0.97),
