@@ -4,6 +4,7 @@ import 'package:words/models/word.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/word_loader.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class GameScreen extends ConsumerStatefulWidget {
   const GameScreen({super.key});
@@ -13,21 +14,20 @@ class GameScreen extends ConsumerStatefulWidget {
 }
 
 class GameScreenState extends ConsumerState<GameScreen> {
+  late Future<void> _initialLoadFuture;
   late List<Word> learnWords;
   late List<Word> allWords;
   Map<int, String> imageUrls = {};
-  Map<int, List<String>> optionsMap =
-      {}; // Додаємо карту для зберігання варіантів
+  Map<int, List<String>> optionsMap = {};
   int currentIndex = 0;
-  bool isLoading = true;
-  bool showExample = false; // Додаємо змінну для контролю відображення прикладу
+  bool showExample = false;
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
 
   @override
   void initState() {
     super.initState();
-    _loadLearnWords();
+    _initialLoadFuture = _loadLearnWords();
   }
 
   Future<void> _loadLearnWords() async {
@@ -36,16 +36,12 @@ class GameScreenState extends ConsumerState<GameScreen> {
     learnWords =
         allWords.where((word) => learnWordIds.contains(word.id)).toList();
 
-    for (var word in learnWords) {
+    // Паралельне завантаження зображень і варіантів
+    await Future.wait(learnWords.map((word) async {
       final url = await firebaseImageService.fetchImageUrl(word.imageUrl);
       imageUrls[word.id] = url;
-      optionsMap[word.id] =
-          _generateOptions(word); // Генеруємо варіанти під час завантаження
-    }
-
-    setState(() {
-      isLoading = false;
-    });
+      optionsMap[word.id] = _generateOptions(word);
+    }));
   }
 
   List<String> _generateOptions(Word word) {
@@ -80,7 +76,9 @@ class GameScreenState extends ConsumerState<GameScreen> {
   }
 
   String _getExampleWithPlaceholder(Word word) {
-    return word.example.replaceAll(word.word, '...');
+    final wordPattern =
+        RegExp(r'\b' + RegExp.escape(word.word) + r'\b', caseSensitive: false);
+    return word.example.replaceAll(wordPattern, '...');
   }
 
   @override
@@ -97,26 +95,33 @@ class GameScreenState extends ConsumerState<GameScreen> {
           color: Theme.of(context).colorScheme.onSecondary,
         ),
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : PageView.builder(
+      body: FutureBuilder<void>(
+        future: _initialLoadFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.white,
+            ));
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return PageView.builder(
               controller: PageController(viewportFraction: 0.97),
               itemCount: learnWords.length,
               onPageChanged: (index) {
                 setState(() {
                   currentIndex = index;
-                  showExample =
-                      false; // Скидаємо відображення прикладу при зміні сторінки
+                  showExample = false;
                 });
               },
               itemBuilder: (context, index) {
                 final word = learnWords[index];
-                final options =
-                    optionsMap[word.id]!; // Використовуємо збережені варіанти
+                final options = optionsMap[word.id]!;
                 final imageUrl = imageUrls[word.id];
 
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 190),
+                  padding: const EdgeInsets.only(bottom: 200),
                   child: Card(
                     color: Theme.of(context).colorScheme.onSurface,
                     shape: RoundedRectangleBorder(
@@ -131,17 +136,20 @@ class GameScreenState extends ConsumerState<GameScreen> {
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15),
                             ),
-                            child: Image.network(
-                              imageUrl!,
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
                               height: 300,
                               width: double.infinity,
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator()),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
                           ),
                         const SizedBox(height: 10),
                         SizedBox(
-                          height:
-                              40, // Встановлюємо фіксовану висоту для контейнера
+                          height: 40,
                           child: Center(
                             child: showExample
                                 ? GestureDetector(
@@ -184,8 +192,9 @@ class GameScreenState extends ConsumerState<GameScreen> {
                               return ElevatedButton(
                                 onPressed: () => _checkAnswer(option, word),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.surface,
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .inverseSurface,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
                                   ),
@@ -206,13 +215,15 @@ class GameScreenState extends ConsumerState<GameScreen> {
                             }).toList(),
                           ),
                         ),
-                        // Додати текст для відображення правильної або неправильної відповіді, якщо потрібно
                       ],
                     ),
                   ),
                 );
               },
-            ),
+            );
+          }
+        },
+      ),
     );
   }
 }

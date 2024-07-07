@@ -54,7 +54,8 @@ class ThemeNotifier extends ChangeNotifier {
         background: const Color(0xFFFFF3EA),
         surface: const Color.fromARGB(255, 233, 225, 219),
         onSecondary: _textColor,
-        onSurface: _cardColorLight, // Додаємо колір картки
+        onSurface: _cardColorLight,
+        inverseSurface: const Color.fromARGB(255, 233, 225, 219),
       ),
       textTheme: const TextTheme(
         bodyLarge: TextStyle(color: _textColor),
@@ -94,7 +95,9 @@ class ThemeNotifier extends ChangeNotifier {
         background: const Color(0xFF121212),
         surface: const Color(0xFF1E1E1E),
         onSecondary: _textColorDark,
-        onSurface: _cardColorDark, // Додаємо колір картки
+        onSurface: _cardColorDark,
+        inverseSurface:
+            const Color.fromARGB(255, 44, 37, 64), // Додаємо колір картки
       ),
       textTheme: const TextTheme(
         bodyLarge: TextStyle(color: _textColorDark),
