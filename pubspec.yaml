@@ -73,6 +73,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/data/words.json
+    - assets/sounds/correct.mp3
+    - assets/sounds/incorrect.mp3
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
@@ -25,6 +26,7 @@ class GameScreenState extends ConsumerState<GameScreen> {
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
   final PageController _pageController = PageController(viewportFraction: 0.97);
+  final AudioPlayer _audioPlayer = AudioPlayer(); // Додаємо AudioPlayer
 
   @override
   void initState() {
@@ -70,12 +72,14 @@ class GameScreenState extends ConsumerState<GameScreen> {
     return options;
   }
 
-  void _checkAnswer(String answer, Word word) {
+  Future<void> _checkAnswer(String answer, Word word) async {
     setState(() {
       selectedAnswer = answer;
     });
 
     if (answer == word.word) {
+      await _audioPlayer.play(AssetSource('sounds/correct.mp3'));
+
       Future.delayed(const Duration(milliseconds: 500), () {
         setState(() {
           selectedAnswer = null;
@@ -90,6 +94,8 @@ class GameScreenState extends ConsumerState<GameScreen> {
           }
         });
       });
+    } else {
+      await _audioPlayer.play(AssetSource('sounds/incorrect.mp3'));
     }
   }
 
@@ -103,6 +109,12 @@ class GameScreenState extends ConsumerState<GameScreen> {
     final wordPattern =
         RegExp(r'\b' + RegExp.escape(word.word) + r'\b', caseSensitive: false);
     return word.example.replaceAll(wordPattern, '...');
+  }
+
+  @override
+  void dispose() {
+    _audioPlayer.dispose(); // Закриваємо AudioPlayer, коли екран знищується
+    super.dispose();
   }
 
   @override
