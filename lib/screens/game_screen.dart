@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
@@ -6,6 +7,7 @@ import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/word_loader.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:words/widgets/confetti.dart';
 
 class GameScreen extends ConsumerStatefulWidget {
   const GameScreen({super.key});
@@ -23,6 +25,7 @@ class GameScreenState extends ConsumerState<GameScreen> {
   int currentIndex = 0;
   bool showExample = false;
   String? selectedAnswer;
+  final ConfettiController _confettiController = ConfettiController();
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
   final PageController _pageController = PageController(viewportFraction: 0.97);
@@ -78,9 +81,10 @@ class GameScreenState extends ConsumerState<GameScreen> {
     });
 
     if (answer == word.word) {
+      await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       await _audioPlayer.play(AssetSource('sounds/correct.mp3'));
 
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {
           selectedAnswer = null;
           currentIndex++;
@@ -90,11 +94,12 @@ class GameScreenState extends ConsumerState<GameScreen> {
               curve: Curves.easeIn,
             );
           } else {
-            // Можна додати обробку, якщо всі слова вивчені
+            _confettiController.play();
           }
         });
       });
     } else {
+      await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       await _audioPlayer.play(AssetSource('sounds/incorrect.mp3'));
     }
   }
@@ -113,7 +118,9 @@ class GameScreenState extends ConsumerState<GameScreen> {
 
   @override
   void dispose() {
-    _audioPlayer.dispose(); // Закриваємо AudioPlayer, коли екран знищується
+    _audioPlayer.dispose();
+    _confettiController
+        .dispose(); // Закриваємо AudioPlayer, коли екран знищується
     super.dispose();
   }
 
@@ -131,146 +138,152 @@ class GameScreenState extends ConsumerState<GameScreen> {
           color: Theme.of(context).colorScheme.onSecondary,
         ),
       ),
-      body: FutureBuilder<void>(
-        future: _initialLoadFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-                child: CircularProgressIndicator(
-              color: Colors.white,
-            ));
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (learnWords.isEmpty) {
-            return const Center(child: Text('No words to learn'));
-          } else {
-            return PageView.builder(
-              controller: _pageController,
-              itemCount: learnWords.length,
-              onPageChanged: (index) {
-                setState(() {
-                  currentIndex = index;
-                  showExample = false;
-                  selectedAnswer = null;
-                });
-              },
-              itemBuilder: (context, index) {
-                final word = learnWords[index];
-                final options = optionsMap[word.id]!;
-                final imageUrl = imageUrls[word.id];
+      body: Stack(
+        children: [
+          FutureBuilder<void>(
+            future: _initialLoadFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.white,
+                ));
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (learnWords.isEmpty) {
+                return const Center(child: Text('No words to learn'));
+              } else {
+                return PageView.builder(
+                  controller: _pageController,
+                  itemCount: learnWords.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      currentIndex = index;
+                      showExample = false;
+                      selectedAnswer = null;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    final word = learnWords[index];
+                    final options = optionsMap[word.id]!;
+                    final imageUrl = imageUrls[word.id];
 
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 200),
-                  child: Card(
-                    color: Theme.of(context).colorScheme.onSurface,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        if (imageUrl != null)
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                            ),
-                            child: CachedNetworkImage(
-                              imageUrl: imageUrl,
-                              height: 300,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator()),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                          ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          height: 40,
-                          child: Center(
-                            child: showExample
-                                ? GestureDetector(
-                                    onTap: _toggleExample,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16.0),
-                                      child: Text(
-                                        _getExampleWithPlaceholder(word),
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSecondary,
-                                          fontSize: 16,
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 200),
+                      child: Card(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            if (imageUrl != null)
+                              ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15),
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: imageUrl,
+                                  height: 300,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
+                              ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              height: 40,
+                              child: Center(
+                                child: showExample
+                                    ? GestureDetector(
+                                        onTap: _toggleExample,
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0),
+                                          child: Text(
+                                            _getExampleWithPlaceholder(word),
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSecondary,
+                                              fontSize: 16,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
-                                        textAlign: TextAlign.center,
+                                      )
+                                    : IconButton(
+                                        icon:
+                                            const Icon(Icons.lightbulb_outline),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
+                                        onPressed: _toggleExample,
                                       ),
-                                    ),
-                                  )
-                                : IconButton(
-                                    icon: const Icon(Icons.lightbulb_outline),
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary,
-                                    onPressed: _toggleExample,
-                                  ),
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: GridView.count(
-                            shrinkWrap: true,
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 15,
-                            childAspectRatio: 4,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: options.map((option) {
-                              final isCorrect = selectedAnswer == option &&
-                                  option == word.word;
-                              final isWrong = selectedAnswer == option &&
-                                  option != word.word;
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: GridView.count(
+                                shrinkWrap: true,
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 15,
+                                childAspectRatio: 4,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: options.map((option) {
+                                  final isCorrect = selectedAnswer == option &&
+                                      option == word.word;
+                                  final isWrong = selectedAnswer == option &&
+                                      option != word.word;
 
-                              return ElevatedButton(
-                                onPressed: () => _checkAnswer(option, word),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: isCorrect
-                                      ? Colors.green
-                                      : isWrong
-                                          ? Colors.red
-                                          : Theme.of(context)
-                                              .colorScheme
-                                              .inverseSurface,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 5),
-                                ),
-                                child: Text(
-                                  option,
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary,
-                                    fontSize: 18,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              );
-                            }).toList(),
-                          ),
+                                  return ElevatedButton(
+                                    onPressed: () => _checkAnswer(option, word),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: isCorrect
+                                          ? Colors.green
+                                          : isWrong
+                                              ? Colors.red
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .inverseSurface,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 5),
+                                    ),
+                                    child: Text(
+                                      option,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
+                                        fontSize: 18,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 );
-              },
-            );
-          }
-        },
+              }
+            },
+          ),
+          ConfettiOverlay(confettiController: _confettiController),
+        ],
       ),
     );
   }
