@@ -21,8 +21,10 @@ class GameScreenState extends ConsumerState<GameScreen> {
   Map<int, List<String>> optionsMap = {};
   int currentIndex = 0;
   bool showExample = false;
+  String? selectedAnswer;
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
+  final PageController _pageController = PageController(viewportFraction: 0.97);
 
   @override
   void initState() {
@@ -32,7 +34,6 @@ class GameScreenState extends ConsumerState<GameScreen> {
 
   Future<void> _initializeData() async {
     try {
-      // Чекаємо, поки дані з провайдера завантажаться
       await ref.read(learnWordsProvider.notifier).loadLearnWords();
       final learnWordIds = ref.read(learnWordsProvider);
 
@@ -41,7 +42,6 @@ class GameScreenState extends ConsumerState<GameScreen> {
       learnWords =
           allWords.where((word) => learnWordIds.contains(word.id)).toList();
 
-      // Паралельне завантаження зображень і варіантів
       await Future.wait(learnWords.map((word) async {
         final url = await firebaseImageService.fetchImageUrl(word.imageUrl);
         imageUrls[word.id] = url;
@@ -71,10 +71,26 @@ class GameScreenState extends ConsumerState<GameScreen> {
   }
 
   void _checkAnswer(String answer, Word word) {
-    // setState(() {
-    //   bool isCorrect = answer == word.word;
-    //   // логіку для обробки правильної або неправильної відповіді
-    // });
+    setState(() {
+      selectedAnswer = answer;
+    });
+
+    if (answer == word.word) {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        setState(() {
+          selectedAnswer = null;
+          currentIndex++;
+          if (currentIndex < learnWords.length) {
+            _pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
+            );
+          } else {
+            // Можна додати обробку, якщо всі слова вивчені
+          }
+        });
+      });
+    }
   }
 
   void _toggleExample() {
@@ -117,12 +133,13 @@ class GameScreenState extends ConsumerState<GameScreen> {
             return const Center(child: Text('No words to learn'));
           } else {
             return PageView.builder(
-              controller: PageController(viewportFraction: 0.97),
+              controller: _pageController,
               itemCount: learnWords.length,
               onPageChanged: (index) {
                 setState(() {
                   currentIndex = index;
                   showExample = false;
+                  selectedAnswer = null;
                 });
               },
               itemBuilder: (context, index) {
@@ -199,12 +216,21 @@ class GameScreenState extends ConsumerState<GameScreen> {
                             childAspectRatio: 4,
                             physics: const NeverScrollableScrollPhysics(),
                             children: options.map((option) {
+                              final isCorrect = selectedAnswer == option &&
+                                  option == word.word;
+                              final isWrong = selectedAnswer == option &&
+                                  option != word.word;
+
                               return ElevatedButton(
                                 onPressed: () => _checkAnswer(option, word),
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context)
-                                      .colorScheme
-                                      .inverseSurface,
+                                  backgroundColor: isCorrect
+                                      ? Colors.green
+                                      : isWrong
+                                          ? Colors.red
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .inverseSurface,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
                                   ),
