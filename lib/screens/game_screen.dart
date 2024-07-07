@@ -2,12 +2,13 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/models/word.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/word_loader.dart';
-import 'package:words/widgets/word_game_card.dart'; // Імпортуємо наш новий віджет
 import 'package:words/widgets/confetti.dart';
+import 'package:words/widgets/word_game_card.dart';
 
 class GameScreen extends ConsumerStatefulWidget {
   const GameScreen({super.key});
@@ -25,6 +26,7 @@ class GameScreenState extends ConsumerState<GameScreen> {
   int currentIndex = 0;
   bool showExample = false;
   String? selectedAnswer;
+  bool soundEnabled = true;
   final ConfettiController _confettiController = ConfettiController();
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
@@ -41,6 +43,9 @@ class GameScreenState extends ConsumerState<GameScreen> {
     try {
       await ref.read(learnWordsProvider.notifier).loadLearnWords();
       final learnWordIds = ref.read(learnWordsProvider);
+
+      final prefs = await SharedPreferences.getInstance();
+      soundEnabled = prefs.getBool('soundEnabled') ?? true;
 
       allWords = await loadWords();
 
@@ -82,7 +87,9 @@ class GameScreenState extends ConsumerState<GameScreen> {
 
     if (answer == word.word) {
       await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
-      await _audioPlayer.play(AssetSource('sounds/correct.mp3'));
+      if (soundEnabled) {
+        await _audioPlayer.play(AssetSource('sounds/correct.mp3'));
+      }
 
       Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {
@@ -100,7 +107,9 @@ class GameScreenState extends ConsumerState<GameScreen> {
       });
     } else {
       await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
-      await _audioPlayer.play(AssetSource('sounds/incorrect.mp3'));
+      if (soundEnabled) {
+        await _audioPlayer.play(AssetSource('sounds/incorrect.mp3'));
+      }
     }
   }
 
@@ -113,8 +122,7 @@ class GameScreenState extends ConsumerState<GameScreen> {
   @override
   void dispose() {
     _audioPlayer.dispose();
-    _confettiController
-        .dispose(); // Закриваємо AudioPlayer, коли екран знищується
+    _confettiController.dispose();
     super.dispose();
   }
 

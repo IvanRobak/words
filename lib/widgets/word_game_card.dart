@@ -53,7 +53,8 @@ class WordGameCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
                       const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.error),
                 ),
               ),
             const SizedBox(height: 10),
