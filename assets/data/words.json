@@ -436,7 +436,95 @@
     "word": "saw",
     "example": "I saw it.",
     "imageUrl": "gs://words-385e3.appspot.com/saw.webp"
+  },
+  {
+    "id": 74,
+    "word": "well",
+    "example": "I am well.",
+    "imageUrl": "gs://words-385e3.appspot.com/well.webp"
+  },
+  {
+    "id": 75,
+    "word": "ran",
+    "example": "I ran fast.",
+    "imageUrl": "gs://words-385e3.appspot.com/ran.webp"
+  },
+  {
+    "id": 76,
+    "word": "brown",
+    "example": "The dog is brown.",
+    "imageUrl": "gs://words-385e3.appspot.com/brown.webp"
+  },
+  {
+    "id": 77,
+    "word": "eat",
+    "example": "I eat food.",
+    "imageUrl": "gs://words-385e3.appspot.com/eat.webp"
+  },
+  {
+    "id": 78,
+    "word": "who",
+    "example": "Who is it?",
+    "imageUrl": "gs://words-385e3.appspot.com/who.webp"
+  },
+  {
+    "id": 79,
+    "word": "new",
+    "example": "This is new.",
+    "imageUrl": "gs://words-385e3.appspot.com/new.webp"
+  },
+  {
+    "id": 80,
+    "word": "must",
+    "example": "I must go.",
+    "imageUrl": "gs://words-385e3.appspot.com/must.webp"
+  },
+  {
+    "id": 81,
+    "word": "black",
+    "example": "The cat is black.",
+    "imageUrl": "gs://words-385e3.appspot.com/black.webp"
+  },
+  {
+    "id": 82,
+    "word": "white",
+    "example": "The snow is white.",
+    "imageUrl": "gs://words-385e3.appspot.com/white.webp"
+  },
+  {
+    "id": 83,
+    "word": "soon",
+    "example": "See you soon.",
+    "imageUrl": "gs://words-385e3.appspot.com/soon.webp"
+  },
+  {
+    "id": 84,
+    "word": "our",
+    "example": "Our home.",
+    "imageUrl": "gs://words-385e3.appspot.com/our.webp"
+  },
+  {
+    "id": 85,
+    "word": "ate",
+    "example": "I ate food.",
+    "imageUrl": "gs://words-385e3.appspot.com/ate.webp"
+  },
+  {
+    "id": 86,
+    "word": "say",
+    "example": "Say hello.",
+    "imageUrl": "gs://words-385e3.appspot.com/say.webp"
+  },
+  {
+    "id": 87,
+    "word": "under",
+    "example": "Under the table.",
+    "imageUrl": "gs://words-385e3.appspot.com/under.webp"
+  },
+  {
+    "id": 88,
+    "word": "please",
+    "example": "Please come.",
+    "imageUrl": "gs://words-385e3.appspot.com/please.webp"
   }
-  
-
 ]
