@@ -1,5 +1,3 @@
-// custom_button.dart
-
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -36,7 +34,9 @@ class CustomButton extends StatelessWidget {
         backgroundColor:
             buttonColor, // Замість primary використовуємо backgroundColor
       ),
-      onPressed: onPressed,
+      onPressed: () {
+        onPressed();
+      },
       child: Text(
         label,
         style: const TextStyle(fontSize: 17),

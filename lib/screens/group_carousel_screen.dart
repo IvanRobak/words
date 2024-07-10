@@ -69,7 +69,7 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
   }
 
   void _markWord(int wordIndex, bool isKnown) {
-    final wordId = widget.words[wordIndex - widget.startIndex].id;
+    final wordId = widget.words[wordIndex].id;
     if (isKnown) {
       ref.read(knownWordsProvider.notifier).add(wordId);
       ref.read(learnWordsProvider.notifier).remove(wordId);
@@ -86,10 +86,6 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
         );
       }
     });
-
-    // Повідомляємо Navigator про зміни та інвалідуюмо favoriteProvider
-    // Navigator.of(context).pop(true);
-    // ref.invalidate(favoriteProvider);
   }
 
   @override
@@ -134,10 +130,8 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
                     height: MediaQuery.of(context).size.height * 0.7,
                     child: WordDetail(
                       word: word,
-                      onKnowPressed: () =>
-                          _markWord(widget.startIndex + index, true),
-                      onLearnPressed: () =>
-                          _markWord(widget.startIndex + index, false),
+                      onKnowPressed: () => _markWord(index, true),
+                      onLearnPressed: () => _markWord(index, false),
                     ),
                   ),
                 );
@@ -149,6 +143,7 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
               child: WordButtonList(
                 words: widget.words,
                 columns: 3,
+                startIndex: widget.startIndex, // Передаємо startIndex
               ),
             ),
           if (widget.showFooter)
@@ -156,7 +151,7 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
               currentPageIndex: _currentPageIndex,
               totalWords: widget.words.length,
               pageController: _pageController!,
-              startIndex: widget.startIndex,
+              startIndex: widget.startIndex, // Передаємо startIndex у футер
             ),
         ],
       ),

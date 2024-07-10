@@ -1,5 +1,3 @@
-// dot_builder.dart
-
 import 'package:flutter/material.dart';
 
 Widget buildDot(
@@ -24,7 +22,7 @@ Widget buildDot(
   }
 
   border = Border.all(
-    color: currentPageIndex % 500 == index // більше ніж кількість слів
+    color: currentPageIndex == index // більше ніж кількість слів
         ? Theme.of(context).colorScheme.secondary
         : Colors.transparent,
     width: 1,

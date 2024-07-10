@@ -26,8 +26,8 @@ class WordListView extends ConsumerWidget {
     required this.onSearchChanged,
   });
 
-  void _navigateToDetails(
-      BuildContext context, WidgetRef ref, List<Word> words, int index,
+  void _navigateToDetails(BuildContext context, WidgetRef ref, List<Word> words,
+      int index, int startIndex,
       {bool showFooter = true}) {
     Navigator.push(
       context,
@@ -35,8 +35,8 @@ class WordListView extends ConsumerWidget {
         builder: (context) => GroupCarouselScreen(
           words: words,
           initialIndex: index,
-          startIndex: 0,
-          showFooter: showFooter, // Передаємо параметр showFooter
+          startIndex: startIndex, // Передаємо правильний startIndex
+          showFooter: showFooter,
         ),
       ),
     ).then((_) {
@@ -71,12 +71,20 @@ class WordListView extends ConsumerWidget {
             itemCount: words.length,
             itemBuilder: (context, index) {
               final word = words[index];
+              final startIndex = (index ~/ 50) *
+                  50; // Визначаємо startIndex для поточної групи
+              final endIndex = (startIndex + 50 > words.length)
+                  ? words.length
+                  : startIndex + 50;
+              final currentGroupWords = words.sublist(startIndex, endIndex);
               return CustomButton(
                 label: word.word,
                 isKnown: knownWords.contains(word.id),
                 isLearned: learnWords.contains(word.id),
-                onPressed: () => _navigateToDetails(context, ref, words, index,
-                    showFooter: false), // Використовуємо showFooter: false
+                onPressed: () => _navigateToDetails(context, ref,
+                    currentGroupWords, index - startIndex, startIndex,
+                    showFooter:
+                        true), // Використовуємо showFooter: true і передаємо правильний startIndex
               );
             },
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:words/models/word.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/screens/group_carousel_screen.dart';
 import 'package:words/widgets/custom_button.dart';
@@ -8,11 +8,13 @@ import 'package:words/widgets/custom_button.dart';
 class WordButtonList extends ConsumerWidget {
   final List<Word> words;
   final int columns;
+  final int startIndex; // Додаємо startIndex
 
   const WordButtonList({
     super.key,
     required this.words,
     required this.columns,
+    required this.startIndex, // Додаємо startIndex
   });
 
   @override
@@ -41,7 +43,7 @@ class WordButtonList extends ConsumerWidget {
                 builder: (context) => GroupCarouselScreen(
                   words: words,
                   initialIndex: index,
-                  startIndex: 0,
+                  startIndex: startIndex, // Передаємо startIndex
                 ),
               ),
             );
