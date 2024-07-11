@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
-import 'package:words/providers/favorite_provider.dart';
-import 'package:words/providers/word_provider.dart';
-import 'package:words/screens/group_carousel_screen.dart';
+import 'package:words/screens/detail_screen.dart';
 import 'package:words/widgets/custom_button.dart';
 import 'package:words/widgets/filter.dart';
 
@@ -26,24 +24,17 @@ class WordListView extends ConsumerWidget {
     required this.onSearchChanged,
   });
 
-  void _navigateToDetails(BuildContext context, WidgetRef ref, List<Word> words,
-      int index, int startIndex,
-      {bool showFooter = true}) {
+  void _navigateToDetails(
+      BuildContext context, WidgetRef ref, List<Word> words, int index) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => GroupCarouselScreen(
+        builder: (context) => DetailScreen(
           words: words,
           initialIndex: index,
-          startIndex: startIndex, // Передаємо правильний startIndex
-          showFooter: showFooter,
         ),
       ),
-    ).then((_) {
-      // Перезавантаження стану вручну
-      final favorites = ref.read(favoriteProvider.notifier).getFavorites();
-      ref.read(wordFilterProvider.notifier).setWords(favorites);
-    });
+    );
   }
 
   @override
@@ -71,20 +62,11 @@ class WordListView extends ConsumerWidget {
             itemCount: words.length,
             itemBuilder: (context, index) {
               final word = words[index];
-              final startIndex = (index ~/ 50) *
-                  50; // Визначаємо startIndex для поточної групи
-              final endIndex = (startIndex + 50 > words.length)
-                  ? words.length
-                  : startIndex + 50;
-              final currentGroupWords = words.sublist(startIndex, endIndex);
               return CustomButton(
                 label: word.word,
                 isKnown: knownWords.contains(word.id),
                 isLearned: learnWords.contains(word.id),
-                onPressed: () => _navigateToDetails(context, ref,
-                    currentGroupWords, index - startIndex, startIndex,
-                    showFooter:
-                        true), // Використовуємо showFooter: true і передаємо правильний startIndex
+                onPressed: () => _navigateToDetails(context, ref, words, index),
               );
             },
           ),
