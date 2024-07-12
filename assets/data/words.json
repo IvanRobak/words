@@ -760,5 +760,83 @@
     "word": "thank",
     "example": "Thank you.",
     "imageUrl": "gs://words-385e3.appspot.com/thank.webp"
+  },
+  {
+    "id": 128,
+    "word": "would",
+    "example": "I would travel.",
+    "imageUrl": "gs://words-385e3.appspot.com/would.webp"
+  },
+  {
+    "id": 129,
+    "word": "very",
+    "example": "Very beautiful.",
+    "imageUrl": "gs://words-385e3.appspot.com/very.webp"
+  },
+  {
+    "id": 130,
+    "word": "your",
+    "example": "Your phone.",
+    "imageUrl": "gs://words-385e3.appspot.com/your.webp"
+  },
+  {
+    "id": 131,
+    "word": "around",
+    "example": "Look around you.",
+    "imageUrl": "gs://words-385e3.appspot.com/around.webp"
+  },
+  {
+    "id": 132,
+    "word": "don't",
+    "example": "Don't touch.",
+    "imageUrl": "gs://words-385e3.appspot.com/don't.webp"
+  },
+  {
+    "id": 133,
+    "word": "right",
+    "example": "Turn right at the corner.",
+    "imageUrl": "gs://words-385e3.appspot.com/right.webp"
+  },
+  {
+    "id": 134,
+    "word": "green",
+    "example": "Green leaves.",
+    "imageUrl": "gs://words-385e3.appspot.com/green.webp"
+  },
+  {
+    "id": 135,
+    "word": "their",
+    "example": "Their car.",
+    "imageUrl": "gs://words-385e3.appspot.com/their.webp"
+  },
+  {
+    "id": 136,
+    "word": "call",
+    "example": "Call me later.",
+    "imageUrl": "gs://words-385e3.appspot.com/call.webp"
+  },
+  {
+    "id": 137,
+    "word": "sleep",
+    "example": "I sleep at night.",
+    "imageUrl": "gs://words-385e3.appspot.com/sleep.webp"
+  },
+  {
+      "id": 138,
+      "word": "five",
+      "example": "Five apples.",
+      "imageUrl": "gs://words-385e3.appspot.com/live.webp"
+  },
+  {
+    "id": 139,
+    "word": "wash",
+    "example": "Wash your hands.",
+    "imageUrl": "gs://words-385e3.appspot.com/wash.webp"
+  },
+  {
+    "id": 140,
+    "word": "or",
+    "example": "Coffee or tea?",
+    "imageUrl": "gs://words-385e3.appspot.com/or.webp"
   }
 ]

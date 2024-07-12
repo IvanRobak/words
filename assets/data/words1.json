@@ -1,3 +1,183 @@
-[
+[   
   
+    {
+      "id": 141,
+      "word": "before",
+      "example": "Come before dark.",
+      "imageUrl": "gs://words-385e3.appspot.com/before.webp"
+    },
+    {
+      "id": 142,
+      "word": "been",
+      "example": "I have been there.",
+      "imageUrl": "gs://words-385e3.appspot.com/been.webp"
+    },
+    {
+      "id": 143,
+      "word": "off",
+      "example": "Turn off the light.",
+      "imageUrl": "gs://words-385e3.appspot.com/off.webp"
+    },
+    {
+      "id": 144,
+      "word": "cold",
+      "example": "Cold weather.",
+      "imageUrl": "gs://words-385e3.appspot.com/cold.webp"
+    },
+    {
+      "id": 145,
+      "word": "tell",
+      "example": "Tell me a story.",
+      "imageUrl": "gs://words-385e3.appspot.com/tell.webp"
+    },
+    {
+      "id": 146,
+      "word": "work",
+      "example": "Work hard every day.",
+      "imageUrl": "gs://words-385e3.appspot.com/work.webp"
+    },
+    {
+      "id": 147,
+      "word": "first",
+      "example": "First prize.",
+      "imageUrl": "gs://words-385e3.appspot.com/first.webp"
+    },
+    {
+      "id": 148,
+      "word": "write",
+      "example": "Write a letter.",
+      "imageUrl": "gs://words-385e3.appspot.com/write.webp"
+    },
+    {
+      "id": 149,
+      "word": "always",
+      "example": "Always be kind.",
+      "imageUrl": "gs://words-385e3.appspot.com/always.webp"
+    },
+    {
+      "id": 150,
+      "word": "made",
+      "example": "I made a cake.",
+      "imageUrl": "gs://words-385e3.appspot.com/made.webp"
+    },
+    {
+      "id": 151,
+      "word": "gave",
+      "example": "I gave a pineapple.",
+      "imageUrl": "gs://words-385e3.appspot.com/gave.webp"
+    },
+    {
+      "id": 152,
+      "word": "us",
+      "example": "Help us please.",
+      "imageUrl": "gs://words-385e3.appspot.com/us.webp"
+    },
+    {
+      "id": 153,
+      "word": "buy",
+      "example": "Buy a book.",
+      "imageUrl": "gs://words-385e3.appspot.com/buy.webp"
+    },
+    {
+      "id": 154,
+      "word": "those",
+      "example": "Those apples.",
+      "imageUrl": "gs://words-385e3.appspot.com/those.webp"
+    },
+    {
+      "id": 155,
+      "word": "use",
+      "example": "Use the phone.",
+      "imageUrl": "gs://words-385e3.appspot.com/use.webp"
+    },
+    {
+      "id": 156,
+      "word": "fast",
+      "example": "Run fast.",
+      "imageUrl": "gs://words-385e3.appspot.com/fast.webp"
+    },
+    {
+      "id": 157,
+      "word": "pull",
+      "example": "Pull the rope.",
+      "imageUrl": "gs://words-385e3.appspot.com/pull.webp"
+    },
+    {
+      "id": 158,
+      "word": "both",
+      "example": "Both are happy.",
+      "imageUrl": "gs://words-385e3.appspot.com/both.webp"
+    },
+    {
+      "id": 159,
+      "word": "sit",
+      "example": "Sit on the chair.",
+      "imageUrl": "gs://words-385e3.appspot.com/sit.webp"
+    },
+    {
+      "id": 160,
+      "word": "which",
+      "example": "Which one is yours?",
+      "imageUrl": "gs://words-385e3.appspot.com/which.webp"
+    },
+    {
+      "id": 161,
+      "word": "read",
+      "example": "Read a book.",
+      "imageUrl": "gs://words-385e3.appspot.com/read.webp"
+    },
+    {
+      "id": 162,
+      "word": "why",
+      "example": "Why is it?",
+      "imageUrl": "gs://words-385e3.appspot.com/why.webp"
+    },
+    {
+      "id": 163,
+      "word": "found",
+      "example": "I found a key.",
+      "imageUrl": "gs://words-385e3.appspot.com/found.webp"
+    },
+    {
+      "id": 164,
+      "word": "because",
+      "example": "Because it is fun.",
+      "imageUrl": "gs://words-385e3.appspot.com/because.webp"
+    },
+    {
+      "id": 165,
+      "word": "best",
+      "example": "You are the best friend.",
+      "imageUrl": "gs://words-385e3.appspot.com/best.webp"
+    },
+    {
+      "id": 166,
+      "word": "upon",
+      "example": "Once upon a time.",
+      "imageUrl": "gs://words-385e3.appspot.com/upon.webp"
+    },
+    {
+      "id": 167,
+      "word": "these",
+      "example": "These are my friends.",
+      "imageUrl": "gs://words-385e3.appspot.com/these.webp"
+    },
+    {
+      "id": 168,
+      "word": "sing",
+      "example": "Sing a song.",
+      "imageUrl": "gs://words-385e3.appspot.com/sing.webp"
+    },
+    {
+      "id": 169,
+      "word": "wish",
+      "example": "Make a wish.",
+      "imageUrl": "gs://words-385e3.appspot.com/wish.webp"
+    },
+    {
+      "id": 170,
+      "word": "many",
+      "example": "Many flowers.",
+      "imageUrl": "gs://words-385e3.appspot.com/many.webp"
+    }
 ]
