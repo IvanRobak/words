@@ -6,7 +6,6 @@ class ThemeNotifier extends ChangeNotifier {
   ThemeData _themeData;
   bool _isDarkMode;
 
-  // Додаємо змінні для кольорів тексту та карток
   static const Color _textColor = Color.fromARGB(255, 51, 51, 51);
   static const Color _textColorDark = Colors.white;
   static const Color _cardColorLight = Color.fromARGB(199, 244, 240, 240);
@@ -66,17 +65,17 @@ class ThemeNotifier extends ChangeNotifier {
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
-                return Colors.white; // Білий колір для кнопок в світлій темі
+                return Colors.white; 
               }
-              return Colors.white; // Білий колір для кнопок в світлій темі
+              return Colors.white; 
             },
           ),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
-                return _textColor; // Колір тексту для кнопок в світлій темі
+                return _textColor; 
               }
-              return _textColor; // Колір тексту для кнопок в світлій темі
+              return _textColor; 
             },
           ),
         ),
@@ -109,18 +108,18 @@ class ThemeNotifier extends ChangeNotifier {
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
                 return Colors.grey[
-                    800]!; // Трохи темніший колір для кнопок в темній темі
+                    800]!; 
               }
               return Colors
-                  .grey[800]!; // Трохи темніший колір для кнопок в темній темі
+                  .grey[800]!; 
             },
           ),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
-                return Colors.white; // Колір тексту для кнопок в темній темі
+                return Colors.white; 
               }
-              return Colors.white; // Колір тексту для кнопок в темній темі
+              return Colors.white; 
             },
           ),
         ),
@@ -144,7 +143,7 @@ final themeNotifierProvider = ChangeNotifierProvider<ThemeNotifier>((ref) {
         background: const Color(0xFFFFF3EA),
         surface: const Color.fromARGB(255, 233, 225, 219),
         onSecondary: ThemeNotifier._textColor,
-        onSurface: ThemeNotifier._cardColorLight, // Використовуємо змінну
+        onSurface: ThemeNotifier._cardColorLight, 
       ),
       textTheme: const TextTheme(
         bodyLarge: TextStyle(color: ThemeNotifier._textColor),
@@ -155,19 +154,19 @@ final themeNotifierProvider = ChangeNotifierProvider<ThemeNotifier>((ref) {
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
-                return Colors.white; // Білий колір для кнопок в світлій темі
+                return Colors.white; 
               }
-              return Colors.white; // Білий колір для кнопок в світлій темі
+              return Colors.white; 
             },
           ),
           foregroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
               if (states.contains(MaterialState.pressed)) {
                 return ThemeNotifier
-                    ._textColor; // Колір тексту для кнопок в світлій темі
+                    ._textColor; 
               }
               return ThemeNotifier
-                  ._textColor; // Колір тексту для кнопок в світлій темі
+                  ._textColor; 
             },
           ),
         ),

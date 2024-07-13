@@ -9,7 +9,6 @@ List<TextSpan> buildExampleSpans(
   if (wordStartIndex == -1) {
     spans.add(TextSpan(
         text: exampleText,
-        // ignore: prefer_const_constructors
         style: TextStyle(
             color: Theme.of(context).colorScheme.onSecondary, fontSize: 16)));
   } else {

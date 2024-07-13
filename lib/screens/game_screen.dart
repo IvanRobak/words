@@ -31,7 +31,7 @@ class GameScreenState extends ConsumerState<GameScreen> {
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
   final PageController _pageController = PageController(viewportFraction: 0.97);
-  final AudioPlayer _audioPlayer = AudioPlayer(); // Додаємо AudioPlayer
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   void initState() {

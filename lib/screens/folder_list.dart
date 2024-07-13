@@ -18,9 +18,7 @@ class FolderListScreen extends ConsumerWidget {
           style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         ),
         iconTheme: IconThemeData(
-          color: Theme.of(context)
-              .colorScheme
-              .onSecondary, // Задаємо колір для значків
+          color: Theme.of(context).colorScheme.onSecondary,
         ),
       ),
       body: folderNotifier.folders.isEmpty

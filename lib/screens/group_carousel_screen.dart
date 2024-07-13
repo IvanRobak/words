@@ -143,7 +143,7 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
               child: WordButtonList(
                 words: widget.words,
                 columns: 3,
-                startIndex: widget.startIndex, // Передаємо startIndex
+                startIndex: widget.startIndex,
               ),
             ),
           if (widget.showFooter)
@@ -151,7 +151,7 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
               currentPageIndex: _currentPageIndex,
               totalWords: widget.words.length,
               pageController: _pageController!,
-              startIndex: widget.startIndex, // Передаємо startIndex у футер
+              startIndex: widget.startIndex, 
             ),
         ],
       ),

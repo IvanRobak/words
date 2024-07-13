@@ -11,7 +11,7 @@ class IconButtons extends StatelessWidget {
     required this.isFavorite,
     required this.onSpeakPressed,
     required this.onFavoritePressed,
-    required this.wordId, // Ініціалізація параметра wordId
+    required this.wordId, 
   });
 
   @override
@@ -21,10 +21,10 @@ class IconButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: 40, // Встановіть ширину, яка дорівнює ширині іконок
+          width: 40, 
           child: Center(
             child: Text(
-              '#$wordId', // Використання wordId для відображення номера
+              '#$wordId',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSecondary,
                 fontSize: 16,

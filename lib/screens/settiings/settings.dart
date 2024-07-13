@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,11 +45,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
     final BuildContext currentContext = context;
 
-    // ignore: use_build_context_synchronously
-    Navigator.of(context).pop(); // Закрити діалогове вікно
+    Navigator.of(context).pop();
 
     showDialog(
-      // ignore: use_build_context_synchronously
       context: currentContext,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
@@ -178,7 +178,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               title: const Text('Logout'),
               onTap: () async {
                 await FirebaseAuth.instance.signOut();
-                // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               },
             ),

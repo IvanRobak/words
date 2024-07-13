@@ -14,13 +14,11 @@ void showSettingsScreen(BuildContext context) {
         child: Align(
           alignment: Alignment.centerLeft,
           child: GestureDetector(
-            onTap:
-                () {}, // Щоб всередині контейнера натискання не закривало його
+            onTap: () {},
             child: FractionallySizedBox(
               widthFactor: 0.75,
               child: Container(
-                height:
-                    MediaQuery.of(context).size.height, // Висота на увесь екран
+                height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.only(left: 20, top: 80),
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,

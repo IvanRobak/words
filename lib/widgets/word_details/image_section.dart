@@ -10,7 +10,7 @@ class ImageSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: 186, // Фіксована висота для контейнера картинки
+        height: 186,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),

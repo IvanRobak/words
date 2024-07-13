@@ -6,7 +6,7 @@ import 'package:words/screens/category.dart';
 import 'package:words/screens/folder_list.dart';
 import 'package:words/screens/word_group.dart';
 import 'package:words/utils/show_settings.dart';
-import 'package:words/screens/game_screen.dart'; // Додати імпорт екрану гри
+import 'package:words/screens/game_screen.dart'; 
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

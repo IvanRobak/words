@@ -21,7 +21,7 @@ class CarouselFooter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final knownWords = ref.watch(knownWordsProvider);
     final learnWords = ref.watch(learnWordsProvider);
-    const itemCount = 50; // Завжди 50 кружечків
+    const itemCount = 50;
 
     return Positioned(
       bottom: 10,
@@ -49,8 +49,7 @@ class CarouselFooter extends ConsumerWidget {
                   final adjustedIndex = startIndex + index;
                   return buildDot(
                     adjustedIndex,
-                    currentPageIndex +
-                        startIndex, // Враховуємо стартовий індекс
+                    currentPageIndex + startIndex,
                     knownWords,
                     learnWords,
                     context,

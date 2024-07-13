@@ -37,7 +37,7 @@ class _AuthScreenState extends State<AuthScreen> {
         await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
       }
-      setState(() {}); // Оновлення стану після входу
+      setState(() {});
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {}
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -49,7 +49,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void _logout() async {
     await FirebaseAuth.instance.signOut();
-    setState(() {}); // Оновлення стану після виходу
+    setState(() {});
   }
 
   @override

@@ -8,13 +8,13 @@ import 'package:words/widgets/custom_button.dart';
 class WordButtonList extends ConsumerWidget {
   final List<Word> words;
   final int columns;
-  final int startIndex; // Додаємо startIndex
+  final int startIndex;
 
   const WordButtonList({
     super.key,
     required this.words,
     required this.columns,
-    required this.startIndex, // Додаємо startIndex
+    required this.startIndex,
   });
 
   @override

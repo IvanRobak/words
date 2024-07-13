@@ -32,7 +32,7 @@ class CustomButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         backgroundColor:
-            buttonColor, // Замість primary використовуємо backgroundColor
+            buttonColor, 
       ),
       onPressed: () {
         onPressed();

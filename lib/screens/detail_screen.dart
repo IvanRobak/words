@@ -17,7 +17,7 @@ class DetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     PageController pageController = PageController(
       initialPage: initialIndex,
-      viewportFraction: 0.95, // Змінює розмір карток у PageView
+      viewportFraction: 0.95,
     );
 
     return Scaffold(
@@ -39,12 +39,8 @@ class DetailScreen extends ConsumerWidget {
               height: MediaQuery.of(context).size.height * 0.7,
               child: WordDetail(
                 word: word,
-                onKnowPressed: () {
-                  // Обробка події натискання кнопки "Know"
-                },
-                onLearnPressed: () {
-                  // Обробка події натискання кнопки "Learn"
-                },
+                onKnowPressed: () {},
+                onLearnPressed: () {},
               ),
             ),
           );

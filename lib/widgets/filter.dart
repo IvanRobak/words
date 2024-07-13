@@ -1,4 +1,4 @@
-// filter_bar.dart
+
 import 'package:flutter/material.dart';
 
 class FilterBar extends StatelessWidget {
@@ -64,7 +64,7 @@ class FilterBar extends StatelessWidget {
                     borderSide: BorderSide(
                         color: Theme.of(context)
                             .colorScheme
-                            .secondary), // Колір підкреслення коли не в фокусі
+                            .secondary),
                   ),
                 ),
                 onChanged: onSearchChanged,

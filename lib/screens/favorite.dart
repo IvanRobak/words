@@ -13,8 +13,8 @@ class FavoriteScreen extends ConsumerStatefulWidget {
 
 class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   TextEditingController searchController = TextEditingController();
-  int columns = 3; // Поточна кількість стовпців
-  final List<int> columnOptions = [2, 3]; // Можливі варіанти
+  int columns = 3;
+  final List<int> columnOptions = [2, 3];
 
   @override
   void initState() {

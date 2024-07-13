@@ -2,16 +2,16 @@ class Word {
   final String word;
   final int id;
   final String example;
-  String? translation; // Робимо властивість опціональною
-  final String imageUrl; // Додаємо поле для URL зображення
+  String? translation;
+  final String imageUrl;
   String? selectedFolder;
 
   Word({
     required this.word,
     required this.id,
     required this.example,
-    this.translation, // Ініціалізуємо переклад як опціональний
-    required this.imageUrl, // Ініціалізуємо URL зображення
+    this.translation,
+    required this.imageUrl,
     this.selectedFolder,
   });
 
@@ -20,9 +20,8 @@ class Word {
       word: json['word'],
       id: json['id'],
       example: json['example'],
-      translation:
-          json['translation'], // Ініціалізуємо переклад як опціональний
-      imageUrl: json['imageUrl'], // Ініціалізуємо URL зображення
+      translation: json['translation'],
+      imageUrl: json['imageUrl'],
       selectedFolder: json['selectedFolder'],
     );
   }
@@ -33,7 +32,7 @@ class Word {
       'id': id,
       'example': example,
       'translation': translation,
-      'imageUrl': imageUrl, // Додаємо URL зображення до JSON
+      'imageUrl': imageUrl,
       'selectedFolder': selectedFolder,
     };
   }

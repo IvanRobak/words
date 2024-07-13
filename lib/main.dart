@@ -4,7 +4,7 @@ import 'package:words/screens/tabs.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'providers/theme_provider.dart'; // Імпортуйте провайдер теми
+import 'providers/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

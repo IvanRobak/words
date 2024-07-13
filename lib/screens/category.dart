@@ -14,7 +14,7 @@ class CategoriesScreen extends StatelessWidget {
         iconTheme: IconThemeData(
           color: Theme.of(context)
               .colorScheme
-              .onSecondary, // Задаємо колір для значків
+              .onSecondary, 
         ),
       ),
       body: const Center(

@@ -7,7 +7,7 @@ Widget buildDot(
   Set<int> learnWords,
   BuildContext context,
 ) {
-  int wordIndex = index + 1; // Інкрементувати index на 1 для відповідності ID
+  int wordIndex = index + 1;
   Color dotColor;
   Border border;
 
@@ -22,7 +22,7 @@ Widget buildDot(
   }
 
   border = Border.all(
-    color: currentPageIndex == index // більше ніж кількість слів
+    color: currentPageIndex == index
         ? Theme.of(context).colorScheme.secondary
         : Colors.transparent,
     width: 1,
@@ -39,7 +39,7 @@ Widget buildDot(
 
 Widget buildDotWithoutHighlight(int index, int start, Set<int> knownWords,
     Set<int> learnWords, BuildContext context) {
-  int wordIndex = start + index + 1; // Додаємо 1 тут
+  int wordIndex = start + index + 1;
   Color dotColor;
 
   if (knownWords.contains(wordIndex)) {
