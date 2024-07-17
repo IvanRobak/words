@@ -8,10 +8,19 @@ class ImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Отримання розмірів екрану
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    // Визначення ширини контейнера як певний відсоток від ширини екрану
+    double containerWidth = screenWidth * 0.85; // 90% від ширини екрану
+    // Визначення висоти контейнера як певний відсоток від висоти екрану
+    double containerHeight = screenHeight * 0.25; // 25% від висоти екрану
+
     return Center(
       child: Container(
-        height: 186,
-        width: double.infinity,
+        height: containerHeight,
+        width: containerWidth,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.grey,
@@ -21,14 +30,14 @@ class ImageSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: CachedNetworkImage(
                   imageUrl: imageUrl!,
-                  fit: BoxFit.contain,
+                  fit: BoxFit.cover,
                   placeholder: (context, url) => const Center(
                     child: CircularProgressIndicator(),
                   ),
                   errorWidget: (context, url, error) => Container(
                     color: Colors.grey,
-                    height: 186,
-                    width: double.infinity,
+                    height: containerHeight,
+                    width: containerWidth,
                     child: const Center(
                       child: Text(
                         'Image not available',
