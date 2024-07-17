@@ -7,19 +7,17 @@ class ExampleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 15,
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min, // Додаємо mainAxisSize
         children: [
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(children: exampleSpans),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 2),
           Container(
             height: 1,
             width: 200,

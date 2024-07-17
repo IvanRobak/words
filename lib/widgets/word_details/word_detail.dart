@@ -228,90 +228,79 @@ class WordDetailState extends ConsumerState<WordDetail> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 20,
-            ),
-            child: Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                      child: Text(
-                        widget.word.word,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 40,
-                        ),
-                      ),
-                    ),
-                    ImageSection(imageUrl: imageUrl),
-                    const SizedBox(height: 20),
-                    IconButtons(
-                      isFavorite: isFavorite,
-                      onSpeakPressed: _speakWord,
-                      onFavoritePressed: () {
-                        if (isFavorite) {
-                          ref
-                              .read(favoriteProvider.notifier)
-                              .removeWord(widget.word);
-                          setState(() {
-                            isFavorite = false;
-                          });
-                        } else {
-                          ref
-                              .read(favoriteProvider.notifier)
-                              .addWord(widget.word);
-                          setState(() {
-                            isFavorite = true;
-                          });
-                        }
-                      },
-                      wordId: widget.word.id,
-                    ),
-                    const SizedBox(height: 20),
-                    ExampleSection(exampleSpans: exampleSpans),
-                    const SizedBox(height: 20),
-                    BottomSection(
-                      isTranslationVisible: isTranslationVisible,
-                      translation: widget.word.translation,
-                      selectedFolder: selectedFolder,
-                      folders: folders,
-                      onFolderChanged: (value) {
-                        if (folders.isEmpty) {
-                          _showNoFoldersMessage();
-                        } else {
-                          setState(() {
-                            selectedFolder = value;
-                            _addWordToFolder(value);
-                          });
-                        }
-                      },
-                      toggleTranslation: _toggleTranslation,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        LearnButton(
-                          isLearn: isLearn,
-                          onPressed: _learnWord,
-                        ),
-                        KnowButton(
-                          isKnown: isKnown,
-                          onPressed: _knowWord,
-                        ),
-                      ],
-                    ),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Center(
+                child: Text(
+                  widget.word.word,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    fontSize: 40,
+                  ),
                 ),
-              ],
-            ),
+              ),
+              ImageSection(imageUrl: imageUrl),
+              IconButtons(
+                isFavorite: isFavorite,
+                onSpeakPressed: _speakWord,
+                onFavoritePressed: () {
+                  if (isFavorite) {
+                    ref.read(favoriteProvider.notifier).removeWord(widget.word);
+                    setState(() {
+                      isFavorite = false;
+                    });
+                  } else {
+                    ref.read(favoriteProvider.notifier).addWord(widget.word);
+                    setState(() {
+                      isFavorite = true;
+                    });
+                  }
+                },
+                wordId: widget.word.id,
+              ),
+              Flexible(
+                child: ExampleSection(exampleSpans: exampleSpans),
+              ),
+              Flexible(
+                child: BottomSection(
+                  isTranslationVisible: isTranslationVisible,
+                  translation: widget.word.translation,
+                  selectedFolder: selectedFolder,
+                  folders: folders,
+                  onFolderChanged: (value) {
+                    if (folders.isEmpty) {
+                      _showNoFoldersMessage();
+                    } else {
+                      setState(() {
+                        selectedFolder = value;
+                        _addWordToFolder(value);
+                      });
+                    }
+                  },
+                  toggleTranslation: _toggleTranslation,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  LearnButton(
+                    isLearn: isLearn,
+                    onPressed: _learnWord,
+                  ),
+                  KnowButton(
+                    isKnown: isKnown,
+                    onPressed: _knowWord,
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
