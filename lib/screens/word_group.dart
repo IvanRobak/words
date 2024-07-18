@@ -98,27 +98,43 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 250,
-                        child: GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: 50,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 10,
-                            mainAxisSpacing: 4.0,
-                            crossAxisSpacing: 8.0,
-                            childAspectRatio: 1,
-                          ),
-                          itemBuilder: (context, dotIndex) {
+                      Expanded(
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            const itemCount = 50;
+                            const crossAxisCount = 10;
+                            const spacing = 8.0;
+                            final availableWidth = constraints.maxWidth;
+                            final dotSize = (availableWidth -
+                                    (crossAxisCount - 1) * spacing) /
+                                crossAxisCount;
+
                             return SizedBox(
-                              child: buildDotWithoutHighlight(
-                                dotIndex,
-                                start,
-                                ref.watch(knownWordsProvider),
-                                ref.watch(learnWordsProvider),
-                                context,
+                              width: availableWidth,
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: itemCount,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: crossAxisCount,
+                                  mainAxisSpacing: spacing,
+                                  crossAxisSpacing: spacing,
+                                  childAspectRatio: 1,
+                                ),
+                                itemBuilder: (context, dotIndex) {
+                                  return SizedBox(
+                                    width: dotSize,
+                                    height: dotSize,
+                                    child: buildDotWithoutHighlight(
+                                      dotIndex,
+                                      start,
+                                      ref.watch(knownWordsProvider),
+                                      ref.watch(learnWordsProvider),
+                                      context,
+                                    ),
+                                  );
+                                },
                               ),
                             );
                           },
