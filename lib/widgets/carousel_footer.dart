@@ -23,10 +23,9 @@ class CarouselFooter extends ConsumerWidget {
     final learnWords = ref.watch(learnWordsProvider);
     const itemCount = 50;
 
-    return Positioned(
-      bottom: 10,
-      left: 0,
-      right: 0,
+    return Container(
+      padding: const EdgeInsets.only(bottom: 10),
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Column(
         children: [
           Text(

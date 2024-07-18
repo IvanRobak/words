@@ -125,21 +125,30 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
               itemBuilder: (context, index) {
                 final word = widget.words[index];
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 70),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.7,
-                    child: WordDetail(
-                      word: word,
-                      onKnowPressed: () => _markWord(index, true),
-                      onLearnPressed: () => _markWord(index, false),
-                    ),
+                  padding: const EdgeInsets.only(
+                      bottom: 100), // adjust the padding here
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: WordDetail(
+                          word: word,
+                          onKnowPressed: () => _markWord(index, true),
+                          onLearnPressed: () => _markWord(index, false),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
             )
           else
             Padding(
-              padding: const EdgeInsets.only(top: 10, left: 15, right: 15),
+              padding: const EdgeInsets.only(
+                top: 5,
+                left: 15,
+                right: 15,
+                bottom: 110,
+              ), // adjust the padding here
               child: WordButtonList(
                 words: widget.words,
                 columns: 3,
@@ -147,11 +156,16 @@ class GroupCarouselScreenState extends ConsumerState<GroupCarouselScreen> {
               ),
             ),
           if (widget.showFooter)
-            CarouselFooter(
-              currentPageIndex: _currentPageIndex,
-              totalWords: widget.words.length,
-              pageController: _pageController!,
-              startIndex: widget.startIndex, 
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: CarouselFooter(
+                currentPageIndex: _currentPageIndex,
+                totalWords: widget.words.length,
+                pageController: _pageController!,
+                startIndex: widget.startIndex,
+              ),
             ),
         ],
       ),

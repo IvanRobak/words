@@ -222,7 +222,7 @@ class WordDetailState extends ConsumerState<WordDetail> {
     }
 
     return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 50),
+      padding: const EdgeInsets.only(top: 20, bottom: 20),
       child: Card(
         color: Theme.of(context).colorScheme.onSurface,
         shape: RoundedRectangleBorder(
