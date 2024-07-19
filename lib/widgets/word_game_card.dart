@@ -30,8 +30,20 @@ class WordGameCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    // Встановлення відступу залежно від висоти екрану
+    double bottomPadding;
+    if (screenHeight > 800) {
+      bottomPadding = 200;
+    } else if (screenHeight > 600) {
+      bottomPadding = 80;
+    } else {
+      bottomPadding = 0;
+    }
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: 200),
+      padding: EdgeInsets.only(bottom: bottomPadding),
       child: Card(
         color: Theme.of(context).colorScheme.onSurface,
         shape: RoundedRectangleBorder(
@@ -53,8 +65,7 @@ class WordGameCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
                       const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) =>
-                      const Icon(Icons.error),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             const SizedBox(height: 10),
