@@ -221,8 +221,11 @@ class WordDetailState extends ConsumerState<WordDetail> {
       selectedFolder = null;
     }
 
+    double screenHeight = MediaQuery.of(context).size.height;
+    double fontSize = screenHeight > 600 ? 40 : 30; // Адаптивний розмір шрифту
+
     return Padding(
-      padding: const EdgeInsets.only(top: 20, bottom: 20),
+      padding: const EdgeInsets.only(top: 10, bottom: 10), // зменшений відступ
       child: Card(
         color: Theme.of(context).colorScheme.onSurface,
         shape: RoundedRectangleBorder(
@@ -230,8 +233,8 @@ class WordDetailState extends ConsumerState<WordDetail> {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: 10,
+            vertical: 5, // зменшений відступ
+            horizontal: 5, // зменшений відступ
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -242,7 +245,8 @@ class WordDetailState extends ConsumerState<WordDetail> {
                   widget.word.word,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize: 40,
+                    fontSize:
+                        fontSize, // Використання адаптивного розміру шрифту
                   ),
                 ),
               ),
