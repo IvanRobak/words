@@ -13,7 +13,13 @@ class FolderContentScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(folder.name),
+        title: Text(
+          folder.name,
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+        ),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
         backgroundColor: Theme.of(context).colorScheme.surface,
       ),
       body: Padding(

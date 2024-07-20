@@ -70,7 +70,10 @@ class _FolderWidgetState extends State<FolderWidget> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Виберіть колір папки'),
+          title: Text(
+            'Виберіть колір папки',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          ),
           content: SingleChildScrollView(
             child: ColorPicker(
               pickerColor: pickerColor,
@@ -179,7 +182,7 @@ class _FolderWidgetState extends State<FolderWidget> {
               child: widget.folder.name.isEmpty
                   ? const Icon(
                       Icons.add,
-                      color: Colors.white,
+                      color: Colors.black,
                       size: 40,
                     )
                   : Text(

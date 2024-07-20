@@ -4,11 +4,28 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/providers/folder_provider.dart';
 import 'package:words/widgets/folder.dart';
 
-class FolderListScreen extends ConsumerWidget {
+class FolderListScreen extends ConsumerStatefulWidget {
   const FolderListScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  FolderListScreenState createState() => FolderListScreenState();
+}
+
+class FolderListScreenState extends ConsumerState<FolderListScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final folderNotifier = ref.read(folderProvider);
+    if (folderNotifier.folders.isEmpty) {
+      folderNotifier.addFolder('Fruits', const Color(0xFF008080)); // Teal
+      folderNotifier.addFolder(
+          'Animals', const Color.fromARGB(255, 175, 149, 2)); // Gold
+      folderNotifier.addFolder('Clothes', const Color(0xFFDA70D6));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final folderNotifier = ref.watch(folderProvider);
 
     return Scaffold(
@@ -21,40 +38,30 @@ class FolderListScreen extends ConsumerWidget {
           color: Theme.of(context).colorScheme.onSecondary,
         ),
       ),
-      body: folderNotifier.folders.isEmpty
-          ? const Center(
-              child: Text(
-                'No folders added yet.',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
-              ),
-            )
-          : GridView.builder(
-              padding: const EdgeInsets.all(16.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16.0,
-                mainAxisSpacing: 16.0,
-              ),
-              itemCount: folderNotifier.folders.length,
-              itemBuilder: (context, index) {
-                final folder = folderNotifier.folders[index];
-                return FolderWidget(
-                  folder: folder,
-                  onNameChanged: (name) {
-                    folderNotifier.updateFolderName(index, name);
-                  },
-                  onColorChanged: (color) {
-                    folderNotifier.updateFolderColor(index, color);
-                  },
-                  onDelete: () {
-                    folderNotifier.deleteFolder(index);
-                  },
-                );
-              },
-            ),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(16.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 16.0,
+          mainAxisSpacing: 16.0,
+        ),
+        itemCount: folderNotifier.folders.length,
+        itemBuilder: (context, index) {
+          final folder = folderNotifier.folders[index];
+          return FolderWidget(
+            folder: folder,
+            onNameChanged: (name) {
+              folderNotifier.updateFolderName(index, name);
+            },
+            onColorChanged: (color) {
+              folderNotifier.updateFolderColor(index, color);
+            },
+            onDelete: () {
+              folderNotifier.deleteFolder(index);
+            },
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _showAddFolderDialog(context, folderNotifier);
