@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:words/screens/folder_content.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/folder.dart';
 
 class FolderWidget extends StatefulWidget {
@@ -29,7 +29,10 @@ class _FolderWidgetState extends State<FolderWidget> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Перейменувати папку'),
+          title: Text(
+            'Перейменувати папку',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          ),
           content: TextField(
             controller: folderNameController,
             decoration:
@@ -49,11 +52,13 @@ class _FolderWidgetState extends State<FolderWidget> {
                   widget.onNameChanged(folderNameController.text);
                   Navigator.of(context).pop();
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Назва папки не може бути порожньою'),
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      'Назва папки не може бути порожньою',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary),
                     ),
-                  );
+                  ));
                 }
               },
             ),
@@ -64,7 +69,8 @@ class _FolderWidgetState extends State<FolderWidget> {
   }
 
   void _showColorPickerDialog() {
-    Color pickerColor = widget.folder.color;
+    ColorSwatch? tempMainColor = widget.folder.color as ColorSwatch?;
+    Color? tempShadeColor = widget.folder.color;
 
     showDialog(
       context: context,
@@ -75,13 +81,20 @@ class _FolderWidgetState extends State<FolderWidget> {
             style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
           ),
           content: SingleChildScrollView(
-            child: ColorPicker(
-              pickerColor: pickerColor,
-              onColorChanged: (color) {
+            child: MaterialColorPicker(
+              selectedColor: tempShadeColor,
+              onColorChange: (color) {
                 setState(() {
-                  pickerColor = color;
+                  tempShadeColor = color;
                 });
               },
+              onMainColorChange: (color) {
+                setState(() {
+                  tempMainColor = color;
+                });
+              },
+              allowShades: false,
+              shrinkWrap: true,
             ),
           ),
           actions: <Widget>[
@@ -94,7 +107,7 @@ class _FolderWidgetState extends State<FolderWidget> {
             TextButton(
               child: const Text('Зберегти'),
               onPressed: () {
-                widget.onColorChanged(pickerColor);
+                widget.onColorChanged(tempMainColor!);
                 Navigator.of(context).pop();
               },
             ),

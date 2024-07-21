@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/providers/folder_provider.dart';
 import 'package:words/widgets/folder.dart';
@@ -15,13 +15,14 @@ class FolderListScreenState extends ConsumerState<FolderListScreen> {
   @override
   void initState() {
     super.initState();
-    final folderNotifier = ref.read(folderProvider);
-    if (folderNotifier.folders.isEmpty) {
-      folderNotifier.addFolder('Fruits', const Color(0xFF008080)); // Teal
-      folderNotifier.addFolder(
-          'Animals', const Color.fromARGB(255, 175, 149, 2)); // Gold
-      folderNotifier.addFolder('Clothes', const Color(0xFFDA70D6));
-    }
+    Future.delayed(Duration.zero, () {
+      final folderNotifier = ref.read(folderProvider);
+      if (folderNotifier.folders.isEmpty) {
+        folderNotifier.addFolder('Fruits', Colors.purple);
+        folderNotifier.addFolder('Animals', Colors.teal); // Green
+        folderNotifier.addFolder('Clothes', Colors.indigo); // Blue
+      }
+    });
   }
 
   @override
@@ -78,7 +79,8 @@ class FolderListScreenState extends ConsumerState<FolderListScreen> {
   void _showAddFolderDialog(
       BuildContext context, FolderNotifier folderNotifier) {
     final TextEditingController folderNameController = TextEditingController();
-    Color folderColor = Colors.blue; // Default color
+    ColorSwatch? tempMainColor = Colors.blue; // Default color
+    Color? tempShadeColor = Colors.blue[800];
 
     showDialog(
       context: context,
@@ -97,11 +99,20 @@ class FolderListScreenState extends ConsumerState<FolderListScreen> {
                     const InputDecoration(hintText: 'Enter folder name'),
               ),
               const SizedBox(height: 20),
-              ColorPicker(
-                pickerColor: folderColor,
-                onColorChanged: (color) {
-                  folderColor = color;
+              MaterialColorPicker(
+                selectedColor: tempShadeColor,
+                onColorChange: (color) {
+                  setState(() {
+                    tempShadeColor = color;
+                  });
                 },
+                onMainColorChange: (color) {
+                  setState(() {
+                    tempMainColor = color;
+                  });
+                },
+                allowShades: false,
+                shrinkWrap: true,
               ),
             ],
           ),
@@ -117,14 +128,16 @@ class FolderListScreenState extends ConsumerState<FolderListScreen> {
               onPressed: () {
                 if (folderNameController.text.isNotEmpty) {
                   folderNotifier.addFolder(
-                      folderNameController.text, folderColor);
+                      folderNameController.text, tempMainColor!);
                   Navigator.of(context).pop();
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Folder name cannot be empty'),
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      'Folder name cannot be empty',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary),
                     ),
-                  );
+                  ));
                 }
               },
             ),
