@@ -234,7 +234,7 @@ class WordDetailState extends ConsumerState<WordDetail> {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 5, // зменшений відступ
-            horizontal: 5, // зменшений відступ
+            horizontal: 15, // зменшений відступ
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
