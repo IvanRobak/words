@@ -25,6 +25,7 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
   int currentIndex = 0;
   bool showExample = false;
   String? selectedAnswer;
+  List<String> currentOptions = [];
   bool soundEnabled = true;
   final ConfettiController _confettiController = ConfettiController();
 
@@ -51,7 +52,7 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
       learnWords =
           allWords.where((word) => learnWordIds.contains(word.id)).toList();
 
-      await Future.wait(learnWords.map((word) async {
+      await Future.wait(allWords.map((word) async {
         final url = await firebaseImageService.fetchImageUrl(word.imageUrl);
         imageUrls[word.id] = url;
       }));
@@ -71,12 +72,9 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
     }
 
     nearbyWords.shuffle();
-    List<String> options = nearbyWords
-        .take(3)
-        .map((w) => imageUrls[w.id])
-        .where((url) => url != null)
-        .cast<String>()
-        .toList();
+
+    List<String> options =
+        nearbyWords.take(3).map((w) => imageUrls[w.id]!).toList();
     options.add(imageUrls[word.id]!);
     options.shuffle();
 
@@ -99,6 +97,7 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
           selectedAnswer = null;
           currentIndex++;
           if (currentIndex < learnWords.length) {
+            currentOptions = _generateImageOptions(learnWords[currentIndex]);
             _pageController.nextPage(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeIn,
@@ -158,6 +157,11 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
               } else if (learnWords.isEmpty) {
                 return const Center(child: Text('No words to learn'));
               } else {
+                if (currentOptions.isEmpty &&
+                    currentIndex < learnWords.length) {
+                  currentOptions =
+                      _generateImageOptions(learnWords[currentIndex]);
+                }
                 return PageView.builder(
                   controller: _pageController,
                   itemCount: learnWords.length,
@@ -166,11 +170,11 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
                       currentIndex = index;
                       showExample = false;
                       selectedAnswer = null;
+                      currentOptions = _generateImageOptions(learnWords[index]);
                     });
                   },
                   itemBuilder: (context, index) {
                     final word = learnWords[index];
-                    final options = _generateImageOptions(word);
 
                     return ImageGameCard(
                       word: word,
@@ -178,8 +182,9 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
                       onToggleExample: _toggleExample,
                       onOptionSelected: (option) =>
                           _checkImageAnswer(option, word),
-                      options: options,
+                      options: currentOptions,
                       selectedAnswer: selectedAnswer,
+                      correctImageUrl: imageUrls[word.id]!,
                     );
                   },
                 );

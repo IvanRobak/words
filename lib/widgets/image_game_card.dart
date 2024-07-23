@@ -9,6 +9,7 @@ class ImageGameCard extends StatelessWidget {
   final Function(String) onOptionSelected;
   final List<String> options;
   final String? selectedAnswer;
+  final String correctImageUrl;
 
   const ImageGameCard({
     super.key,
@@ -18,6 +19,7 @@ class ImageGameCard extends StatelessWidget {
     required this.onOptionSelected,
     required this.options,
     required this.selectedAnswer,
+    required this.correctImageUrl,
   });
 
   @override
@@ -81,9 +83,9 @@ class ImageGameCard extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 children: options.map((option) {
                   final isCorrect =
-                      selectedAnswer == option && option == word.word;
+                      selectedAnswer == option && option == correctImageUrl;
                   final isWrong =
-                      selectedAnswer == option && option != word.word;
+                      selectedAnswer == option && option != correctImageUrl;
 
                   return GestureDetector(
                     onTap: () => onOptionSelected(option),
