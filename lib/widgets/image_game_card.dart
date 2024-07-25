@@ -22,6 +22,12 @@ class ImageGameCard extends StatelessWidget {
     required this.correctImageUrl,
   });
 
+  String _getExampleWithPlaceholder(Word word) {
+    final wordPattern =
+        RegExp(r'\b' + RegExp.escape(word.word) + r'\b', caseSensitive: false);
+    return word.example.replaceAll(wordPattern, '...');
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -44,41 +50,18 @@ class ImageGameCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-              height: 40,
-              child: Center(
-                child: showExample
-                    ? GestureDetector(
-                        onTap: onToggleExample,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            word.word,
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      )
-                    : IconButton(
-                        icon: const Icon(Icons.lightbulb_outline),
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        onPressed: onToggleExample,
-                      ),
-              ),
-            ),
-            const SizedBox(height: 5),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: GridView.count(
                 shrinkWrap: true,
+                padding: const EdgeInsets.only(
+                    top: 15, bottom: 30), // Встановлюємо padding на нуль
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
-                mainAxisSpacing: 15,
+                mainAxisSpacing: 10, // Зменшення відступів між елементами
                 childAspectRatio: 1.0,
                 physics: const NeverScrollableScrollPhysics(),
                 children: options.map((option) {
@@ -115,6 +98,45 @@ class ImageGameCard extends StatelessWidget {
                     ),
                   );
                 }).toList(),
+              ),
+            ),
+            SizedBox(
+              height: 50,
+              child: Center(
+                child: Text(
+                  word.word,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            SizedBox(
+              height: 40,
+              child: Center(
+                child: showExample
+                    ? GestureDetector(
+                        onTap: onToggleExample,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            _getExampleWithPlaceholder(word),
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary,
+                              fontSize: 16,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
+                    : IconButton(
+                        icon: const Icon(Icons.lightbulb_outline),
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        onPressed: onToggleExample,
+                      ),
               ),
             ),
           ],
