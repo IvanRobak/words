@@ -53,8 +53,8 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
               value: 'en',
               groupValue: _selectedLanguage,
               activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                if (states.contains(MaterialState.selected)) {
+              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) {
                   return Theme.of(context).colorScheme.secondary;
                 }
                 return Colors.white;
@@ -73,8 +73,8 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
               value: 'uk',
               groupValue: _selectedLanguage,
               activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                if (states.contains(MaterialState.selected)) {
+              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) {
                   return Theme.of(context).colorScheme.secondary;
                 }
                 return Colors.white;
@@ -93,8 +93,8 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
               value: 'fr',
               groupValue: _selectedLanguage,
               activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                if (states.contains(MaterialState.selected)) {
+              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) {
                   return Theme.of(context).colorScheme.secondary;
                 }
                 return Colors.white;
@@ -112,8 +112,8 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
               value: 'es',
               groupValue: _selectedLanguage,
               activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                if (states.contains(MaterialState.selected)) {
+              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) {
                   return Theme.of(context).colorScheme.secondary;
                 }
                 return Colors.white;
@@ -132,8 +132,8 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
               value: 'it',
               groupValue: _selectedLanguage,
               activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                if (states.contains(MaterialState.selected)) {
+              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) {
                   return Theme.of(context).colorScheme.secondary;
                 }
                 return Colors.white;
@@ -152,8 +152,8 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
               value: 'pt',
               groupValue: _selectedLanguage,
               activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                if (states.contains(MaterialState.selected)) {
+              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) {
                   return Theme.of(context).colorScheme.secondary;
                 }
                 return Colors.white;
@@ -171,8 +171,8 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
               value: 'pl',
               groupValue: _selectedLanguage,
               activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                if (states.contains(MaterialState.selected)) {
+              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) {
                   return Theme.of(context).colorScheme.secondary;
                 }
                 return Colors.white;
@@ -190,8 +190,8 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
               value: 'no',
               groupValue: _selectedLanguage,
               activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                if (states.contains(MaterialState.selected)) {
+              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                if (states.contains(WidgetState.selected)) {
                   return Theme.of(context).colorScheme.secondary;
                 }
                 return Colors.white;

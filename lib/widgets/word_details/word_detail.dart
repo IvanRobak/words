@@ -162,7 +162,7 @@ class WordDetailState extends ConsumerState<WordDetail> {
           'No folders available. Create a folder first.',
           style: TextStyle(color: Theme.of(context).colorScheme.primary),
         ),
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
       ),
     );
   }

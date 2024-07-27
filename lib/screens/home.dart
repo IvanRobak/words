@@ -38,9 +38,9 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
       designSize: const Size(375, 812),
       builder: (context, child) {
         return Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.background,
+            backgroundColor: Theme.of(context).colorScheme.surface,
             elevation: 0,
             leading: Padding(
               padding: EdgeInsets.only(left: 20.w),

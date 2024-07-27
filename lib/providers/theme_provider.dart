@@ -50,10 +50,10 @@ class ThemeNotifier extends ChangeNotifier {
       ).copyWith(
         primary: const Color.fromARGB(255, 65, 93, 104),
         secondary: const Color.fromARGB(255, 255, 145, 0),
-        background: const Color(0xFFFFF3EA),
-        surface: const Color.fromARGB(255, 233, 225, 219),
-        onSecondary: _textColor,
+        surface:
+            const Color(0xFFFFF3EA), // Replaced 'background' with 'surface'
         onSurface: _cardColorLight,
+        onSecondary: _textColor,
         inverseSurface: const Color.fromARGB(255, 233, 225, 219),
       ),
       textTheme: const TextTheme(
@@ -62,24 +62,25 @@ class ThemeNotifier extends ChangeNotifier {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.pressed)) {
-                return Colors.white; 
+          backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.white;
               }
-              return Colors.white; 
+              return Colors.white;
             },
           ),
-          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.pressed)) {
-                return _textColor; 
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) {
+                return _textColor;
               }
-              return _textColor; 
+              return _textColor;
             },
           ),
         ),
       ),
+      scaffoldBackgroundColor: const Color(0xFFFFF3EA),
     );
   }
 
@@ -91,12 +92,11 @@ class ThemeNotifier extends ChangeNotifier {
       colorScheme: const ColorScheme.dark().copyWith(
         primary: const Color.fromARGB(255, 18, 32, 47),
         secondary: const Color.fromARGB(255, 255, 145, 0),
-        background: const Color(0xFF121212),
-        surface: const Color(0xFF1E1E1E),
-        onSecondary: _textColorDark,
+        surface:
+            const Color(0xFF121212), // Replaced 'background' with 'surface'
         onSurface: _cardColorDark,
-        inverseSurface:
-            const Color.fromARGB(255, 44, 37, 64), // Додаємо колір картки
+        onSecondary: _textColorDark,
+        inverseSurface: const Color.fromARGB(255, 44, 37, 64),
       ),
       textTheme: const TextTheme(
         bodyLarge: TextStyle(color: _textColorDark),
@@ -104,22 +104,20 @@ class ThemeNotifier extends ChangeNotifier {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.pressed)) {
-                return Colors.grey[
-                    800]!; 
+          backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.grey[800]!;
               }
-              return Colors
-                  .grey[800]!; 
+              return Colors.grey[800]!;
             },
           ),
-          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.pressed)) {
-                return Colors.white; 
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.white;
               }
-              return Colors.white; 
+              return Colors.white;
             },
           ),
         ),
@@ -140,10 +138,10 @@ final themeNotifierProvider = ChangeNotifierProvider<ThemeNotifier>((ref) {
       ).copyWith(
         primary: const Color.fromARGB(255, 65, 93, 104),
         secondary: const Color.fromARGB(255, 255, 145, 0),
-        background: const Color(0xFFFFF3EA),
-        surface: const Color.fromARGB(255, 233, 225, 219),
+        surface:
+            const Color(0xFFFFF3EA), // Replaced 'background' with 'surface'
+        onSurface: ThemeNotifier._cardColorLight,
         onSecondary: ThemeNotifier._textColor,
-        onSurface: ThemeNotifier._cardColorLight, 
       ),
       textTheme: const TextTheme(
         bodyLarge: TextStyle(color: ThemeNotifier._textColor),
@@ -151,22 +149,20 @@ final themeNotifierProvider = ChangeNotifierProvider<ThemeNotifier>((ref) {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.pressed)) {
-                return Colors.white; 
+          backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.white;
               }
-              return Colors.white; 
+              return Colors.white;
             },
           ),
-          foregroundColor: MaterialStateProperty.resolveWith<Color>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.pressed)) {
-                return ThemeNotifier
-                    ._textColor; 
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) {
+                return ThemeNotifier._textColor;
               }
-              return ThemeNotifier
-                  ._textColor; 
+              return ThemeNotifier._textColor;
             },
           ),
         ),

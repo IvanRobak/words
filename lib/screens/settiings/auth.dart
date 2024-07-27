@@ -95,7 +95,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Card(
-                      color: Theme.of(context).colorScheme.background,
+                      color: Theme.of(context).colorScheme.surface,
                       margin: const EdgeInsets.all(20),
                       child: SingleChildScrollView(
                         child: Padding(

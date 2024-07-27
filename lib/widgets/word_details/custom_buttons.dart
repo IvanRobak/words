@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class LearnButton extends StatelessWidget {
@@ -22,9 +21,9 @@ class LearnButton extends StatelessWidget {
                     .style
                     ?.backgroundColor
                     ?.resolve({
-                  MaterialState.pressed,
-                  MaterialState.hovered,
-                  MaterialState.focused
+                  WidgetState.pressed,
+                  WidgetState.hovered,
+                  WidgetState.focused
                 }) ??
                 Colors.white,
         foregroundColor: isLearn
@@ -34,9 +33,9 @@ class LearnButton extends StatelessWidget {
                     .style
                     ?.foregroundColor
                     ?.resolve({
-                  MaterialState.pressed,
-                  MaterialState.hovered,
-                  MaterialState.focused
+                  WidgetState.pressed,
+                  WidgetState.hovered,
+                  WidgetState.focused
                 }) ??
                 Colors.black,
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -70,9 +69,9 @@ class KnowButton extends StatelessWidget {
                     .style
                     ?.backgroundColor
                     ?.resolve({
-                  MaterialState.pressed,
-                  MaterialState.hovered,
-                  MaterialState.focused
+                  WidgetState.pressed,
+                  WidgetState.hovered,
+                  WidgetState.focused
                 }) ??
                 Colors.white,
         foregroundColor: isKnown
@@ -82,9 +81,9 @@ class KnowButton extends StatelessWidget {
                     .style
                     ?.foregroundColor
                     ?.resolve({
-                  MaterialState.pressed,
-                  MaterialState.hovered,
-                  MaterialState.focused
+                  WidgetState.pressed,
+                  WidgetState.hovered,
+                  WidgetState.focused
                 }) ??
                 Colors.black,
         padding: const EdgeInsets.symmetric(horizontal: 30),
