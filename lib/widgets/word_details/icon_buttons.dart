@@ -11,7 +11,7 @@ class IconButtons extends StatelessWidget {
     required this.isFavorite,
     required this.onSpeakPressed,
     required this.onFavoritePressed,
-    required this.wordId, 
+    required this.wordId,
   });
 
   @override
@@ -21,7 +21,7 @@ class IconButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: 40, 
+          width: 45,
           child: Center(
             child: Text(
               '#$wordId',

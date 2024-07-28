@@ -78,6 +78,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                 );
               },
               child: Card(
+                color: Theme.of(context).colorScheme.inverseSurface,
                 elevation: 4.0,
                 margin: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Padding(
