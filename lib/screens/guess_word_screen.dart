@@ -80,6 +80,28 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
     return options;
   }
 
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Well done, great job!'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                // Тут можна додати додаткову логіку, якщо необхідно
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _checkAnswer(String answer, Word word) async {
     setState(() {
       selectedAnswer = answer;
@@ -102,6 +124,7 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
             );
           } else {
             _confettiController.play();
+            _showCompletionDialog();
           }
         });
       });

@@ -81,6 +81,28 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
     return options;
   }
 
+  void _showCompletionDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Well done, great job!'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                // Тут можна додати додаткову логіку, якщо необхідно
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _checkImageAnswer(String imageUrl, Word word) async {
     setState(() {
       selectedAnswer = imageUrl;
@@ -104,6 +126,7 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
             );
           } else {
             _confettiController.play();
+            _showCompletionDialog();
           }
         });
       });

@@ -67,16 +67,19 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'All',
+                            'Easy',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSecondary,
-                              fontSize: 50.sp,
+                              fontSize: 45.sp,
                               fontWeight: FontWeight.bold,
                               height: 0.9,
                             ),
                           ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
                           Text(
-                            'words',
+                            '500 words',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSecondary,
                               fontSize: 20.sp,
@@ -110,33 +113,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                       child: Center(
                         child: Text(
                           'Discover',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 21.sp,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30.h),
-                  SizedBox(
-                    width: 250.w,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _navigateToCategories(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.r),
-                        ),
-                        padding: EdgeInsets.symmetric(vertical: 25.h),
-                        shadowColor: Colors.black,
-                        elevation: 10,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Categories',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 21.sp,
