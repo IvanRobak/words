@@ -155,18 +155,6 @@ class WordDetailState extends ConsumerState<WordDetail> {
     }
   }
 
-  void _showNoFoldersMessage() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'No folders available. Create a folder first.',
-          style: TextStyle(color: Theme.of(context).colorScheme.primary),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-      ),
-    );
-  }
-
   void _speakWord() async {
     await _flutterTts.speak(widget.word.word);
   }
@@ -279,14 +267,10 @@ class WordDetailState extends ConsumerState<WordDetail> {
                   selectedFolder: selectedFolder,
                   folders: folders,
                   onFolderChanged: (value) {
-                    if (folders.isEmpty) {
-                      _showNoFoldersMessage();
-                    } else {
-                      setState(() {
-                        selectedFolder = value;
-                        _addWordToFolder(value);
-                      });
-                    }
+                    setState(() {
+                      selectedFolder = value;
+                      _addWordToFolder(value);
+                    });
                   },
                   toggleTranslation: _toggleTranslation,
                 ),

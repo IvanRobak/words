@@ -4,7 +4,11 @@ import 'package:words/models/folder.dart';
 import 'package:words/models/word.dart';
 
 class FolderNotifier extends ChangeNotifier {
-  final List<Folder> _folders = [];
+  final List<Folder> _folders = [
+    Folder(name: 'Clothes', words: [], color: Colors.indigo),
+    Folder(name: 'Animals', words: [], color: Colors.green),
+    Folder(name: 'Fruits', words: [], color: Colors.red),
+  ];
 
   List<Folder> get folders => _folders;
 

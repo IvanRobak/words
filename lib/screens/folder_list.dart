@@ -13,19 +13,6 @@ class FolderListScreen extends ConsumerStatefulWidget {
 
 class FolderListScreenState extends ConsumerState<FolderListScreen> {
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      final folderNotifier = ref.read(folderProvider);
-      if (folderNotifier.folders.isEmpty) {
-        folderNotifier.addFolder('Fruits', Colors.purple);
-        folderNotifier.addFolder('Animals', Colors.teal); // Green
-        folderNotifier.addFolder('Clothes', Colors.indigo); // Blue
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final folderNotifier = ref.watch(folderProvider);
 
