@@ -157,8 +157,31 @@ class _FolderWidgetState extends State<FolderWidget> {
                       color: Theme.of(context).colorScheme.onSecondary),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
-                  widget.onDelete();
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Are you sure to delete?'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Cancel'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          ElevatedButton(
+                            child: const Text('Delete'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                              widget.onDelete();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
               ),
             ],
