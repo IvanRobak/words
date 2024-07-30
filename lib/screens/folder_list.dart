@@ -3,6 +3,7 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/providers/folder_provider.dart';
 import 'package:words/widgets/folder.dart';
+import 'package:words/utils/color_palette.dart'; // Імпортуйте ваш файл з кольорами
 
 class FolderListScreen extends ConsumerStatefulWidget {
   const FolderListScreen({super.key});
@@ -22,9 +23,8 @@ class FolderListScreenState extends ConsumerState<FolderListScreen> {
           'Your Folders',
           style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         ),
-        iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.onSecondary,
-        ),
+        iconTheme:
+            IconThemeData(color: Theme.of(context).colorScheme.onSecondary),
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(16.0),
@@ -87,6 +87,7 @@ class FolderListScreenState extends ConsumerState<FolderListScreen> {
               ),
               const SizedBox(height: 20),
               MaterialColorPicker(
+                colors: customColors,
                 selectedColor: tempShadeColor,
                 onColorChange: (color) {
                   setState(() {
@@ -105,13 +106,21 @@ class FolderListScreenState extends ConsumerState<FolderListScreen> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Add'),
+              child: Text(
+                'Add',
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              ),
               onPressed: () {
                 if (folderNameController.text.isNotEmpty) {
                   folderNotifier.addFolder(

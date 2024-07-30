@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:words/screens/folder_content.dart';
+import 'package:words/utils/color_palette.dart';
 import '../models/folder.dart';
 
 class FolderWidget extends StatefulWidget {
@@ -82,6 +83,7 @@ class _FolderWidgetState extends State<FolderWidget> {
           ),
           content: SingleChildScrollView(
             child: MaterialColorPicker(
+              colors: customColors,
               selectedColor: tempShadeColor,
               onColorChange: (color) {
                 setState(() {
@@ -99,13 +101,21 @@ class _FolderWidgetState extends State<FolderWidget> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Скасувати'),
+              child: Text(
+                'Скасувати',
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Зберегти'),
+              child: Text(
+                'Зберегти',
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              ),
               onPressed: () {
                 widget.onColorChanged(tempMainColor!);
                 Navigator.of(context).pop();
