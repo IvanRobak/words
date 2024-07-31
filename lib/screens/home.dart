@@ -67,7 +67,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Easy',
+                            '500',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSecondary,
                               fontSize: 45.sp,
@@ -79,7 +79,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                             height: 5.h,
                           ),
                           Text(
-                            '500 words',
+                            'easy words',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSecondary,
                               fontSize: 20.sp,
