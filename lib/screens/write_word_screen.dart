@@ -74,6 +74,9 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
     }
   }
 
+  void _nextWord() {}
+  void _showHint() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,6 +129,8 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
                       controller: _controller,
                       onSubmit: _checkAnswer,
                       feedback: _feedback,
+                      onNext: _nextWord,
+                      onHint: _showHint,
                     );
                   },
                 );

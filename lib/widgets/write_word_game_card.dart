@@ -9,6 +9,8 @@ class WriteWordGameCard extends StatelessWidget {
   final VoidCallback onToggleExample;
   final TextEditingController controller;
   final VoidCallback onSubmit;
+  final VoidCallback onNext;
+  final VoidCallback onHint;
   final String? feedback;
 
   const WriteWordGameCard({
@@ -19,6 +21,8 @@ class WriteWordGameCard extends StatelessWidget {
     required this.onToggleExample,
     required this.controller,
     required this.onSubmit,
+    required this.onNext,
+    required this.onHint,
     this.feedback,
   });
 
@@ -42,109 +46,165 @@ class WriteWordGameCard extends StatelessWidget {
       bottomPadding = 0;
     }
 
-    return Padding(
-      padding: EdgeInsets.only(bottom: bottomPadding),
-      child: Card(
-        color: Theme.of(context).colorScheme.onSurface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (imageUrl != null)
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Padding(
+        padding: EdgeInsets.only(bottom: bottomPadding),
+        child: Card(
+          color: Theme.of(context).colorScheme.onSurface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (imageUrl != null)
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl!,
+                    height: 300,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
                 ),
-                child: CachedNetworkImage(
-                  imageUrl: imageUrl!,
-                  height: 300,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                ),
-              ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 40,
-              child: Center(
-                child: showExample
-                    ? GestureDetector(
-                        onTap: onToggleExample,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            _getExampleWithPlaceholder(word),
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                              fontSize: 16,
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 30,
+                child: Center(
+                  child: showExample
+                      ? GestureDetector(
+                          onTap: onToggleExample,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              _getExampleWithPlaceholder(word),
+                              style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 16,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
-                            textAlign: TextAlign.center,
                           ),
+                        )
+                      : IconButton(
+                          icon: const Icon(Icons.lightbulb_outline),
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          onPressed: onToggleExample,
                         ),
-                      )
-                    : IconButton(
-                        icon: const Icon(Icons.lightbulb_outline),
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        onPressed: onToggleExample,
-                      ),
+                ),
               ),
-            ),
-            const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextField(
-                    controller: controller,
-                    decoration: const InputDecoration(
-                      labelText: 'Your answer',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: onSubmit,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.surface,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+              const SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: 0.8,
+                      child: TextField(
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          labelText: 'Your answer',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
                     ),
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        fontSize: 18,
+                    const SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: onSubmit,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  if (feedback != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
                       child: Text(
-                        feedback!,
+                        'Submit',
                         style: TextStyle(
-                          fontSize: 18,
-                          color: feedback == 'Correct!'
-                              ? Colors.green
-                              : Colors.red,
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 16,
                         ),
                         textAlign: TextAlign.center,
                       ),
                     ),
-                ],
+                    if (feedback != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          feedback!,
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: feedback == 'Correct!'
+                                ? Colors.green
+                                : Colors.red,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    // const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          onPressed: onHint,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 20),
+                          ),
+                          child: Text(
+                            'Hint',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: onNext,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.surface,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 20),
+                          ),
+                          child: Text(
+                            'Next',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

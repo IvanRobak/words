@@ -101,20 +101,6 @@ class ImageGameCard extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: 50,
-              child: Center(
-                child: Text(
-                  word.word,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            SizedBox(
               height: 40,
               child: Center(
                 child: showExample
@@ -137,6 +123,20 @@ class ImageGameCard extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onSecondary,
                         onPressed: onToggleExample,
                       ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            SizedBox(
+              height: 50,
+              child: Center(
+                child: Text(
+                  word.word,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSecondary,
+                    fontSize: 35,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ],

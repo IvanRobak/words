@@ -2807,5 +2807,83 @@
     "word": "trip",
     "example": "A long trip.",
     "imageUrl": "gs://words-385e3.appspot.com/trip.webp"
+  },
+  {
+    "id": 469,
+    "word": "dress",
+    "example": "Wear a dress.",
+    "imageUrl": "gs://words-385e3.appspot.com/dress.webp"
+  },
+  {
+    "id": 470,
+    "word": "row",
+    "example": "Sit in a row.",
+    "imageUrl": "gs://words-385e3.appspot.com/row.webp"
+  },
+  {
+    "id": 471,
+    "word": "design",
+    "example": "Create a design.",
+    "imageUrl": "gs://words-385e3.appspot.com/design.webp"
+  },
+  {
+    "id": 472,
+    "word": "afraid",
+    "example": "Afraid of the dark.",
+    "imageUrl": "gs://words-385e3.appspot.com/afraid.webp"
+  },
+  {
+    "id": 473,
+    "word": "gun",
+    "example": "Clean the gun.",
+    "imageUrl": "gs://words-385e3.appspot.com/gun.webp"
+  },
+  {
+    "id": 474,
+    "word": "glass",
+    "example": "Glass window.",
+    "imageUrl": "gs://words-385e3.appspot.com/glass.webp"
+  },
+  {
+    "id": 475,
+    "word": "skin",
+    "example": "Skin care.",
+    "imageUrl": "gs://words-385e3.appspot.com/skin.webp"
+  },
+  {
+    "id": 476,
+    "word": "key",
+    "example": "Turn the key.",
+    "imageUrl": "gs://words-385e3.appspot.com/key.webp"
+  },
+  {
+    "id": 477,
+    "word": "engine",
+    "example": "Start the engine.",
+    "imageUrl": "gs://words-385e3.appspot.com/engine.webp"
+  },
+  {
+    "id": 478,
+    "word": "east",
+    "example": "To the east.",
+    "imageUrl": "gs://words-385e3.appspot.com/east.webp"
+  },
+  {
+    "id": 479,
+    "word": "stick",
+    "example": "Pick up the stick.",
+    "imageUrl": "gs://words-385e3.appspot.com/stick.webp"
+  },
+  {
+    "id": 480,
+    "word": "corn",
+    "example": "Eat corn.",
+    "imageUrl": "gs://words-385e3.appspot.com/corn.webp"
+  },
+  {
+    "id": 481,
+    "word": "garden",
+    "example": "Plant in the garden.",
+    "imageUrl": "gs://words-385e3.appspot.com/garden.webp"
   }
 ]
