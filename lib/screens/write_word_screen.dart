@@ -24,8 +24,7 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
   int currentIndex = 0;
   bool showExample = false;
   bool showFeedback = false;
-
-  String? _feedback;
+  String? feedback;
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
   final PageController _pageController = PageController(viewportFraction: 0.97);
@@ -55,7 +54,7 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
     }
   }
 
-  void _toggleExample() {
+  void toggleExample() {
     setState(() {
       showExample = !showExample;
     });
@@ -65,12 +64,12 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
     if (_controller.text.trim().toLowerCase() ==
         learnWords[currentIndex].word.toLowerCase()) {
       setState(() {
-        _feedback = 'Correct!';
+        feedback = 'Correct!';
         showFeedback = true;
       });
     } else {
       setState(() {
-        _feedback = 'Try again!';
+        feedback = 'Try again!';
         showFeedback = true;
       });
     }
@@ -82,8 +81,17 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
     });
   }
 
-  void _nextWord() {}
-  void _showHint() {}
+  void nextWord() {
+    if (currentIndex < learnWords.length - 1) {
+      setState(() {
+        currentIndex++;
+      });
+      _pageController.nextPage(
+          duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+    } else {}
+  }
+
+  void showHint() {}
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +129,7 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
                     setState(() {
                       currentIndex = index;
                       showExample = false;
-                      _feedback = null;
+                      feedback = null;
                       _controller.clear();
                     });
                   },
@@ -134,12 +142,12 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
                       imageUrl: imageUrl,
                       showExample: showExample,
                       showFeedback: showFeedback,
-                      onToggleExample: _toggleExample,
+                      onToggleExample: toggleExample,
                       controller: _controller,
                       onSubmit: _checkAnswer,
-                      feedback: _feedback,
-                      onNext: _nextWord,
-                      onHint: _showHint,
+                      feedback: feedback,
+                      onNext: nextWord,
+                      onHint: showHint,
                     );
                   },
                 );
