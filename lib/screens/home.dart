@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:words/screens/settiings/auth.dart';
-import 'package:words/screens/category.dart';
 import 'package:words/screens/folder_list.dart';
 import 'package:words/screens/word_group.dart';
 import 'package:words/utils/show_settings.dart';
@@ -17,21 +14,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class HomeScreenState extends ConsumerState<HomeScreen> {
-  void _navigateToCategories(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const CategoriesScreen()),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AuthScreen()),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
