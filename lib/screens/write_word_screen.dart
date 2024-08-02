@@ -23,9 +23,9 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
   Map<int, String> imageUrls = {};
   int currentIndex = 0;
   bool showExample = false;
+  bool showFeedback = false;
 
   String? _feedback;
-  bool _showExample = false;
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
   final PageController _pageController = PageController(viewportFraction: 0.97);
@@ -57,7 +57,7 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
 
   void _toggleExample() {
     setState(() {
-      _showExample = !_showExample;
+      showExample = !showExample;
     });
   }
 
@@ -66,12 +66,20 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
         learnWords[currentIndex].word.toLowerCase()) {
       setState(() {
         _feedback = 'Correct!';
+        showFeedback = true;
       });
     } else {
       setState(() {
         _feedback = 'Try again!';
+        showFeedback = true;
       });
     }
+
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        showFeedback = false;
+      });
+    });
   }
 
   void _nextWord() {}
@@ -124,7 +132,8 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
                     return WriteWordGameCard(
                       word: word,
                       imageUrl: imageUrl,
-                      showExample: _showExample,
+                      showExample: showExample,
+                      showFeedback: showFeedback,
                       onToggleExample: _toggleExample,
                       controller: _controller,
                       onSubmit: _checkAnswer,

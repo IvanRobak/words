@@ -12,19 +12,20 @@ class WriteWordGameCard extends StatelessWidget {
   final VoidCallback onNext;
   final VoidCallback onHint;
   final String? feedback;
+  final bool showFeedback;
 
-  const WriteWordGameCard({
-    super.key,
-    required this.word,
-    required this.imageUrl,
-    required this.showExample,
-    required this.onToggleExample,
-    required this.controller,
-    required this.onSubmit,
-    required this.onNext,
-    required this.onHint,
-    this.feedback,
-  });
+  const WriteWordGameCard(
+      {super.key,
+      required this.word,
+      required this.imageUrl,
+      required this.showExample,
+      required this.onToggleExample,
+      required this.controller,
+      required this.onSubmit,
+      required this.onNext,
+      required this.onHint,
+      this.feedback,
+      required this.showFeedback});
 
   String _getExampleWithPlaceholder(Word word) {
     final wordPattern =
@@ -189,18 +190,22 @@ class WriteWordGameCard extends StatelessWidget {
                           Positioned.fill(
                             child: Align(
                               alignment: Alignment.center,
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5, horizontal: 20),
-                                child: Text(
-                                  feedback!,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: feedback == 'Correct!'
-                                        ? Colors.green
-                                        : Colors.red,
+                              child: AnimatedOpacity(
+                                opacity: showFeedback ? 1.0 : 0.0,
+                                duration: const Duration(milliseconds: 500),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 20),
+                                  child: Text(
+                                    feedback!,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: feedback == 'Correct!'
+                                          ? Colors.green
+                                          : Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
                               ),
                             ),
