@@ -2885,5 +2885,119 @@
     "word": "garden",
     "example": "Plant in the garden.",
     "imageUrl": "gs://words-385e3.appspot.com/garden.webp"
+  },
+  {
+    "id": 482,
+    "word": "team",
+    "example": "Join the team.",
+    "imageUrl": "gs://words-385e3.appspot.com/team.webp"
+  },
+  {
+    "id": 483,
+    "word": "ring",
+    "example": "Ring the bell.",
+    "imageUrl": "gs://words-385e3.appspot.com/ring.webp"
+  },
+  {
+    "id": 484,
+    "word": "history",
+    "example": "Study history.",
+    "imageUrl": "gs://words-385e3.appspot.com/history.webp"
+  },
+  {
+    "id": 485,
+    "word": "break",
+    "example": "Take a break.",
+    "imageUrl": "gs://words-385e3.appspot.com/break.webp"
+  },
+  {
+    "id": 486,
+    "word": "uncle",
+    "example": "Visit my uncle.",
+    "imageUrl": "gs://words-385e3.appspot.com/uncle.webp"
+  },
+  {
+    "id": 487,
+    "word": "lady",
+    "example": "A kind lady.",
+    "imageUrl": "gs://words-385e3.appspot.com/lady.webp"
+  },
+  {
+    "id": 488,
+    "word": "art",
+    "example": "Modern art.",
+    "imageUrl": "gs://words-385e3.appspot.com/art.webp"
+  },
+  {
+    "id": 489,
+    "word": "corner",
+    "example": "Stand in the corner.",
+    "imageUrl": "gs://words-385e3.appspot.com/corner.webp"
+  },
+  {
+    "id": 490,
+    "word": "sand",
+    "example": "Beach sand.",
+    "imageUrl": "gs://words-385e3.appspot.com/sand.webp"
+  },
+  {
+    "id": 491,
+    "word": "bones",
+    "example": "Bones of the body.",
+    "imageUrl": "gs://words-385e3.appspot.com/bones.webp"
+  },
+  {
+    "id": 492,
+    "word": "fit",
+    "example": "Stay fit.",
+    "imageUrl": "gs://words-385e3.appspot.com/fit.webp"
+  },
+  {
+    "id": 493,
+    "word": "track",
+    "example": "Run on the track.",
+    "imageUrl": "gs://words-385e3.appspot.com/track.webp"
+  },
+  {
+    "id": 494,
+    "word": "stream",
+    "example": "A flowing stream.",
+    "imageUrl": "gs://words-385e3.appspot.com/stream.webp"
+  },
+  {
+    "id": 495,
+    "word": "triangle",
+    "example": "A triangle shape.",
+    "imageUrl": "gs://words-385e3.appspot.com/triangle.webp"
+  },
+  {
+    "id": 496,
+    "word": "duck",
+    "example": "A yellow duck.",
+    "imageUrl": "gs://words-385e3.appspot.com/duck.webp"
+  },
+  {
+    "id": 497,
+    "word": "wall",
+    "example": "Paint the wall.",
+    "imageUrl": "gs://words-385e3.appspot.com/wall.webp"
+  },
+  {
+    "id": 498,
+    "word": "chair",
+    "example": "Sit on the chair.",
+    "imageUrl": "gs://words-385e3.appspot.com/chair.webp"
+  },
+  {
+    "id": 499,
+    "word": "shark",
+    "example": "A great white shark.",
+    "imageUrl": "gs://words-385e3.appspot.com/shark.webp"
+  },
+  {
+    "id": 500,
+    "word": "leaf",
+    "example": "A green leaf.",
+    "imageUrl": "gs://words-385e3.appspot.com/leaf.webp"
   }
 ]

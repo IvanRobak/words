@@ -140,64 +140,71 @@ class WriteWordGameCard extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    if (feedback != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Text(
-                          feedback!,
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: feedback == 'Correct!'
-                                ? Colors.green
-                                : Colors.red,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    // const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Stack(
                       children: [
-                        ElevatedButton(
-                          onPressed: onHint,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.surface,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                              onPressed: onHint,
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 20),
+                              ),
+                              child: Text(
+                                'Hint',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                  fontSize: 14,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 20),
-                          ),
-                          child: Text(
-                            'Hint',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                              fontSize: 14,
+                            TextButton(
+                              onPressed: onNext,
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 20),
+                              ),
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                  fontSize: 14,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
+                          ],
                         ),
-                        ElevatedButton(
-                          onPressed: onNext,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.surface,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                        if (feedback != null)
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 20),
+                                child: Text(
+                                  feedback!,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: feedback == 'Correct!'
+                                        ? Colors.green
+                                        : Colors.red,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 20),
                           ),
-                          child: Text(
-                            'Next',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                              fontSize: 14,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
                       ],
                     ),
                   ],
