@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:words/models/word.dart';
+import 'package:words/utils/text_utils.dart';
 
 class WordGameCard extends StatelessWidget {
   final Word word;
@@ -21,12 +22,6 @@ class WordGameCard extends StatelessWidget {
     required this.options,
     required this.selectedAnswer,
   });
-
-  String _getExampleWithPlaceholder(Word word) {
-    final wordPattern =
-        RegExp(r'\b' + RegExp.escape(word.word) + r'\b', caseSensitive: false);
-    return word.example.replaceAll(wordPattern, '...');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +73,7 @@ class WordGameCard extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
-                            _getExampleWithPlaceholder(word),
+                            getExampleWithPlaceholder(word),
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.onSecondary,
                               fontSize: 16,

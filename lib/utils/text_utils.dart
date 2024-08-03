@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:words/models/word.dart';
 
 List<TextSpan> buildExampleSpans(
     BuildContext context, String exampleText, String wordText) {
@@ -35,3 +36,9 @@ List<TextSpan> buildExampleSpans(
 
   return spans;
 }
+
+ String getExampleWithPlaceholder(Word word) {
+    final wordPattern =
+        RegExp(r'\b' + RegExp.escape(word.word) + r'\b', caseSensitive: false);
+    return word.example.replaceAll(wordPattern, '...');
+  }

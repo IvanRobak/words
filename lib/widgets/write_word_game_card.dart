@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:words/models/word.dart';
+import 'package:words/utils/text_utils.dart';
 
 class WriteWordGameCard extends StatefulWidget {
   final Word word;
@@ -91,7 +92,7 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
-                              widget.word.word,
+                              getExampleWithPlaceholder(widget.word),
                               style: TextStyle(
                                 color:
                                     Theme.of(context).colorScheme.onSecondary,
