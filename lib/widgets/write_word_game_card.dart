@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:words/models/word.dart';
 
-class WriteWordGameCard extends StatelessWidget {
+class WriteWordGameCard extends StatefulWidget {
   final Word word;
   final String? imageUrl;
   final bool showExample;
@@ -13,26 +13,28 @@ class WriteWordGameCard extends StatelessWidget {
   final VoidCallback onHint;
   final String? feedback;
   final bool showFeedback;
+  final bool showHint;
 
-  const WriteWordGameCard(
-      {super.key,
-      required this.word,
-      required this.imageUrl,
-      required this.showExample,
-      required this.onToggleExample,
-      required this.controller,
-      required this.onSubmit,
-      required this.onNext,
-      required this.onHint,
-      this.feedback,
-      required this.showFeedback});
+  const WriteWordGameCard({
+    super.key,
+    required this.word,
+    required this.imageUrl,
+    required this.showExample,
+    required this.onToggleExample,
+    required this.controller,
+    required this.onSubmit,
+    required this.onNext,
+    required this.onHint,
+    required this.showHint,
+    this.feedback,
+    required this.showFeedback,
+  });
 
-  String _getExampleWithPlaceholder(Word word) {
-    final wordPattern =
-        RegExp(r'\b' + RegExp.escape(word.word) + r'\b', caseSensitive: false);
-    return word.example.replaceAll(wordPattern, '...');
-  }
+  @override
+  WriteWordGameCardState createState() => WriteWordGameCardState();
+}
 
+class WriteWordGameCardState extends State<WriteWordGameCard> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -61,14 +63,14 @@ class WriteWordGameCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (imageUrl != null)
+              if (widget.imageUrl != null)
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: imageUrl!,
+                    imageUrl: widget.imageUrl!,
                     height: 300,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -82,14 +84,14 @@ class WriteWordGameCard extends StatelessWidget {
               SizedBox(
                 height: 30,
                 child: Center(
-                  child: showExample
+                  child: widget.showExample
                       ? GestureDetector(
-                          onTap: onToggleExample,
+                          onTap: widget.onToggleExample,
                           child: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
-                              _getExampleWithPlaceholder(word),
+                              widget.word.word,
                               style: TextStyle(
                                 color:
                                     Theme.of(context).colorScheme.onSecondary,
@@ -102,7 +104,7 @@ class WriteWordGameCard extends StatelessWidget {
                       : IconButton(
                           icon: const Icon(Icons.lightbulb_outline),
                           color: Theme.of(context).colorScheme.onSecondary,
-                          onPressed: onToggleExample,
+                          onPressed: widget.onToggleExample,
                         ),
                 ),
               ),
@@ -114,7 +116,7 @@ class WriteWordGameCard extends StatelessWidget {
                     FractionallySizedBox(
                       widthFactor: 0.8,
                       child: TextField(
-                        controller: controller,
+                        controller: widget.controller,
                         decoration: const InputDecoration(
                           labelText: 'Your answer',
                           border: OutlineInputBorder(),
@@ -123,7 +125,7 @@ class WriteWordGameCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     ElevatedButton(
-                      onPressed: onSubmit,
+                      onPressed: widget.onSubmit,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         shape: RoundedRectangleBorder(
@@ -147,7 +149,7 @@ class WriteWordGameCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TextButton(
-                              onPressed: onHint,
+                              onPressed: widget.onHint,
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
@@ -155,18 +157,30 @@ class WriteWordGameCard extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 8, horizontal: 20),
                               ),
-                              child: Text(
-                                'Hint',
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
-                                  fontSize: 14,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
+                              child: widget.showHint
+                                  ? Text(
+                                      widget.word.word,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
+                                        fontSize: 14,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Text(
+                                      'Hint',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
+                                        fontSize: 14,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
                             ),
                             TextButton(
-                              onPressed: onNext,
+                              onPressed: widget.onNext,
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(30),
@@ -186,21 +200,21 @@ class WriteWordGameCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        if (feedback != null)
+                        if (widget.feedback != null)
                           Positioned.fill(
                             child: Align(
                               alignment: Alignment.center,
                               child: AnimatedOpacity(
-                                opacity: showFeedback ? 1.0 : 0.0,
+                                opacity: widget.showFeedback ? 1.0 : 0.0,
                                 duration: const Duration(milliseconds: 500),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 5, horizontal: 20),
                                   child: Text(
-                                    feedback!,
+                                    widget.feedback!,
                                     style: TextStyle(
                                       fontSize: 18,
-                                      color: feedback == 'Correct!'
+                                      color: widget.feedback == 'Correct!'
                                           ? Colors.green
                                           : Colors.red,
                                     ),

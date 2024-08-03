@@ -24,6 +24,7 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
   int currentIndex = 0;
   bool showExample = false;
   bool showFeedback = false;
+  bool showHint = false;
   String? feedback;
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
@@ -91,7 +92,11 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
     } else {}
   }
 
-  void showHint() {}
+  void toggleHint() {
+    setState(() {
+      showHint = !showHint;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,17 +143,17 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
                     final imageUrl = imageUrls[word.id];
 
                     return WriteWordGameCard(
-                      word: word,
-                      imageUrl: imageUrl,
-                      showExample: showExample,
-                      showFeedback: showFeedback,
-                      onToggleExample: toggleExample,
-                      controller: _controller,
-                      onSubmit: _checkAnswer,
-                      feedback: feedback,
-                      onNext: nextWord,
-                      onHint: showHint,
-                    );
+                        word: word,
+                        imageUrl: imageUrl,
+                        showExample: showExample,
+                        showFeedback: showFeedback,
+                        onToggleExample: toggleExample,
+                        controller: _controller,
+                        onSubmit: _checkAnswer,
+                        feedback: feedback,
+                        onNext: nextWord,
+                        onHint: toggleHint,
+                        showHint: showHint);
                   },
                 );
               }
