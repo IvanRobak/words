@@ -51,12 +51,15 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
 
   void _revealNextLetter() {
     setState(() {
+      bool letterRevealed = false;
       for (int i = 0; i < _revealedLetters.length; i++) {
         if (!_revealedLetters[i]) {
           _revealedLetters[i] = true;
+          letterRevealed = true;
           break;
         }
       }
+      if (letterRevealed) {}
     });
   }
 
@@ -70,12 +73,19 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
       }
       revealedWord += ' '; // Adding space between characters for readability
     }
-    return revealedWord;
+    return revealedWord.trim();
   }
 
   void _toggleHint() {
     setState(() {
       _showHintButton = !_showHintButton;
+      if (!_showHintButton) {
+        // Це перший раз, коли натиснута кнопка Hint, ми просто змінюємо стан кнопки.
+        // На наступних натисканнях _revealNextLetter буде викликатися.
+      } else {
+        // Якщо кнопка вже була натиснута (кнопка Hint знову видима), відкриваємо наступну букву.
+        _revealNextLetter();
+      }
     });
   }
 
@@ -196,10 +206,7 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
                             children: [
                               if (_showHintButton)
                                 TextButton(
-                                  onPressed: () {
-                                    _toggleHint();
-                                    _revealNextLetter();
-                                  },
+                                  onPressed: _toggleHint,
                                   style: ElevatedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30),
