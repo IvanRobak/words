@@ -31,9 +31,9 @@
   },
   {
     "id": 6,
-    "word": "said",
-    "example": "She said hello.",
-    "imageUrl": "gs://words-385e3.appspot.com/said.webp"
+    "word": "say",
+    "example": "Say hello.",
+    "imageUrl": "gs://words-385e3.appspot.com/say.webp"
   },
   {
     "id": 7,
@@ -235,9 +235,9 @@
   },
   {
     "id": 40,
-    "word": "that",
-    "example": "I like that.",
-    "imageUrl": "gs://words-385e3.appspot.com/that.webp"
+    "word": "cucumber",
+    "example": "Slice a cucumber.",
+    "imageUrl": "gs://words-385e3.appspot.com/cucumber.webp"
   },
   {
     "id": 41,
@@ -248,7 +248,7 @@
   {
     "id": 42,
     "word": "on",
-    "example": "It is on.",
+    "example": "The book is on the table.",
     "imageUrl": "gs://words-385e3.appspot.com/on.webp"
   },
   {
@@ -265,9 +265,9 @@
   },
   {
     "id": 45,
-    "word": "at",
-    "example": "I am at home.",
-    "imageUrl": "gs://words-385e3.appspot.com/at.webp"
+    "word": "raspberry",
+    "example": "Eat raspberry.",
+    "imageUrl": "gs://words-385e3.appspot.com/raspberry.webp"
   },
   {
     "id": 46,
@@ -361,9 +361,9 @@
   },
   {
     "id": 61,
-    "word": "went",
-    "example": "I went there.",
-    "imageUrl": "gs://words-385e3.appspot.com/went.webp"
+    "word": "oven",
+    "example": "Bake in the oven.",
+    "imageUrl": "gs://words-385e3.appspot.com/oven.webp"
   },
   {
     "id": 62,
@@ -433,9 +433,9 @@
   },
   {
     "id": 73,
-    "word": "saw",
-    "example": "I saw it.",
-    "imageUrl": "gs://words-385e3.appspot.com/saw.webp"
+    "word": "plug",
+    "example": "Plug it in.",
+    "imageUrl": "gs://words-385e3.appspot.com/plug.webp"
   },
   {
     "id": 74,
@@ -505,15 +505,15 @@
   },
   {
     "id": 85,
-    "word": "ate",
-    "example": "I ate food.",
-    "imageUrl": "gs://words-385e3.appspot.com/ate.webp"
+    "word": "socket",
+    "example": "Use the socket.",
+    "imageUrl": "gs://words-385e3.appspot.com/socket.webp"
   },
   {
     "id": 86,
-    "word": "say",
-    "example": "Say hello.",
-    "imageUrl": "gs://words-385e3.appspot.com/say.webp"
+    "word": "fridge",
+    "example": "Open the fridge.",
+    "imageUrl": "gs://words-385e3.appspot.com/fridge.webp"
   },
   {
     "id": 87,
@@ -541,9 +541,9 @@
   },
   {
     "id": 91,
-    "word": "had",
-    "example": "He had a ball.",
-    "imageUrl": "gs://words-385e3.appspot.com/had.webp"
+    "word": "bucket",
+    "example": "Fill the bucket.",
+    "imageUrl": "gs://words-385e3.appspot.com/bucket.webp"
   },
   {
     "id": 92,
@@ -847,9 +847,9 @@
   },
   {
     "id": 142,
-    "word": "been",
-    "example": "I have been there.",
-    "imageUrl": "gs://words-385e3.appspot.com/been.webp"
+    "word": "bowl",
+    "example": "Mix in the bowl.",
+    "imageUrl": "gs://words-385e3.appspot.com/bowl.webp"
   },
   {
     "id": 143,
@@ -895,15 +895,15 @@
   },
   {
     "id": 150,
-    "word": "made",
-    "example": "I made a cake.",
-    "imageUrl": "gs://words-385e3.appspot.com/made.webp"
+    "word": "cupboard",
+    "example": "Open the cupboard.",
+    "imageUrl": "gs://words-385e3.appspot.com/cupboard.webp"
   },
   {
     "id": 151,
-    "word": "gave",
-    "example": "I gave a pineapple.",
-    "imageUrl": "gs://words-385e3.appspot.com/gave.webp"
+    "word": "tap",
+    "example": "Turn on the tap.",
+    "imageUrl": "gs://words-385e3.appspot.com/tap.webp"
   },
   {
     "id": 152,
@@ -973,9 +973,9 @@
   },
   {
     "id": 163,
-    "word": "found",
-    "example": "I found a key.",
-    "imageUrl": "gs://words-385e3.appspot.com/found.webp"
+    "word": "elevator",
+    "example": "Take the elevator.",
+    "imageUrl": "gs://words-385e3.appspot.com/elevator.webp"
   },
   {
     "id": 164,
@@ -1039,9 +1039,9 @@
   },
   {
     "id": 174,
-    "word": "got",
-    "example": "I got it.",
-    "imageUrl": "gs://words-385e3.appspot.com/got.webp"
+    "word": "stairs",
+    "example": "Climb the stairs.",
+    "imageUrl": "gs://words-385e3.appspot.com/stairs.webp"
   },
   {
     "id": 175,
@@ -1064,7 +1064,7 @@
   {
     "id": 178,
     "word": "eight",
-    "example": "Eight hours.",
+    "example": "Number eight.",
     "imageUrl": "gs://words-385e3.appspot.com/eight.webp"
   },
   {
@@ -1159,9 +1159,9 @@
   },
   {
     "id": 194,
-    "word": "light",
-    "example": "Turn on the light.",
-    "imageUrl": "gs://words-385e3.appspot.com/light.webp"
+    "word": "pan",
+    "example": "Fry in the pan.",
+    "imageUrl": "gs://words-385e3.appspot.com/pan.webp"
   },
   {
     "id": 195,
@@ -1423,9 +1423,9 @@
   },
   {
     "id": 238,
-    "word": "means",
-    "example": "By all means.",
-    "imageUrl": "gs://words-385e3.appspot.com/means.webp"
+    "word": "freeze",
+    "example": "Freeze the humen.",
+    "imageUrl": "gs://words-385e3.appspot.com/freeze.webp"
   },
   {
     "id": 239,
@@ -1459,9 +1459,9 @@
   },
   {
     "id": 244,
-    "word": "set",
-    "example": "Set the table.",
-    "imageUrl": "gs://words-385e3.appspot.com/set.webp"
+    "word": "sour",
+    "example": "Sour taste.",
+    "imageUrl": "gs://words-385e3.appspot.com/sour.webp"
   },
   {
     "id": 245,

@@ -97,7 +97,7 @@ class WordDetailState extends ConsumerState<WordDetail> {
         await translationService.translate(widget.word.word, 'en', 'uk');
     if (mounted) {
       setState(() {
-        widget.word.translation = translation;
+        widget.word.translation = translation.toLowerCase();
       });
     }
   }
