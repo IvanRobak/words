@@ -482,7 +482,7 @@
   {
     "id": 81,
     "word": "black",
-    "example": "The cat is black.",
+    "example": "The chicken is black.",
     "imageUrl": "gs://words-385e3.appspot.com/black.webp"
   },
   {
@@ -536,7 +536,7 @@
   {
     "id": 90,
     "word": "his",
-    "example": "This is his hat.",
+    "example": "His hat is great.",
     "imageUrl": "gs://words-385e3.appspot.com/his.webp"
   },
   {

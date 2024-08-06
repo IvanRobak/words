@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:ui' as ui;
 
 class LanguageSettingsScreen extends StatefulWidget {
   const LanguageSettingsScreen({super.key});
@@ -19,8 +20,16 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
 
   Future<void> _loadSelectedLanguage() async {
     final prefs = await SharedPreferences.getInstance();
+    String? savedLanguage = prefs.getString('selectedLanguage');
+
+    if (savedLanguage == null) {
+      // Отримуємо мову пристрою через PlatformDispatcher
+      Locale deviceLocale = ui.PlatformDispatcher.instance.locale;
+      savedLanguage = deviceLocale.languageCode; // 'en', 'uk', etc.
+    }
+
     setState(() {
-      _selectedLanguage = prefs.getString('selectedLanguage') ?? 'en';
+      _selectedLanguage = savedLanguage;
     });
   }
 
@@ -47,163 +56,37 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
       ),
       body: ListView(
         children: [
-          ListTile(
-            title: const Text('English', style: TextStyle(color: Colors.white)),
-            trailing: Radio<String>(
-              value: 'en',
-              groupValue: _selectedLanguage,
-              activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return Theme.of(context).colorScheme.secondary;
-                }
-                return Colors.white;
-              }),
-              onChanged: (String? value) {
-                if (value != null) {
-                  _changeLanguage(value);
-                }
-              },
-            ),
-          ),
-          ListTile(
-            title:
-                const Text('Українська', style: TextStyle(color: Colors.white)),
-            trailing: Radio<String>(
-              value: 'uk',
-              groupValue: _selectedLanguage,
-              activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return Theme.of(context).colorScheme.secondary;
-                }
-                return Colors.white;
-              }),
-              onChanged: (String? value) {
-                if (value != null) {
-                  _changeLanguage(value);
-                }
-              },
-            ),
-          ),
-          ListTile(
-            title:
-                const Text('Français', style: TextStyle(color: Colors.white)),
-            trailing: Radio<String>(
-              value: 'fr',
-              groupValue: _selectedLanguage,
-              activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return Theme.of(context).colorScheme.secondary;
-                }
-                return Colors.white;
-              }),
-              onChanged: (String? value) {
-                if (value != null) {
-                  _changeLanguage(value);
-                }
-              },
-            ),
-          ),
-          ListTile(
-            title: const Text('Español', style: TextStyle(color: Colors.white)),
-            trailing: Radio<String>(
-              value: 'es',
-              groupValue: _selectedLanguage,
-              activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return Theme.of(context).colorScheme.secondary;
-                }
-                return Colors.white;
-              }),
-              onChanged: (String? value) {
-                if (value != null) {
-                  _changeLanguage(value);
-                }
-              },
-            ),
-          ),
-          ListTile(
-            title:
-                const Text('Italiano', style: TextStyle(color: Colors.white)),
-            trailing: Radio<String>(
-              value: 'it',
-              groupValue: _selectedLanguage,
-              activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return Theme.of(context).colorScheme.secondary;
-                }
-                return Colors.white;
-              }),
-              onChanged: (String? value) {
-                if (value != null) {
-                  _changeLanguage(value);
-                }
-              },
-            ),
-          ),
-          ListTile(
-            title:
-                const Text('Português', style: TextStyle(color: Colors.white)),
-            trailing: Radio<String>(
-              value: 'pt',
-              groupValue: _selectedLanguage,
-              activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return Theme.of(context).colorScheme.secondary;
-                }
-                return Colors.white;
-              }),
-              onChanged: (String? value) {
-                if (value != null) {
-                  _changeLanguage(value);
-                }
-              },
-            ),
-          ),
-          ListTile(
-            title: const Text('Polski', style: TextStyle(color: Colors.white)),
-            trailing: Radio<String>(
-              value: 'pl',
-              groupValue: _selectedLanguage,
-              activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return Theme.of(context).colorScheme.secondary;
-                }
-                return Colors.white;
-              }),
-              onChanged: (String? value) {
-                if (value != null) {
-                  _changeLanguage(value);
-                }
-              },
-            ),
-          ),
-          ListTile(
-            title: const Text('Norsk', style: TextStyle(color: Colors.white)),
-            trailing: Radio<String>(
-              value: 'no',
-              groupValue: _selectedLanguage,
-              activeColor: Theme.of(context).colorScheme.secondary,
-              fillColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.selected)) {
-                  return Theme.of(context).colorScheme.secondary;
-                }
-                return Colors.white;
-              }),
-              onChanged: (String? value) {
-                if (value != null) {
-                  _changeLanguage(value);
-                }
-              },
-            ),
-          ),
+          _buildLanguageOption('English', 'en'),
+          _buildLanguageOption('Українська', 'uk'),
+          _buildLanguageOption('Français', 'fr'),
+          _buildLanguageOption('Español', 'es'),
+          _buildLanguageOption('Italiano', 'it'),
+          _buildLanguageOption('Português', 'pt'),
+          _buildLanguageOption('Polski', 'pl'),
+          _buildLanguageOption('Norsk', 'no'),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLanguageOption(String languageName, String languageCode) {
+    return ListTile(
+      title: Text(languageName, style: const TextStyle(color: Colors.white)),
+      trailing: Radio<String>(
+        value: languageCode,
+        groupValue: _selectedLanguage,
+        activeColor: Theme.of(context).colorScheme.secondary,
+        fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+          if (states.contains(WidgetState.selected)) {
+            return Theme.of(context).colorScheme.secondary;
+          }
+          return Colors.white;
+        }),
+        onChanged: (String? value) {
+          if (value != null) {
+            _changeLanguage(value);
+          }
+        },
       ),
     );
   }
