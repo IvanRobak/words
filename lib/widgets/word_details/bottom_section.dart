@@ -8,6 +8,7 @@ class BottomSection extends StatelessWidget {
   final List<Folder> folders;
   final Function(String?) onFolderChanged;
   final VoidCallback toggleTranslation;
+  final String selectedLanguage;
 
   const BottomSection({
     super.key,
@@ -17,6 +18,7 @@ class BottomSection extends StatelessWidget {
     required this.folders,
     required this.onFolderChanged,
     required this.toggleTranslation,
+    required this.selectedLanguage,
   });
 
   @override
@@ -29,7 +31,7 @@ class BottomSection extends StatelessWidget {
           child: Text(
             isTranslationVisible
                 ? (translation ?? 'Translation not available')
-                : 'ua',
+                : selectedLanguage,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSecondary,
               fontSize: 16,

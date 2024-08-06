@@ -34,6 +34,7 @@ class WordDetail extends ConsumerStatefulWidget {
 class WordDetailState extends ConsumerState<WordDetail> {
   final TextEditingController _textController = TextEditingController();
   bool isTranslationVisible = false;
+  String? selectedLanguage;
   String? selectedFolder;
   bool isLoading = true;
   bool isFavorite = false;
@@ -59,10 +60,10 @@ class WordDetailState extends ConsumerState<WordDetail> {
     firebaseImageService = FirebaseImageService();
     _loadSavedFolder();
     checkIfFavorite();
-    _translateWord();
     _fetchImage();
     _initTts();
     _loadButtonStates();
+    _loadSelectedLanguageAndTranslate();
   }
 
   Future<void> _initTts() async {
@@ -92,9 +93,16 @@ class WordDetailState extends ConsumerState<WordDetail> {
     }
   }
 
-  Future<void> _translateWord() async {
-    final translation =
-        await translationService.translate(widget.word.word, 'en', 'uk');
+  Future<void> _loadSelectedLanguageAndTranslate() async {
+    final prefs = await SharedPreferences.getInstance();
+    selectedLanguage = prefs.getString('selectedLanguage') ?? 'uk';
+
+    await _translateWord(selectedLanguage!);
+  }
+
+  Future<void> _translateWord(String languageCode) async {
+    final translation = await translationService.translate(
+        widget.word.word, 'en', languageCode);
     if (mounted) {
       setState(() {
         widget.word.translation = translation;
@@ -273,6 +281,7 @@ class WordDetailState extends ConsumerState<WordDetail> {
                     });
                   },
                   toggleTranslation: _toggleTranslation,
+                  selectedLanguage: selectedLanguage ?? 'uk',
                 ),
               ),
               Row(
