@@ -37,6 +37,14 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
   void initState() {
     super.initState();
     _initialLoadFuture = _initializeData();
+    _loadSoundSetting();
+  }
+
+  Future<void> _loadSoundSetting() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      soundEnabled = prefs.getBool('soundEnabled') ?? true;
+    });
   }
 
   Future<void> _initializeData() async {

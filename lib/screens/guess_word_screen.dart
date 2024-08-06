@@ -37,6 +37,14 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
   void initState() {
     super.initState();
     _initialLoadFuture = _initializeData();
+    _loadSoundSetting();
+  }
+
+  Future<void> _loadSoundSetting() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      soundEnabled = prefs.getBool('soundEnabled') ?? true;
+    });
   }
 
   Future<void> _initializeData() async {
@@ -110,6 +118,7 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
     if (answer == word.word) {
       await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       if (soundEnabled) {
+        // Додати цю перевірку
         await _audioPlayer.play(AssetSource('sounds/correct.mp3'));
       }
 
@@ -131,6 +140,7 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
     } else {
       await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       if (soundEnabled) {
+        // Додати цю перевірку
         await _audioPlayer.play(AssetSource('sounds/incorrect.mp3'));
       }
     }
