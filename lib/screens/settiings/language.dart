@@ -47,7 +47,7 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: Text(
-          'Language Settings',
+          'Language for translate',
           style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         ),
         iconTheme: IconThemeData(

@@ -41,6 +41,7 @@ class WordDetailState extends ConsumerState<WordDetail> {
   String? imageUrl;
   bool isLearn = false;
   bool isKnown = false;
+  bool soundEnabled = true;
 
   List<int> learnWords = [];
   List<int> knownWords = [];
@@ -64,6 +65,7 @@ class WordDetailState extends ConsumerState<WordDetail> {
     _initTts();
     _loadButtonStates();
     _loadSelectedLanguageAndTranslate();
+    _loadSoundSetting();
   }
 
   Future<void> _initTts() async {
@@ -163,8 +165,17 @@ class WordDetailState extends ConsumerState<WordDetail> {
     }
   }
 
-  void _speakWord() async {
-    await _flutterTts.speak(widget.word.word);
+  Future<void> _loadSoundSetting() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      soundEnabled = prefs.getBool('soundEnabled') ?? true;
+    });
+  }
+
+  Future<void> _speakWord() async {
+    if (soundEnabled) {
+      await _flutterTts.speak(widget.word.word);
+    }
   }
 
   void _learnWord() {
