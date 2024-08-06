@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:words/screens/settiings/about.dart';
 import 'package:words/screens/settiings/auth.dart';
 import 'package:words/providers/theme_provider.dart';
 import 'package:words/screens/settiings/language.dart';
@@ -170,7 +171,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               leading: const Icon(Icons.info),
               title: const Text('About'),
               onTap: () {
-                // Навігація до інформації про додаток
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AboutScreen()));
               },
             ),
             ListTile(
