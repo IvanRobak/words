@@ -37,13 +37,13 @@ class WordButtonList extends ConsumerWidget {
           isKnown: knownWords.contains(word.id),
           isLearned: learnWords.contains(word.id),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => GroupCarouselScreen(
                   words: words,
                   initialIndex: index,
-                  startIndex: startIndex, // Передаємо startIndex
+                  startIndex: startIndex,
                 ),
               ),
             );
