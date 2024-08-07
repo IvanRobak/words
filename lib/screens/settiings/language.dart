@@ -44,7 +44,6 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: Text(
           'Language for translate',
@@ -56,14 +55,33 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
       ),
       body: ListView(
         children: [
+          _buildLanguageOption('Arabic', 'ar'),
+          _buildLanguageOption('Chinese (Simplified)', 'zh-CN'),
+          _buildLanguageOption('Chinese (Traditional)', 'zh-TW'),
+          _buildLanguageOption('Czech', 'cs'),
+          _buildLanguageOption('Danish', 'da'),
+          _buildLanguageOption('Dutch', 'nl'),
           _buildLanguageOption('English', 'en'),
-          _buildLanguageOption('Українська', 'uk'),
-          _buildLanguageOption('Français', 'fr'),
           _buildLanguageOption('Español', 'es'),
+          _buildLanguageOption('Farsi', 'fa'),
+          _buildLanguageOption('Finnish', 'fi'),
+          _buildLanguageOption('Français', 'fr'),
+          _buildLanguageOption('German', 'de'),
+          _buildLanguageOption('Greek', 'el'),
+          _buildLanguageOption('Hindi', 'hi'),
+          _buildLanguageOption('Hungarian', 'hu'),
+          _buildLanguageOption('Indonesian', 'id'),
           _buildLanguageOption('Italiano', 'it'),
-          _buildLanguageOption('Português', 'pt'),
-          _buildLanguageOption('Polski', 'pl'),
-          _buildLanguageOption('Norsk', 'no'),
+          _buildLanguageOption('Japanese', 'ja'),
+          _buildLanguageOption('Korean', 'ko'),
+          _buildLanguageOption('Norwegian', 'no'),
+          _buildLanguageOption('Polish', 'pl'),
+          _buildLanguageOption('Portuguese', 'pt'),
+          _buildLanguageOption('Swedish', 'sv'),
+          _buildLanguageOption('Thai', 'th'),
+          _buildLanguageOption('Turkish', 'tr'),
+          _buildLanguageOption('Ukrainian', 'uk'),
+          _buildLanguageOption('Vietnamese', 'vi'),
         ],
       ),
     );
@@ -71,7 +89,9 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
 
   Widget _buildLanguageOption(String languageName, String languageCode) {
     return ListTile(
-      title: Text(languageName, style: const TextStyle(color: Colors.white)),
+      title: Text(languageName,
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.primary, fontSize: 18)),
       trailing: Radio<String>(
         value: languageCode,
         groupValue: _selectedLanguage,
@@ -80,7 +100,7 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
           if (states.contains(WidgetState.selected)) {
             return Theme.of(context).colorScheme.secondary;
           }
-          return Colors.white;
+          return Theme.of(context).colorScheme.primary;
         }),
         onChanged: (String? value) {
           if (value != null) {
