@@ -48,8 +48,34 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _logout() async {
-    await FirebaseAuth.instance.signOut();
-    setState(() {});
+    bool shouldLogout = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Logout'),
+          content: const Text('Are you sure you want to logout?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: const Text('Logout'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldLogout) {
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(context).pop();
+    }
   }
 
   @override
