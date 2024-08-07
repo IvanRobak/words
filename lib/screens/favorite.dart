@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words/models/word.dart';
 import 'package:words/providers/word_provider.dart';
 import 'package:words/providers/favorite_provider.dart';
 import '../widgets/word_list_view.dart';
@@ -39,6 +40,10 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   Widget build(BuildContext context) {
     final filteredWords = ref.watch(wordFilterProvider);
 
+    ref.listen<List<Word>>(favoriteProvider, (previous, next) {
+      ref.read(wordFilterProvider.notifier).setWords(next);
+    });
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -69,15 +74,13 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
             ),
             if (filteredWords.isEmpty)
               const Expanded(
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      'No favorite words found.',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey,
-                      ),
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Add words to favorites.',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey,
                     ),
                   ),
                 ),

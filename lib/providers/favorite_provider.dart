@@ -19,6 +19,14 @@ class FavoriteNotifier extends StateNotifier<List<Word>> {
     state = state.where((w) => w.id != word.id).toList();
   }
 
+  void toggleFavorite(Word word) {
+    if (isFavorite(word)) {
+      removeWord(word);
+    } else {
+      addWord(word);
+    }
+  }
+
   bool isFavorite(Word word) {
     return state.any((w) => w.id == word.id);
   }

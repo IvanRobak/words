@@ -68,6 +68,12 @@ class WordDetailState extends ConsumerState<WordDetail> {
     _loadSoundSetting();
   }
 
+  void checkIfFavorite() {
+    setState(() {
+      isFavorite = ref.read(favoriteProvider.notifier).isFavorite(widget.word);
+    });
+  }
+
   Future<void> _initTts() async {
     await _flutterTts.setLanguage('en-US');
     await _flutterTts.setSpeechRate(0.5);
@@ -133,12 +139,12 @@ class WordDetailState extends ConsumerState<WordDetail> {
     await prefs.setBool(key, value);
   }
 
-  void checkIfFavorite() {
-    final favoriteWords = ref.read(favoriteProvider);
-    setState(() {
-      isFavorite = favoriteWords.any((w) => w.id == widget.word.id);
-    });
-  }
+  // void checkIfFavorite() {
+  //   final favoriteWords = ref.read(favoriteProvider);
+  //   setState(() {
+  //     isFavorite = favoriteWords.any((w) => w.id == widget.word.id);
+  //   });
+  // }
 
   void _toggleTranslation() {
     setState(() {
@@ -252,29 +258,15 @@ class WordDetailState extends ConsumerState<WordDetail> {
                   widget.word.word,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize:
-                        fontSize, // Використання адаптивного розміру шрифту
+                    fontSize: fontSize,
                   ),
                 ),
               ),
               ImageSection(imageUrl: imageUrl),
               IconButtons(
-                isFavorite: isFavorite,
                 onSpeakPressed: _speakWord,
-                onFavoritePressed: () {
-                  if (isFavorite) {
-                    ref.read(favoriteProvider.notifier).removeWord(widget.word);
-                    setState(() {
-                      isFavorite = false;
-                    });
-                  } else {
-                    ref.read(favoriteProvider.notifier).addWord(widget.word);
-                    setState(() {
-                      isFavorite = true;
-                    });
-                  }
-                },
                 wordId: widget.word.id,
+                word: widget.word,
               ),
               Flexible(
                 child: ExampleSection(exampleSpans: exampleSpans),
