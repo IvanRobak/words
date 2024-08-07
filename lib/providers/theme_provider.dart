@@ -134,12 +134,12 @@ class ThemeNotifier extends ChangeNotifier {
           ),
         ),
       ),
-      scaffoldBackgroundColor: const Color(0xFF121212),
       dialogTheme: const DialogTheme(
         backgroundColor: _cardColorDark,
         titleTextStyle: TextStyle(color: _textColorDark, fontSize: 20),
         contentTextStyle: TextStyle(color: _textColorDark),
       ),
+      scaffoldBackgroundColor: const Color(0xFF121212),
     );
   }
 }

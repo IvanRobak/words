@@ -91,7 +91,7 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
     return ListTile(
       title: Text(languageName,
           style: TextStyle(
-              color: Theme.of(context).colorScheme.primary, fontSize: 18)),
+              color: Theme.of(context).colorScheme.onSecondary, fontSize: 18)),
       trailing: Radio<String>(
         value: languageCode,
         groupValue: _selectedLanguage,
@@ -100,7 +100,7 @@ class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
           if (states.contains(WidgetState.selected)) {
             return Theme.of(context).colorScheme.secondary;
           }
-          return Theme.of(context).colorScheme.primary;
+          return Theme.of(context).colorScheme.onSecondary;
         }),
         onChanged: (String? value) {
           if (value != null) {
