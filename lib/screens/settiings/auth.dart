@@ -52,7 +52,9 @@ class _AuthScreenState extends State<AuthScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Logout'),
+          title: const Text(
+            'Confirm Logout',
+          ),
           content: const Text('Are you sure you want to logout?'),
           actions: <Widget>[
             TextButton(
@@ -83,7 +85,7 @@ class _AuthScreenState extends State<AuthScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      // backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: Text(
           'Login',
@@ -100,19 +102,18 @@ class _AuthScreenState extends State<AuthScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Привіт, ${user.email}',
-                      style: const TextStyle(fontSize: 24, color: Colors.white),
+                      'Hello, ${user.email}',
+                      style: const TextStyle(fontSize: 24),
                     ),
                     const SizedBox(height: 40),
                     ElevatedButton(
                       onPressed: _logout,
                       style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              Theme.of(context).colorScheme.surface),
-                      child: Text(
-                        'Вийти',
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary),
+                              Theme.of(context).colorScheme.primary),
+                      child: const Text(
+                        'Logout',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ],

@@ -122,7 +122,24 @@ class ThemeNotifier extends ChangeNotifier {
           ),
         ),
       ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.pressed)) {
+                return Colors.white;
+              }
+              return _textColorDark;
+            },
+          ),
+        ),
+      ),
       scaffoldBackgroundColor: const Color(0xFF121212),
+      dialogTheme: const DialogTheme(
+        backgroundColor: _cardColorDark,
+        titleTextStyle: TextStyle(color: _textColorDark, fontSize: 20),
+        contentTextStyle: TextStyle(color: _textColorDark),
+      ),
     );
   }
 }
