@@ -39,10 +39,15 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     final filteredWords = ref.watch(wordFilterProvider);
+    final favoriteWords = ref.watch(favoriteProvider);
 
     ref.listen<List<Word>>(favoriteProvider, (previous, next) {
       ref.read(wordFilterProvider.notifier).setWords(next);
     });
+
+    bool hasFavorites = favoriteWords.isNotEmpty;
+    bool hasSearchQuery = searchController.text.isNotEmpty;
+    bool hasFilteredResults = filteredWords.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
@@ -72,15 +77,32 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
                 },
               ),
             ),
-            if (filteredWords.isEmpty)
+            if (!hasFavorites)
               const Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'Add words to favorites.',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'Add words to favorites.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            else if (hasFavorites && !hasFilteredResults && hasSearchQuery)
+              const Expanded(
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      'No matching words found.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                 ),
