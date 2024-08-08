@@ -5,6 +5,7 @@ class CustomButton extends StatelessWidget {
   final bool isKnown;
   final bool isLearned;
   final VoidCallback onPressed;
+  final int columns;
 
   const CustomButton({
     super.key,
@@ -12,6 +13,7 @@ class CustomButton extends StatelessWidget {
     required this.isKnown,
     required this.isLearned,
     required this.onPressed,
+    required this.columns,
   });
 
   @override
@@ -28,6 +30,8 @@ class CustomButton extends StatelessWidget {
       buttonColor = Colors.grey;
     }
 
+    double fontSize = columns == 2 ? 24 : 18; // змінюємо розмір шрифту
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 3),
@@ -39,7 +43,7 @@ class CustomButton extends StatelessWidget {
       },
       child: Text(
         label,
-        style: const TextStyle(fontSize: 17),
+        style: TextStyle(fontSize: fontSize),
       ),
     );
   }

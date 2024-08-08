@@ -36,6 +36,7 @@ class WordButtonList extends ConsumerWidget {
           label: word.word,
           isKnown: knownWords.contains(word.id),
           isLearned: learnWords.contains(word.id),
+          columns: columns,
           onPressed: () {
             Navigator.pushReplacement(
               context,

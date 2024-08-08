@@ -67,6 +67,7 @@ class WordListView extends ConsumerWidget {
                 isKnown: knownWords.contains(word.id),
                 isLearned: learnWords.contains(word.id),
                 onPressed: () => _navigateToDetails(context, ref, words, index),
+                columns: columns,
               );
             },
           ),
