@@ -14,11 +14,13 @@ class SearchScreen extends ConsumerStatefulWidget {
 class SearchScreenState extends ConsumerState<SearchScreen> {
   TextEditingController searchController = TextEditingController();
   int columns = 3;
-  final List<int> columnOptions = [2, 3]; 
+  final List<int> columnOptions = [2, 3];
+  late FocusNode searchFocusNode;
 
   @override
   void initState() {
     super.initState();
+    searchFocusNode = FocusNode();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       loadWordsFromJson();
     });
@@ -27,6 +29,12 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
   Future<void> loadWordsFromJson() async {
     final loadedWords = await loadWords();
     ref.read(wordFilterProvider.notifier).setWords(loadedWords);
+  }
+
+  @override
+  void dispose() {
+    searchFocusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -49,6 +57,7 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
           words: words,
           columnOptions: columnOptions,
           columns: columns,
+          searchFocusNode: searchFocusNode,
           searchController: searchController,
           onColumnsChanged: (int? newValue) {
             setState(() {

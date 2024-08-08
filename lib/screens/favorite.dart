@@ -16,10 +16,12 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   TextEditingController searchController = TextEditingController();
   int columns = 3;
   final List<int> columnOptions = [2, 3];
+  late FocusNode searchFocusNode;
 
   @override
   void initState() {
     super.initState();
+    searchFocusNode = FocusNode();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       loadFavoriteWords();
     });
@@ -33,6 +35,7 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
   @override
   void dispose() {
     searchController.dispose();
+    searchFocusNode.dispose();
     super.dispose();
   }
 
@@ -57,57 +60,63 @@ class _FavoriteScreenState extends ConsumerState<FavoriteScreen> {
           style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          children: [
-            Expanded(
-              child: WordListView(
-                words: filteredWords,
-                columns: columns,
-                columnOptions: columnOptions,
-                searchController: searchController,
-                onColumnsChanged: (int? newValue) {
-                  setState(() {
-                    columns = newValue!;
-                  });
-                },
-                onSearchChanged: (query) {
-                  ref.read(wordFilterProvider.notifier).filterWords(query);
-                },
+      body: GestureDetector(
+        onTap: () {
+          searchFocusNode.unfocus();
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: [
+              Expanded(
+                child: WordListView(
+                  words: filteredWords,
+                  columns: columns,
+                  columnOptions: columnOptions,
+                  searchController: searchController,
+                  onColumnsChanged: (int? newValue) {
+                    setState(() {
+                      columns = newValue!;
+                    });
+                  },
+                  onSearchChanged: (query) {
+                    ref.read(wordFilterProvider.notifier).filterWords(query);
+                  },
+                  searchFocusNode: searchFocusNode,
+                ),
               ),
-            ),
-            if (!hasFavorites)
-              const Expanded(
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      'Add words to favorites.',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey,
+              if (!hasFavorites)
+                const Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Add words to favorites.',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              else if (hasFavorites && !hasFilteredResults && hasSearchQuery)
+                const Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'No matching words found.',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              )
-            else if (hasFavorites && !hasFilteredResults && hasSearchQuery)
-              const Expanded(
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      'No matching words found.',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class FilterBar extends StatelessWidget {
@@ -7,6 +6,7 @@ class FilterBar extends StatelessWidget {
   final TextEditingController searchController;
   final Function(int?) onColumnsChanged;
   final Function(String) onSearchChanged;
+  final FocusNode searchFocusNode;
 
   const FilterBar({
     super.key,
@@ -15,6 +15,7 @@ class FilterBar extends StatelessWidget {
     required this.searchController,
     required this.onColumnsChanged,
     required this.onSearchChanged,
+    required this.searchFocusNode,
   });
 
   @override
@@ -56,15 +57,14 @@ class FilterBar extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16),
               child: TextField(
                 controller: searchController,
+                focusNode: searchFocusNode,
                 decoration: InputDecoration(
                   labelText: 'Search',
                   prefixIcon: const Icon(Icons.search),
                   contentPadding: const EdgeInsets.all(5),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .secondary),
+                        color: Theme.of(context).colorScheme.secondary),
                   ),
                 ),
                 onChanged: onSearchChanged,

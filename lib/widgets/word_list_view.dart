@@ -13,6 +13,7 @@ class WordListView extends ConsumerWidget {
   final TextEditingController searchController;
   final ValueChanged<int?> onColumnsChanged;
   final ValueChanged<String> onSearchChanged;
+  final FocusNode searchFocusNode;
 
   const WordListView({
     super.key,
@@ -22,6 +23,7 @@ class WordListView extends ConsumerWidget {
     required this.searchController,
     required this.onColumnsChanged,
     required this.onSearchChanged,
+    required this.searchFocusNode,
   });
 
   void _navigateToDetails(
@@ -50,6 +52,7 @@ class WordListView extends ConsumerWidget {
           searchController: searchController,
           onColumnsChanged: onColumnsChanged,
           onSearchChanged: onSearchChanged,
+          searchFocusNode: searchFocusNode,
         ),
         Expanded(
           child: GridView.builder(
