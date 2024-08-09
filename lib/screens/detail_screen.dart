@@ -22,7 +22,7 @@ class DetailScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favorite words',
+        title: Text('Details',
             style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
         iconTheme: IconThemeData(
           color: Theme.of(context).colorScheme.onSecondary,

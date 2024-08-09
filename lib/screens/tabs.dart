@@ -22,9 +22,23 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Widget currentScreen;
+    switch (_selectedPageIndex) {
+      case 0:
+        currentScreen = const HomeScreen();
+        break;
+      case 1:
+        currentScreen = const SearchScreen();
+        break;
+      case 2:
+        currentScreen = const FavoriteScreen();
+        break;
+      default:
+        currentScreen = const HomeScreen();
+    }
+
     return Scaffold(
-      body:
-          _selectedPageIndex == 0 ? const HomeScreen() : const FavoriteScreen(),
+      body: currentScreen,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         items: const <BottomNavigationBarItem>[
@@ -47,8 +61,9 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const SearchScreen()));
+          setState(() {
+            _selectedPageIndex = 1; // Перемикання на вкладку Search
+          });
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: const Icon(
