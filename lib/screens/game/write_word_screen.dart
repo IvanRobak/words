@@ -3,7 +3,7 @@ import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/services/word_loader.dart';
-import 'package:words/widgets/write_word_game_card.dart';
+import 'package:words/widgets/game/write_word_game_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WriteWordScreen extends ConsumerStatefulWidget {

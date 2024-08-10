@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:words/screens/favorite.dart';
+import 'package:words/screens/favorite_screen.dart';
 import 'package:words/screens/home.dart';
-import 'package:words/screens/search.dart';
+import 'package:words/screens/search_screen.dart';
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});

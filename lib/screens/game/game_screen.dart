@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:words/screens/guess_word_screen.dart';
-import 'package:words/screens/guess_image_screen.dart';
-import 'package:words/screens/write_word_screen.dart';
+import 'package:words/screens/game/guess_word_screen.dart';
+import 'package:words/screens/game/guess_image_screen.dart';
+import 'package:words/screens/game/write_word_screen.dart';
 import 'package:words/models/word.dart';
 
 class GameScreen extends StatefulWidget {

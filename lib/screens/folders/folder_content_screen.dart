@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/folder.dart';
-import 'package:words/widgets/word_button.dart';
+import 'package:words/widgets/folder_button.dart';
 
 class FolderContentScreen extends StatelessWidget {
   final Folder folder;
@@ -37,7 +37,7 @@ class FolderContentScreen extends StatelessWidget {
                 itemCount: folder.words.length,
                 itemBuilder: (context, index) {
                   final word = folder.words[index];
-                  return WordButton(
+                  return FolderButton(
                     word: word,
                     columns: columns,
                     words: folder.words,

@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:words/screens/settiings/about.dart';
-import 'package:words/screens/settiings/auth.dart';
+import 'package:words/screens/settiings/about_screen.dart';
+import 'package:words/screens/settiings/auth_screen.dart';
 import 'package:words/providers/theme_provider.dart';
-import 'package:words/screens/settiings/language.dart';
+import 'package:words/screens/settiings/language_screen.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});

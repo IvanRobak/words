@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:words/screens/folder_list.dart';
-import 'package:words/screens/word_group.dart';
+import 'package:words/screens/folders/folders_list_screen.dart';
+import 'package:words/screens/discover_group_screen.dart';
 import 'package:words/utils/show_settings.dart';
-import 'package:words/screens/game_screen.dart';
+import 'package:words/screens/game/game_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

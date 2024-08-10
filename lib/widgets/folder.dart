@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
-import 'package:words/screens/folder_content.dart';
+import 'package:words/screens/folders/folder_content_screen.dart';
 import 'package:words/utils/color_palette.dart';
 import '../models/folder.dart';
 

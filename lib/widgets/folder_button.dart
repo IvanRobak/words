@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
-import 'package:words/screens/group_carousel_screen.dart';
+import 'package:words/screens/detail_screen.dart';
 
-class WordButton extends StatelessWidget {
+class FolderButton extends StatelessWidget {
   final Word word;
   final int columns;
   final List<Word> words;
   final int index;
 
-  const WordButton(
+  const FolderButton(
       {super.key,
       required this.word,
       required this.columns,
@@ -17,9 +17,9 @@ class WordButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double fontSize = columns == 2 ? 16 : 14;
-    final double verticalPadding = columns == 2 ? 8 : 3;
-    final double horizontalPadding = columns == 2 ? 12 : 5;
+    double fontSize = 24;
+    double verticalPadding = 8;
+    double horizontalPadding = 12;
 
     return Padding(
       padding: const EdgeInsets.all(5),
@@ -28,10 +28,9 @@ class WordButton extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GroupCarouselScreen(
+              builder: (context) => DetailScreen(
                 words: words,
                 initialIndex: index,
-                startIndex: 0,
               ),
             ),
           );
