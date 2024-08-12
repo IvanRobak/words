@@ -44,8 +44,7 @@ class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
   Future<void> _loadColumnsPreference() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      columns = prefs.getInt('columns_preference') ??
-          2; // 2 - значення за замовчуванням
+      columns = prefs.getInt('columns_preference') ?? 2;
     });
   }
 

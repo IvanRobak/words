@@ -31,23 +31,23 @@ class _FolderWidgetState extends State<FolderWidget> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Перейменувати папку',
+            'Rename folder',
             style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
           ),
           content: TextField(
             controller: folderNameController,
             decoration:
-                const InputDecoration(hintText: 'Введіть нову назву папки'),
+                const InputDecoration(hintText: 'Enter a new folder name'),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Скасувати'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Перейменувати'),
+              child: const Text('Rename'),
               onPressed: () {
                 if (folderNameController.text.isNotEmpty) {
                   widget.onNameChanged(folderNameController.text);
@@ -55,7 +55,7 @@ class _FolderWidgetState extends State<FolderWidget> {
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
-                      'Назва папки не може бути порожньою',
+                      'The folder name cannot be empty',
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.onSecondary),
                     ),
@@ -78,7 +78,7 @@ class _FolderWidgetState extends State<FolderWidget> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Виберіть колір папки',
+            'Select a folder color',
             style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
           ),
           content: SingleChildScrollView(
@@ -102,7 +102,7 @@ class _FolderWidgetState extends State<FolderWidget> {
           actions: <Widget>[
             TextButton(
               child: Text(
-                'Скасувати',
+                'Cancel',
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.onSecondary),
               ),
@@ -112,7 +112,7 @@ class _FolderWidgetState extends State<FolderWidget> {
             ),
             TextButton(
               child: Text(
-                'Зберегти',
+                'Save',
                 style:
                     TextStyle(color: Theme.of(context).colorScheme.onSecondary),
               ),
@@ -138,7 +138,7 @@ class _FolderWidgetState extends State<FolderWidget> {
               ListTile(
                 leading: const Icon(Icons.edit),
                 title: Text(
-                  'Перейменувати',
+                  'Rename',
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onSecondary),
                 ),
@@ -150,7 +150,7 @@ class _FolderWidgetState extends State<FolderWidget> {
               ListTile(
                 leading: const Icon(Icons.color_lens),
                 title: Text(
-                  'Змінити колір',
+                  'Change color',
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onSecondary),
                 ),
@@ -162,7 +162,7 @@ class _FolderWidgetState extends State<FolderWidget> {
               ListTile(
                 leading: const Icon(Icons.delete),
                 title: Text(
-                  'Видалити',
+                  'Delete',
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onSecondary),
                 ),
