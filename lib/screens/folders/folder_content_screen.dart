@@ -27,11 +27,25 @@ class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
   void initState() {
     super.initState();
     searchFocusNode = FocusNode();
+    _loadColumnsPreference();
 
     _loadAllWords().then((_) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         loadFolderWords();
       });
+    });
+  }
+
+  Future<void> _saveColumnsPreference(int columns) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('columns_preference', columns);
+  }
+
+  Future<void> _loadColumnsPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      columns = prefs.getInt('columns_preference') ??
+          2; // 2 - значення за замовчуванням
     });
   }
 
@@ -107,6 +121,7 @@ class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
                           setState(() {
                             columns = newValue!;
                           });
+                          _saveColumnsPreference(newValue!);
                         },
                         onSearchChanged: (query) {
                           ref
