@@ -115,15 +115,46 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       style: const TextStyle(fontSize: 24),
                     ),
                     const SizedBox(height: 40),
-                    ElevatedButton(
-                      onPressed: _logout,
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary),
-                      child: const Text(
-                        'Logout',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary, // Border color
+                              width: 2.0, // Border width
+                            ),
+                            borderRadius: BorderRadius.circular(
+                                40), // Rounded corners, if desired
+                          ),
+                          child: TextButton(
+                            onPressed: _logout,
+                            child: Text(
+                              'Logout',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  fontSize: 16),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 30),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary),
+                          child: const Text(
+                            'Ok',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 )
