@@ -105,10 +105,11 @@ class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: filteredWords.isEmpty
-                    ? const Center(
+                    ? Center(
                         child: Text(
-                          'No words in this folder.',
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
+                          'No words in ${widget.folder.name}.',
+                          style:
+                              const TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                       )
                     : WordListView(

@@ -2,17 +2,19 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words/providers/folder_provider.dart';
 
 final _firebase = FirebaseAuth.instance;
 
-class AuthScreen extends StatefulWidget {
+class AuthScreen extends ConsumerStatefulWidget {
   const AuthScreen({super.key});
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
+  ConsumerState<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> {
+class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _form = GlobalKey<FormState>();
   var _enteredEmail = '';
   var _enteredPassword = '';
@@ -37,6 +39,9 @@ class _AuthScreenState extends State<AuthScreen> {
         await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
       }
+      // Після успішного входу завантажуємо папки користувача
+      ref.read(folderProvider).loadFolders();
+
       setState(() {});
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {}
@@ -76,6 +81,10 @@ class _AuthScreenState extends State<AuthScreen> {
 
     if (shouldLogout) {
       await FirebaseAuth.instance.signOut();
+
+      // Після виходу завантажуємо папки за замовчуванням
+      ref.read(folderProvider).loadFolders();
+
       Navigator.of(context).pop();
     }
   }
