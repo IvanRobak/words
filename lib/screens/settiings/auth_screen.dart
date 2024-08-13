@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/providers/folder_provider.dart';
 
@@ -39,7 +40,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
       }
-      // Після успішного входу завантажуємо папки користувача
       ref.read(folderProvider).loadFolders();
 
       setState(() {});
@@ -82,7 +82,6 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     if (shouldLogout) {
       await FirebaseAuth.instance.signOut();
 
-      // Після виходу завантажуємо папки за замовчуванням
       ref.read(folderProvider).loadFolders();
 
       Navigator.of(context).pop();
@@ -94,15 +93,16 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      // backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Login',
-          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          style: TextStyle(color: Colors.white),
         ),
-        iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.onSecondary,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
         ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -112,7 +112,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   children: [
                     Text(
                       'Hello, ${user.email}',
-                      style: const TextStyle(fontSize: 24),
+                      style: const TextStyle(color: Colors.white, fontSize: 24),
                     ),
                     const SizedBox(height: 40),
                     Row(
@@ -122,36 +122,33 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primary, // Border color
+                              color: Colors.white, // Border color
                               width: 2.0, // Border width
                             ),
-                            borderRadius: BorderRadius.circular(
-                                40), // Rounded corners, if desired
+                            borderRadius: BorderRadius.circular(40),
                           ),
                           child: TextButton(
                             onPressed: _logout,
-                            child: Text(
+                            child: const Text(
                               'Logout',
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary,
-                                  fontSize: 16),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
                             ),
                           ),
                         ),
-                        const SizedBox(width: 30),
+                        const SizedBox(width: 35),
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                           style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 10),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.primary),
-                          child: const Text(
+                              backgroundColor: Colors.white),
+                          child: Text(
                             'Ok',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontSize: 16),
                           ),
                         ),
                       ],
@@ -177,7 +174,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                   cursorColor:
                                       Theme.of(context).colorScheme.onSecondary,
                                   decoration: InputDecoration(
-                                    labelText: 'електронна пошта',
+                                    labelText: 'Email',
                                     labelStyle: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -204,7 +201,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                     if (value == null ||
                                         value.trim().isEmpty ||
                                         !value.contains('@')) {
-                                      return 'Введіть коректний емейл адрес.';
+                                      return 'Enter a valid email address.';
                                     }
                                     return null;
                                   },
@@ -217,7 +214,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                       Theme.of(context).colorScheme.onSecondary,
                                   obscureText: !_isPasswordVisible,
                                   decoration: InputDecoration(
-                                    labelText: 'пароль',
+                                    labelText: 'Password',
                                     labelStyle: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -253,7 +250,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                   validator: (value) {
                                     if (value == null ||
                                         value.trim().length < 6) {
-                                      return 'Введіть коректний пароль.';
+                                      return 'Enter a valid password.';
                                     }
                                     return null;
                                   },
@@ -273,7 +270,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                           .colorScheme
                                           .surface),
                                   child: Text(
-                                    _isLoggin ? 'Увійти' : 'Реєстрація',
+                                    _isLoggin ? 'Log in' : 'Sign up',
                                     style: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -288,8 +285,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                                     },
                                     child: Text(
                                       _isLoggin
-                                          ? 'Створити акаунт'
-                                          : 'Я вже зареєстрований',
+                                          ? 'Create an account'
+                                          : 'I already have an account',
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
