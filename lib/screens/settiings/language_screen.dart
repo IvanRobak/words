@@ -12,9 +12,16 @@ class LanguageSettingsScreen extends StatefulWidget {
 class _LanguageSettingsScreenState extends State<LanguageSettingsScreen> {
   String? _selectedLanguage;
 
+  // Future<void> _clearLanguagePreference() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.remove('selectedLanguage');
+  // }
+
+// Виклик цього методу в initState або де потрібно:
   @override
   void initState() {
     super.initState();
+    // _clearLanguagePreference();
     _loadSelectedLanguage();
   }
 

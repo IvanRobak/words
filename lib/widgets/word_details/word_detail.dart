@@ -14,6 +14,7 @@ import 'package:words/widgets/word_details/custom_buttons.dart';
 import 'package:words/widgets/word_details/example_section.dart';
 import 'package:words/widgets/word_details/icon_buttons.dart';
 import 'package:words/widgets/word_details/image_section.dart';
+import 'dart:ui' as ui;
 
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
@@ -97,8 +98,12 @@ class WordDetailState extends ConsumerState<WordDetail> {
 
   Future<void> _loadSelectedLanguageAndTranslate() async {
     final prefs = await SharedPreferences.getInstance();
-    selectedLanguage = prefs.getString('selectedLanguage') ?? 'uk';
 
+    // Отримуємо збережену мову або мову пристрою, якщо збереженої немає
+    selectedLanguage = prefs.getString('selectedLanguage') ??
+        ui.PlatformDispatcher.instance.locale.languageCode;
+
+    // Переклад слова на обрану мову або на дефолтну мову
     await _translateWord(selectedLanguage!);
   }
 
