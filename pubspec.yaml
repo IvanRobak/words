@@ -50,6 +50,7 @@ dependencies:
   confetti: ^0.7.0
   flutter_screenutil: ^5.9.3
   flutter_material_color_picker: ^1.2.0
+  flutter_cache_manager: ^3.4.1
 
 dev_dependencies:
   flutter_test:

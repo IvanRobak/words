@@ -7,6 +7,7 @@ import 'package:words/screens/settiings/about_screen.dart';
 import 'package:words/screens/settiings/auth_screen.dart';
 import 'package:words/providers/theme_provider.dart';
 import 'package:words/screens/settiings/language_screen.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -39,9 +40,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     await prefs.setBool('soundEnabled', value);
   }
 
-  Future<void> _clearSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+  Future<void> _clearCache() async {
+    await DefaultCacheManager().emptyCache();
 
     final BuildContext currentContext = context;
 
@@ -52,10 +52,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       builder: (BuildContext dialogContext) {
         return AlertDialog(
           title: Text(
-            'Data Cleared',
+            'Cache Cleared',
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
-          content: Text('Shared preferences cleared',
+          content: Text('Cache has been successfully cleared.',
               style: TextStyle(color: Theme.of(context).colorScheme.primary)),
           actions: [
             TextButton(
@@ -178,8 +178,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.delete),
-              title: const Text('Clear Data'),
-              onTap: _clearSharedPreferences,
+              title: const Text('Clear Cache'),
+              onTap: _clearCache,
             ),
           ],
         ),
