@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/providers/folder_provider.dart';
 
 final _firebase = FirebaseAuth.instance;
@@ -39,6 +40,10 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
         await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
       }
+
+      await _saveCurrentAccount(
+          _enteredEmail); // Збереження поточного облікового запису
+
       ref.read(folderProvider).loadFolders();
 
       setState(() {});
@@ -51,7 +56,13 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
   }
 
+  Future<void> _saveCurrentAccount(String account) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('currentAccount', account);
+  }
+
   void _logout() async {
+    _clearPreferencesOnLogout();
     bool shouldLogout = await showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -85,6 +96,11 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
       Navigator.of(context).pop();
     }
+  }
+
+  Future<void> _clearPreferencesOnLogout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 
   @override

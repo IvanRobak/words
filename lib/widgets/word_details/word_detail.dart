@@ -86,15 +86,30 @@ class WordDetailState extends ConsumerState<WordDetail> {
     }
   }
 
-  Future<void> _loadSavedFolder() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedFolderName = prefs.getString('selectedFolder_${widget.word.id}');
-    if (mounted) {
-      setState(() {
-        selectedFolder = savedFolderName;
-      });
-    }
+ Future<void> _loadSavedFolder() async {
+  final prefs = await SharedPreferences.getInstance();
+  final currentAccount = prefs.getString('currentAccount');
+  final savedFolderName = prefs.getString('selectedFolder_${widget.word.id}');
+
+  // Якщо акаунт змінився, скидаємо вибрану папку
+  if (currentAccount != _getCurrentUserAccount()) {
+    await prefs.remove('selectedFolder_${widget.word.id}');
+    setState(() {
+      selectedFolder = null;
+    });
+  } else {
+    setState(() {
+      selectedFolder = savedFolderName;
+    });
   }
+}
+
+// Додайте цей метод для отримання поточного облікового запису користувача
+String _getCurrentUserAccount() {
+  // Метод для отримання поточного акаунту користувача
+  // Це залежить від того, як ви зберігаєте та керуєте даними облікових записів
+  return 'current_account_email_or_id'; // приклад
+}
 
   Future<void> _loadSelectedLanguageAndTranslate() async {
     final prefs = await SharedPreferences.getInstance();
