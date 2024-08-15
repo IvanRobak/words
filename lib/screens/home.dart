@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:words/screens/folders/folders_list_screen.dart';
 import 'package:words/screens/discover_group_screen.dart';
+import 'package:words/screens/settiings/auth_screen.dart';
 import 'package:words/utils/show_settings.dart';
 import 'package:words/screens/game/game_screen.dart';
 
@@ -139,11 +141,20 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                     width: 250.w,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const GameScreen()),
-                        );
+                        final user = FirebaseAuth.instance.currentUser;
+                        if (user != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const GameScreen()),
+                          );
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AuthScreen()),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
