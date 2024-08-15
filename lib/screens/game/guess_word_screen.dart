@@ -164,13 +164,13 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Guess the Word',
-          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.onSecondary,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
         ),
       ),
       body: Stack(
@@ -186,7 +186,11 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (learnWords.isEmpty) {
-                return const Center(child: Text('No words to learn'));
+                return const Center(
+                    child: Text(
+                  'Please add some words to start learning.',
+                  style: TextStyle(fontSize: 17, color: Colors.white),
+                ));
               } else {
                 return PageView.builder(
                   controller: _pageController,

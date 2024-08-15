@@ -25,13 +25,13 @@ class GameScreenState extends State<GameScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Select Game Mode',
-          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.onSecondary,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
         ),
       ),
       body: Center(

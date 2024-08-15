@@ -102,7 +102,6 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
-                // Тут можна додати додаткову логіку, якщо необхідно
               },
             ),
           ],
@@ -164,13 +163,13 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Guess the Image',
-          style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.onSecondary,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
         ),
       ),
       body: Stack(
