@@ -4,7 +4,6 @@ import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/word_loader.dart';
 import 'package:words/widgets/game/image_game_card.dart';
-import 'package:words/widgets/confetti.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,31 +59,55 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
       learnWords =
           allWords.where((word) => learnWordIds.contains(word.id)).toList();
 
-      await Future.wait(allWords.map((word) async {
-        final url = await firebaseImageService.fetchImageUrl(word.imageUrl);
-        imageUrls[word.id] = url;
-      }));
+      // Попереднє завантаження зображень для першої та другої картки
+      await _loadImagesForCurrentAndNextWord();
     } catch (error) {
-      // error
+      // Свідомо ігноруємо помилки, оскільки вони не критичні для роботи додатка
     }
   }
 
-  List<String> _generateImageOptions(Word word) {
+  Future<void> _loadImagesForCurrentWord() async {
+    if (currentIndex < learnWords.length) {
+      final word = learnWords[currentIndex];
+      imageUrls[word.id] =
+          await firebaseImageService.fetchImageUrl(word.imageUrl);
+
+      // Асинхронне отримання варіантів відповіді
+      final options = await _generateImageOptions(word);
+
+      // Оновлення стану з новими варіантами
+      setState(() {
+        currentOptions = options;
+      });
+    }
+  }
+
+  Future<List<String>> _generateImageOptions(Word word) async {
     final int wordIndex = allWords.indexWhere((w) => w.id == word.id);
     List<Word> nearbyWords = [];
 
+    // Отримання сусідніх слів
     for (int i = -5; i <= 5; i++) {
       if (i != 0 && wordIndex + i >= 0 && wordIndex + i < allWords.length) {
         nearbyWords.add(allWords[wordIndex + i]);
       }
     }
 
-    nearbyWords.shuffle();
+    nearbyWords.shuffle(); // Перемішування сусідніх слів
 
-    List<String> options =
-        nearbyWords.take(3).map((w) => imageUrls[w.id]!).toList();
+    // Завантаження URL-адрес для варіантів відповіді
+    List<Future<String>> optionFutures = nearbyWords.take(3).map((w) async {
+      final url = await firebaseImageService.fetchImageUrl(w.imageUrl);
+      imageUrls[w.id] = url;
+      return url;
+    }).toList();
+
+    // Очікування завершення всіх асинхронних запитів
+    List<String> options = await Future.wait(optionFutures);
+
+    // Додаємо правильну відповідь
     options.add(imageUrls[word.id]!);
-    options.shuffle();
+    options.shuffle(); // Перемішуємо варіанти відповіді
 
     return options;
   }
@@ -126,7 +149,7 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
           selectedAnswer = null;
           currentIndex++;
           if (currentIndex < learnWords.length) {
-            currentOptions = _generateImageOptions(learnWords[currentIndex]);
+            _loadImagesForCurrentWord(); // Завантаження нових зображень для наступного слова
             _pageController.nextPage(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeIn,
@@ -151,6 +174,31 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
     });
   }
 
+  Future<void> _loadImagesForCurrentAndNextWord() async {
+    if (currentIndex < learnWords.length) {
+      // Завантажуємо зображення для поточної картки
+      final currentWord = learnWords[currentIndex];
+      imageUrls[currentWord.id] =
+          await firebaseImageService.fetchImageUrl(currentWord.imageUrl);
+
+      // Завантажуємо варіанти для поточної картки
+      currentOptions = await _generateImageOptions(currentWord);
+
+      // Якщо є наступна картка, завантажуємо зображення і для неї
+      if (currentIndex + 1 < learnWords.length) {
+        final nextWord = learnWords[currentIndex + 1];
+        imageUrls[nextWord.id] =
+            await firebaseImageService.fetchImageUrl(nextWord.imageUrl);
+        // Ми можемо заздалегідь завантажити варіанти для наступної картки, якщо це потрібно
+        await _generateImageOptions(nextWord);
+      }
+
+      setState(() {
+        // Оновлюємо стан тільки після завершення завантаження всіх зображень
+      });
+    }
+  }
+
   @override
   void dispose() {
     _audioPlayer.dispose();
@@ -172,57 +220,49 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
           color: Colors.white,
         ),
       ),
-      body: Stack(
-        children: [
-          FutureBuilder<void>(
-            future: _initialLoadFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.white,
-                ));
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (learnWords.isEmpty) {
-                return const Center(child: Text('No words to learn'));
-              } else {
-                if (currentOptions.isEmpty &&
-                    currentIndex < learnWords.length) {
-                  currentOptions =
-                      _generateImageOptions(learnWords[currentIndex]);
-                }
-                return PageView.builder(
-                  controller: _pageController,
-                  itemCount: learnWords.length,
-                  onPageChanged: (index) {
-                    setState(() {
-                      currentIndex = index;
-                      showExample = false;
-                      selectedAnswer = null;
-                      currentOptions = _generateImageOptions(learnWords[index]);
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    final word = learnWords[index];
+      body: FutureBuilder<void>(
+        future: _initialLoadFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+                child: CircularProgressIndicator(
+              color: Colors.white,
+            ));
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (learnWords.isEmpty) {
+            return const Center(child: Text('No words to learn'));
+          } else {
+            return PageView.builder(
+              controller: _pageController,
+              itemCount: learnWords.length,
+              onPageChanged: (index) async {
+                setState(() {
+                  currentIndex = index;
+                  showExample = false;
+                  selectedAnswer = null;
+                });
 
-                    return ImageGameCard(
-                      word: word,
-                      showExample: showExample,
-                      onToggleExample: _toggleExample,
-                      onOptionSelected: (option) =>
-                          _checkImageAnswer(option, word),
-                      options: currentOptions,
-                      selectedAnswer: selectedAnswer,
-                      correctImageUrl: imageUrls[word.id]!,
-                    );
-                  },
+                await _loadImagesForCurrentAndNextWord(); // Завантажуємо зображення для поточної та наступної картки
+              },
+              itemBuilder: (context, index) {
+                final word = learnWords[index];
+                final correctImageUrl = imageUrls[word.id];
+
+                return ImageGameCard(
+                  word: word,
+                  showExample: showExample,
+                  onToggleExample: _toggleExample,
+                  onOptionSelected: (option) => _checkImageAnswer(option, word),
+                  options: currentOptions,
+                  selectedAnswer: selectedAnswer,
+                  correctImageUrl: correctImageUrl ??
+                      'https://example.com/placeholder.jpg', // Placeholder image URL
                 );
-              }
-            },
-          ),
-          ConfettiOverlay(confettiController: _confettiController),
-        ],
+              },
+            );
+          }
+        },
       ),
     );
   }

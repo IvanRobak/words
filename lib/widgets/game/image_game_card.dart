@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:words/models/word.dart';
+import 'package:words/services/cache_manager_service.dart';
 
 class ImageGameCard extends StatelessWidget {
   final Word word;
@@ -32,7 +33,6 @@ class ImageGameCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
-    // Встановлення відступу залежно від висоти екрану
     double bottomPadding;
     if (screenHeight > 800) {
       bottomPadding = 200;
@@ -87,6 +87,7 @@ class ImageGameCard extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: CachedNetworkImage(
+                          cacheManager: customCacheManager,
                           imageUrl: option,
                           fit: BoxFit.cover,
                           placeholder: (context, url) =>
