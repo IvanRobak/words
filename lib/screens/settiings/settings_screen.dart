@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,6 +38,38 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       soundEnabled = value;
     });
     await prefs.setBool('soundEnabled', value);
+  }
+
+  Future<void> _confirmAndClearCache() async {
+    final shouldClear = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(
+            'Confirm Clear Cache',
+          ),
+          content: Text('Are you sure you want to clear the cache?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(false);
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(true);
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldClear == true) {
+      await _clearCache();
+    }
   }
 
   Future<void> _clearCache() async {
@@ -179,7 +211,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             ListTile(
               leading: const Icon(Icons.delete),
               title: const Text('Clear Cache'),
-              onTap: _clearCache,
+              onTap: _confirmAndClearCache,
             ),
           ],
         ),
