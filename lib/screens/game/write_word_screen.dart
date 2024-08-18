@@ -7,9 +7,8 @@ import 'package:words/widgets/game/write_word_game_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WriteWordScreen extends ConsumerStatefulWidget {
-  final Word word;
 
-  const WriteWordScreen({super.key, required this.word});
+  const WriteWordScreen({super.key});
 
   @override
   WriteWordScreenState createState() => WriteWordScreenState();

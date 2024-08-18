@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:words/screens/game/guess_word_screen.dart';
 import 'package:words/screens/game/guess_image_screen.dart';
 import 'package:words/screens/game/write_word_screen.dart';
-import 'package:words/models/word.dart';
+// import 'package:words/models/word.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
@@ -15,13 +15,6 @@ class GameScreen extends StatefulWidget {
 class GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
-    final Word exampleWord = Word(
-      word: 'example',
-      id: 1,
-      example: 'This is an example sentence using the word example.',
-      imageUrl: 'https://example.com/image.jpg',
-    );
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
@@ -101,8 +94,7 @@ class GameScreenState extends State<GameScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            WriteWordScreen(word: exampleWord)),
+                        builder: (context) => const WriteWordScreen()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
