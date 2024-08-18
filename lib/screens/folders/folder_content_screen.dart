@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/models/folder.dart';
+import 'package:words/providers/folder_provider.dart';
 import 'package:words/providers/word_provider.dart';
 import 'package:words/widgets/word_list_view.dart';
 import 'package:words/services/word_loader.dart';
@@ -83,6 +84,7 @@ class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.watch(folderProvider).folders;
     final filteredWords = ref.watch(wordFilterProvider);
 
     return Scaffold(

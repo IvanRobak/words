@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:words/models/folder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:words/providers/folder_provider.dart';
 
-class BottomSection extends StatelessWidget {
+class BottomSection extends ConsumerWidget {
   final bool isTranslationVisible;
   final String? translation;
   final String? selectedFolder;
-  final List<Folder> folders;
   final Function(String?) onFolderChanged;
   final VoidCallback toggleTranslation;
   final String selectedLanguage;
@@ -15,14 +15,15 @@ class BottomSection extends StatelessWidget {
     required this.isTranslationVisible,
     this.translation,
     this.selectedFolder,
-    required this.folders,
     required this.onFolderChanged,
     required this.toggleTranslation,
     required this.selectedLanguage,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final folders = ref.watch(folderProvider).folders;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

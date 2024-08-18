@@ -91,18 +91,13 @@ class WordDetailState extends ConsumerState<WordDetail> {
     final currentAccount = await _getCurrentUserAccount();
     final savedFolderName = prefs.getString('selectedFolder_${widget.word.id}');
 
-    // Отримуємо поточний акаунт користувача
     final actualCurrentAccount = await _getCurrentUserAccount();
-
-    // Перевіряємо, чи користувач авторизований
     if (currentAccount != null && currentAccount != actualCurrentAccount) {
-      // Якщо акаунт змінився, скидаємо вибрану папку
       await prefs.remove('selectedFolder_${widget.word.id}');
       setState(() {
         selectedFolder = null;
       });
     } else {
-      // Якщо користувач не авторизований або акаунт не змінився, зберігаємо папку
       setState(() {
         selectedFolder = savedFolderName;
       });
@@ -117,11 +112,9 @@ class WordDetailState extends ConsumerState<WordDetail> {
   Future<void> _loadSelectedLanguageAndTranslate() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // Отримуємо збережену мову або мову пристрою, якщо збереженої немає
     selectedLanguage = prefs.getString('selectedLanguage') ??
         ui.PlatformDispatcher.instance.locale.languageCode;
 
-    // Переклад слова на обрану мову або на дефолтну мову
     await _translateWord(selectedLanguage!);
   }
 
@@ -252,10 +245,10 @@ class WordDetailState extends ConsumerState<WordDetail> {
     }
 
     double screenHeight = MediaQuery.of(context).size.height;
-    double fontSize = screenHeight > 600 ? 40 : 30; // Адаптивний розмір шрифту
+    double fontSize = screenHeight > 600 ? 40 : 30;
 
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 10), // зменшений відступ
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
       child: Card(
         color: Theme.of(context).colorScheme.onSurface,
         shape: RoundedRectangleBorder(
@@ -263,8 +256,8 @@ class WordDetailState extends ConsumerState<WordDetail> {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 5, // зменшений відступ
-            horizontal: 15, // зменшений відступ
+            vertical: 5,
+            horizontal: 15,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -275,8 +268,7 @@ class WordDetailState extends ConsumerState<WordDetail> {
                   widget.word.word,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize:
-                        fontSize, // Використання адаптивного розміру шрифту
+                    fontSize: fontSize,
                   ),
                 ),
               ),
@@ -307,7 +299,6 @@ class WordDetailState extends ConsumerState<WordDetail> {
                   isTranslationVisible: isTranslationVisible,
                   translation: widget.word.translation,
                   selectedFolder: selectedFolder,
-                  folders: folders,
                   onFolderChanged: (value) {
                     setState(() {
                       selectedFolder = value;
