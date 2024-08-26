@@ -70,7 +70,13 @@ class _FolderWidgetState extends State<FolderWidget> {
   }
 
   void _showColorPickerDialog() {
-    ColorSwatch? tempMainColor = widget.folder.color as ColorSwatch?;
+    ColorSwatch? tempMainColor;
+    if (widget.folder.color is ColorSwatch) {
+      tempMainColor = widget.folder.color as ColorSwatch;
+    } else {
+      tempMainColor = Colors.blue; // або будь-який інший колір за замовчуванням
+    }
+
     Color? tempShadeColor = widget.folder.color;
 
     showDialog(

@@ -59,7 +59,6 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
       learnWords =
           allWords.where((word) => learnWordIds.contains(word.id)).toList();
 
-      // Попереднє завантаження зображень для першої та другої картки
       await _loadImagesForCurrentAndNextWord();
     } catch (error) {
       // Свідомо ігноруємо помилки, оскільки вони не критичні для роботи додатка
@@ -72,10 +71,8 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
       imageUrls[word.id] =
           await firebaseImageService.fetchImageUrl(word.imageUrl);
 
-      // Асинхронне отримання варіантів відповіді
       final options = await _generateImageOptions(word);
 
-      // Оновлення стану з новими варіантами
       setState(() {
         currentOptions = options;
       });
@@ -86,14 +83,13 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
     final int wordIndex = allWords.indexWhere((w) => w.id == word.id);
     List<Word> nearbyWords = [];
 
-    // Отримання сусідніх слів
     for (int i = -5; i <= 5; i++) {
       if (i != 0 && wordIndex + i >= 0 && wordIndex + i < allWords.length) {
         nearbyWords.add(allWords[wordIndex + i]);
       }
     }
 
-    nearbyWords.shuffle(); // Перемішування сусідніх слів
+    nearbyWords.shuffle();
 
     // Завантаження URL-адрес для варіантів відповіді
     List<Future<String>> optionFutures = nearbyWords.take(3).map((w) async {
