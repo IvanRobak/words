@@ -53,7 +53,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40),
         child: ListView.builder(
           itemCount: totalGroups,
           itemBuilder: (context, groupIndex) {
@@ -80,31 +80,29 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
               child: Card(
                 color: Theme.of(context).colorScheme.inverseSurface,
                 elevation: 4.0,
-                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                margin: const EdgeInsets.symmetric(vertical: 10),
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 90,
-                        alignment: Alignment.center,
-                        child: Text(
-                          '$start - $end',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.normal,
-                          ),
+                      Text(
+                        '$start - $end',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.normal,
                         ),
                       ),
-                      Expanded(
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 100,
+                        width: 220,
                         child: LayoutBuilder(
                           builder: (context, constraints) {
                             const itemCount = 50;
                             const crossAxisCount = 10;
-                            const spacing = 8.0;
+                            const spacing = 2;
                             final availableWidth = constraints.maxWidth;
                             final dotSize = (availableWidth -
                                     (crossAxisCount - 1) * spacing) /
@@ -119,8 +117,8 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: crossAxisCount,
-                                  mainAxisSpacing: spacing,
-                                  crossAxisSpacing: spacing,
+                                  mainAxisSpacing: 4,
+                                  crossAxisSpacing: 7,
                                   childAspectRatio: 1,
                                 ),
                                 itemBuilder: (context, dotIndex) {
