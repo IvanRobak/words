@@ -27,7 +27,6 @@ class WordGameCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
-    // Встановлення відступу залежно від висоти екрану
     double bottomPadding;
     if (screenHeight > 800) {
       bottomPadding = 200;
@@ -55,7 +54,7 @@ class WordGameCard extends StatelessWidget {
                 ),
                 child: CachedNetworkImage(
                   imageUrl: imageUrl!,
-                  height: 300,
+                  height: 300, // Зменшення висоти зображення
                   width: double.infinity,
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
@@ -92,45 +91,71 @@ class WordGameCard extends StatelessWidget {
             const SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.all(12.0),
-              child: GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 15,
-                childAspectRatio: 4,
-                physics: const NeverScrollableScrollPhysics(),
-                children: options.map((option) {
-                  final isCorrect =
-                      selectedAnswer == option && option == word.word;
-                  final isWrong =
-                      selectedAnswer == option && option != word.word;
+              child: SizedBox(
+                height: 100,
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 4,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: options.map((option) {
+                    final isCorrect =
+                        selectedAnswer == option && option == word.word;
+                    final isWrong =
+                        selectedAnswer == option && option != word.word;
 
-                  return ElevatedButton(
-                    onPressed: () => onOptionSelected(option),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isCorrect
-                          ? Colors.green
-                          : isWrong
-                              ? Colors.red
-                              : Theme.of(context).colorScheme.inverseSurface,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+                    return ElevatedButton(
+                      onPressed: () => onOptionSelected(option),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isCorrect
+                            ? Colors.green
+                            : isWrong
+                                ? Colors.red
+                                : Theme.of(context).colorScheme.inverseSurface,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 5),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 5),
-                    ),
-                    child: Text(
-                      option,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSecondary,
-                        fontSize: 18,
+                      child: Text(
+                        option,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               ),
             ),
+            const SizedBox(height: 15),
+            Center(
+              child: Container(
+                height: 10,
+                width: 300,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      15), // Обрізка куточків прогрес-бара
+                  child: LinearProgressIndicator(
+                    value: 0.7, // Прогрес, значення від 0.0 до 1.0
+                    backgroundColor:
+                        Colors.grey.shade300, // Колір фону індикатора
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                        Colors.blue), // Колір заповнення індикатора
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

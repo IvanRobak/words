@@ -53,7 +53,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 30),
         child: ListView.builder(
           itemCount: totalGroups,
           itemBuilder: (context, groupIndex) {
@@ -102,7 +102,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                           builder: (context, constraints) {
                             const itemCount = 50;
                             const crossAxisCount = 10;
-                            const spacing = 2;
+                            const spacing = 4.0;
                             final availableWidth = constraints.maxWidth;
                             final dotSize = (availableWidth -
                                     (crossAxisCount - 1) * spacing) /
@@ -119,7 +119,7 @@ class _WordGroupScreenState extends ConsumerState<WordGroupScreen> {
                                   crossAxisCount: crossAxisCount,
                                   mainAxisSpacing: 4,
                                   crossAxisSpacing: 7,
-                                  childAspectRatio: 1,
+                                  childAspectRatio: 1.1,
                                 ),
                                 itemBuilder: (context, dotIndex) {
                                   return SizedBox(
