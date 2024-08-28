@@ -1,18 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final correctAnswersProvider =
-    StateNotifierProvider<CorrectAnswersNotifier, int>((ref) {
-  return CorrectAnswersNotifier();
-});
+// Створення StateNotifier для управління станом прогресу
+class ProgressNotifier extends StateNotifier<double> {
+  ProgressNotifier() : super(0.0);
 
-class CorrectAnswersNotifier extends StateNotifier<int> {
-  CorrectAnswersNotifier() : super(0);
-
-  void increment() {
-    state = state + 1;
+  void incrementProgress() {
+    if (state < 1.0) {
+      state += 0.1;
+      print('Progress incremented: $state');
+    } else {
+      print('Progress is already at maximum.');
+    }
   }
 
-  void reset() {
-    state = 0;
+  void resetProgress() {
+    state = 0.0;
+    print('Progress reset'); // Лог скидання прогресу
   }
 }
+
+// Провайдер для доступу до ProgressNotifier
+final progressProvider = StateNotifierProvider<ProgressNotifier, double>((ref) {
+  return ProgressNotifier();
+});

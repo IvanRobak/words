@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
+import 'package:words/providers/correct_answer_provider.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/word_loader.dart';
@@ -118,9 +119,11 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
     if (answer == word.word) {
       await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       if (soundEnabled) {
-        // Додати цю перевірку
         await _audioPlayer.play(AssetSource('sounds/correct.mp3'));
       }
+
+      // Інкрементуємо прогрес тільки якщо відповідь правильна
+      ref.read(progressProvider.notifier).incrementProgress();
 
       Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {
@@ -140,7 +143,6 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
     } else {
       await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       if (soundEnabled) {
-        // Додати цю перевірку
         await _audioPlayer.play(AssetSource('sounds/incorrect.mp3'));
       }
     }

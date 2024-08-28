@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
-import 'package:words/utils/text_utils.dart';
+import 'package:words/providers/correct_answer_provider.dart';
+import 'package:words/utils/text_utils.dart'; // Імпорт вашого провайдера
 
-class WordGameCard extends StatelessWidget {
+class WordGameCard extends ConsumerWidget {
   final Word word;
   final String? imageUrl;
   final bool showExample;
@@ -24,10 +26,12 @@ class WordGameCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double screenHeight = MediaQuery.of(context).size.height;
-
     double bottomPadding;
+    double progress =
+        ref.watch(progressProvider); // Отримання значення прогресу з провайдера
+    print('Progress value in widget: $progress');
     if (screenHeight > 800) {
       bottomPadding = 200;
     } else if (screenHeight > 600) {
@@ -54,7 +58,7 @@ class WordGameCard extends StatelessWidget {
                 ),
                 child: CachedNetworkImage(
                   imageUrl: imageUrl!,
-                  height: 300, // Зменшення висоти зображення
+                  height: 300,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
@@ -101,17 +105,21 @@ class WordGameCard extends StatelessWidget {
                   childAspectRatio: 4,
                   physics: const NeverScrollableScrollPhysics(),
                   children: options.map((option) {
-                    final isCorrect =
-                        selectedAnswer == option && option == word.word;
-                    final isWrong =
-                        selectedAnswer == option && option != word.word;
+                    // final isCorrect =
+                    //     selectedAnswer == option && option == word.word;
+                    // final isWrong =
+                    //     selectedAnswer == option && option != word.word;
 
                     return ElevatedButton(
-                      onPressed: () => onOptionSelected(option),
+                      onPressed: () {
+                        print('Option selected: $option');
+                        onOptionSelected(option);
+                      },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: isCorrect
+                        backgroundColor: selectedAnswer == option &&
+                                option == word.word
                             ? Colors.green
-                            : isWrong
+                            : selectedAnswer == option && option != word.word
                                 ? Colors.red
                                 : Theme.of(context).colorScheme.inverseSurface,
                         shape: RoundedRectangleBorder(
@@ -143,14 +151,13 @@ class WordGameCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      15), // Обрізка куточків прогрес-бара
+                  borderRadius: BorderRadius.circular(15),
                   child: LinearProgressIndicator(
-                    value: 0.7, // Прогрес, значення від 0.0 до 1.0
-                    backgroundColor:
-                        Colors.grey.shade300, // Колір фону індикатора
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                        Colors.blue), // Колір заповнення індикатора
+                    value:
+                        progress, // Використання значення прогресу з провайдера
+                    backgroundColor: Colors.grey.shade300,
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.blue),
                   ),
                 ),
               ),
