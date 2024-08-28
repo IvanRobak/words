@@ -1,25 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Створення StateNotifier для управління станом прогресу
-class ProgressNotifier extends StateNotifier<double> {
-  ProgressNotifier() : super(0.0);
+class WordProgressNotifier extends StateNotifier<Map<int, double>> {
+  WordProgressNotifier() : super({});
 
-  void incrementProgress() {
-    if (state < 1.0) {
-      state += 0.1;
-      print('Progress incremented: $state');
-    } else {
-      print('Progress is already at maximum.');
-    }
+  void incrementProgress(int wordId) {
+    state = {
+      ...state,
+      wordId: (state[wordId] ?? 0.0) + 0.2,
+    };
   }
 
-  void resetProgress() {
-    state = 0.0;
-    print('Progress reset'); // Лог скидання прогресу
+  double getProgress(int wordId) {
+    return state[wordId] ?? 0.0;
   }
 }
 
-// Провайдер для доступу до ProgressNotifier
-final progressProvider = StateNotifierProvider<ProgressNotifier, double>((ref) {
-  return ProgressNotifier();
+final wordProgressProvider =
+    StateNotifierProvider<WordProgressNotifier, Map<int, double>>((ref) {
+  return WordProgressNotifier();
 });

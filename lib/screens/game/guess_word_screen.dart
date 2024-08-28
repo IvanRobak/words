@@ -122,8 +122,8 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
         await _audioPlayer.play(AssetSource('sounds/correct.mp3'));
       }
 
-      // Інкрементуємо прогрес тільки якщо відповідь правильна
-      ref.read(progressProvider.notifier).incrementProgress();
+      // Інкрементуємо прогрес тільки якщо відповідь правильна для конкретного слова
+      ref.read(wordProgressProvider.notifier).incrementProgress(word.id);
 
       Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {

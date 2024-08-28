@@ -29,9 +29,6 @@ class WordGameCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     double screenHeight = MediaQuery.of(context).size.height;
     double bottomPadding;
-    double progress =
-        ref.watch(progressProvider); // Отримання значення прогресу з провайдера
-    print('Progress value in widget: $progress');
     if (screenHeight > 800) {
       bottomPadding = 200;
     } else if (screenHeight > 600) {
@@ -39,6 +36,8 @@ class WordGameCard extends ConsumerWidget {
     } else {
       bottomPadding = 0;
     }
+    
+    final progress = ref.watch(wordProgressProvider)[word.id] ?? 0.0;
 
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding),
@@ -105,21 +104,24 @@ class WordGameCard extends ConsumerWidget {
                   childAspectRatio: 4,
                   physics: const NeverScrollableScrollPhysics(),
                   children: options.map((option) {
-                    // final isCorrect =
-                    //     selectedAnswer == option && option == word.word;
-                    // final isWrong =
-                    //     selectedAnswer == option && option != word.word;
+                    final isCorrect =
+                        selectedAnswer == option && option == word.word;
+                    final isWrong =
+                        selectedAnswer == option && option != word.word;
 
                     return ElevatedButton(
                       onPressed: () {
-                        print('Option selected: $option');
                         onOptionSelected(option);
+                        if (isCorrect) {
+                          ref
+                              .read(wordProgressProvider.notifier)
+                              .incrementProgress(word.id);
+                        }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: selectedAnswer == option &&
-                                option == word.word
+                        backgroundColor: isCorrect
                             ? Colors.green
-                            : selectedAnswer == option && option != word.word
+                            : isWrong
                                 ? Colors.red
                                 : Theme.of(context).colorScheme.inverseSurface,
                         shape: RoundedRectangleBorder(
@@ -153,8 +155,7 @@ class WordGameCard extends ConsumerWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: LinearProgressIndicator(
-                    value:
-                        progress, // Використання значення прогресу з провайдера
+                    value: progress,
                     backgroundColor: Colors.grey.shade300,
                     valueColor:
                         const AlwaysStoppedAnimation<Color>(Colors.blue),
