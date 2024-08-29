@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/correct_answer_provider.dart';
-import 'package:words/screens/game/summary_screen.dart';
+import 'package:words/screens/game/guess_word/summary_guess_wordscreen.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/word_loader.dart';
