@@ -116,36 +116,36 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
       selectedAnswer = answer;
     });
 
+    await _audioPlayer.stop();
+
     if (answer == word.word) {
-      await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       if (soundEnabled) {
         await _audioPlayer.play(AssetSource('sounds/correct.mp3'));
       }
 
       // Інкрементуємо прогрес тільки якщо відповідь правильна для конкретного слова
       ref.read(wordProgressProvider.notifier).incrementProgress(word.id);
-
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        setState(() {
-          selectedAnswer = null;
-          currentIndex++;
-          if (currentIndex < learnWords.length) {
-            _pageController.nextPage(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeIn,
-            );
-          } else {
-            _confettiController.play();
-            _showCompletionDialog();
-          }
-        });
-      });
     } else {
-      await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       if (soundEnabled) {
         await _audioPlayer.play(AssetSource('sounds/incorrect.mp3'));
       }
     }
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      setState(() {
+        selectedAnswer = null;
+        currentIndex++;
+        if (currentIndex < learnWords.length) {
+          _pageController.nextPage(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+          );
+        } else {
+          _confettiController.play();
+          _showCompletionDialog();
+        }
+      });
+    });
   }
 
   void _toggleExample() {
