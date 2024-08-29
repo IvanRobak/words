@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/correct_answer_provider.dart';
+import 'package:words/screens/game/summary_screen.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/word_loader.dart';
@@ -97,12 +98,19 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
           title: const Text('Well done, great job!'),
           actions: <Widget>[
             TextButton(
+              child: const Text('Summary'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => SummaryScreen(words: learnWords),
+                ));
+              },
+            ),
+            TextButton(
               child: const Text('Close'),
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                // Тут можна додати додаткову логіку, якщо необхідно
               },
             ),
           ],
