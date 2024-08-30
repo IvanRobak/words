@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
-import 'package:words/providers/correct_answer_provider.dart';
+import 'package:words/providers/progress_provider.dart';
 
 class SummaryScreen extends ConsumerWidget {
   final List<Word> words;
@@ -35,7 +35,7 @@ class SummaryScreen extends ConsumerWidget {
           itemCount: words.length,
           itemBuilder: (context, index) {
             final word = words[index];
-            final progress = ref.read(wordProgressProvider)[word.id] ?? 0.0;
+            final progress = ref.read(wordProgressWordProvider)[word.id] ?? 0.0;
 
             return ListTile(
               title: Text(

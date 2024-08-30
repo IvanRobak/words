@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
-import 'package:words/providers/correct_answer_provider.dart';
+import 'package:words/providers/progress_provider.dart';
 import 'package:words/screens/game/guess_word/summary_guess_wordscreen.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
@@ -132,7 +132,7 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
       }
 
       // Інкрементуємо прогрес тільки якщо відповідь правильна для конкретного слова
-      ref.read(wordProgressProvider.notifier).incrementProgress(word.id);
+      ref.read(wordProgressWordProvider.notifier).incrementProgress(word.id);
     } else {
       if (soundEnabled) {
         await _audioPlayer.play(AssetSource('sounds/incorrect.mp3'));

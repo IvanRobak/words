@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
-import 'package:words/providers/correct_answer_provider.dart';
+import 'package:words/providers/progress_provider.dart';
 import 'package:words/utils/text_utils.dart'; // Імпорт вашого провайдера
 
 class WordGameCard extends ConsumerWidget {
@@ -36,8 +36,8 @@ class WordGameCard extends ConsumerWidget {
     } else {
       bottomPadding = 0;
     }
-    
-    final progress = ref.watch(wordProgressProvider)[word.id] ?? 0.0;
+
+    final progress = ref.watch(wordProgressWordProvider)[word.id] ?? 0.0;
 
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding),
@@ -114,7 +114,7 @@ class WordGameCard extends ConsumerWidget {
                         onOptionSelected(option);
                         if (isCorrect) {
                           ref
-                              .read(wordProgressProvider.notifier)
+                              .read(wordProgressWordProvider.notifier)
                               .incrementProgress(word.id);
                         }
                       },
