@@ -1,5 +1,3 @@
-// word_progress_providers.dart
-
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,12 +27,21 @@ class WordProgressNotifier extends StateNotifier<Map<int, double>> {
   Future<void> loadProgress() async {
     final prefs = await SharedPreferences.getInstance();
     final progressData = prefs.getString('wordProgress_$gameKey') ?? '{}';
-    state = Map<int, double>.from(json.decode(progressData));
+
+    // Конвертуємо назад з Map<String, double> на Map<int, double>
+    final Map<String, double> jsonMap =
+        Map<String, double>.from(json.decode(progressData));
+    state = jsonMap.map((key, value) => MapEntry(int.parse(key), value));
   }
 
   Future<void> _saveProgress() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('wordProgress_$gameKey', json.encode(state));
+
+    // Конвертуємо Map<int, double> на Map<String, double>
+    final progressData =
+        state.map((key, value) => MapEntry(key.toString(), value));
+
+    await prefs.setString('wordProgress_$gameKey', json.encode(progressData));
   }
 }
 

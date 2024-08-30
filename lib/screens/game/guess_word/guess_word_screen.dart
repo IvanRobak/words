@@ -102,7 +102,10 @@ class GuessWordScreenState extends ConsumerState<GuessWordScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => SummaryScreen(words: learnWords),
+                  builder: (context) => SummaryScreen(
+                    words: learnWords,
+                    gameKey: 'word',
+                  ),
                 ));
               },
             ),

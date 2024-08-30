@@ -5,11 +5,17 @@ import 'package:words/providers/progress_provider.dart';
 
 class SummaryScreen extends ConsumerWidget {
   final List<Word> words;
+  final String gameKey; // Додаємо ключ гри, щоб вибрати правильний провайдер
 
-  const SummaryScreen({super.key, required this.words});
+  const SummaryScreen({super.key, required this.words, required this.gameKey});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Вибираємо правильний провайдер на основі ключа гри
+    final wordProgressProvider = gameKey == 'word'
+        ? wordProgressWordProvider
+        : wordProgressImageProvider;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
@@ -35,7 +41,7 @@ class SummaryScreen extends ConsumerWidget {
           itemCount: words.length,
           itemBuilder: (context, index) {
             final word = words[index];
-            final progress = ref.read(wordProgressWordProvider)[word.id] ?? 0.0;
+            final progress = ref.read(wordProgressProvider)[word.id] ?? 0.0;
 
             return ListTile(
               title: Text(
