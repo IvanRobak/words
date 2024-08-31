@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
+import 'package:words/screens/game/guess_image/image_game_summery.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/word_loader.dart';
@@ -21,6 +22,7 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
   late List<Word> learnWords;
   late List<Word> allWords;
   Map<int, String> imageUrls = {};
+  Map<int, bool> answerResults = {};
   int currentIndex = 0;
   bool showExample = false;
   String? selectedAnswer;
@@ -116,9 +118,20 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
           title: const Text('Well done, great job!'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Close'),
+              child: const Text('Summary'),
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ImageGameSummaryScreen(
+                    words: learnWords,
+                    answerResults: answerResults,
+                  ),
+                ));
+              },
+            ),
+            TextButton(
+              child: const Text('Close'),
+              onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
@@ -132,36 +145,39 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
   Future<void> _checkImageAnswer(String imageUrl, Word word) async {
     setState(() {
       selectedAnswer = imageUrl;
+      answerResults[word.id] =
+          (imageUrl == imageUrls[word.id]); // Зберігаємо результат відповіді
     });
 
+    await _audioPlayer.stop();
+
     if (imageUrl == imageUrls[word.id]) {
-      await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       if (soundEnabled) {
         await _audioPlayer.play(AssetSource('sounds/correct.mp3'));
       }
-
-      Future.delayed(const Duration(milliseconds: 1000), () {
-        setState(() {
-          selectedAnswer = null;
-          currentIndex++;
-          if (currentIndex < learnWords.length) {
-            _loadImagesForCurrentWord(); // Завантаження нових зображень для наступного слова
-            _pageController.nextPage(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeIn,
-            );
-          } else {
-            _confettiController.play();
-            _showCompletionDialog();
-          }
-        });
-      });
     } else {
-      await _audioPlayer.stop(); // Зупиняємо попередній звук, якщо він ще грає
       if (soundEnabled) {
         await _audioPlayer.play(AssetSource('sounds/incorrect.mp3'));
       }
     }
+
+    // Переходимо на наступну картку після короткої затримки
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      setState(() {
+        selectedAnswer = null;
+        currentIndex++;
+        if (currentIndex < learnWords.length) {
+          _loadImagesForCurrentWord(); // Завантаження нових зображень для наступного слова
+          _pageController.nextPage(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeIn,
+          );
+        } else {
+          _confettiController.play();
+          _showCompletionDialog();
+        }
+      });
+    });
   }
 
   void _toggleExample() {

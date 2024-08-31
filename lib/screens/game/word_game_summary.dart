@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
-import 'package:words/providers/progress_provider.dart';
+import 'package:words/providers/word_progress_provider.dart';
 
 class SummaryScreen extends ConsumerWidget {
   final List<Word> words;
-  final String gameKey; // Додаємо ключ гри, щоб вибрати правильний провайдер
 
-  const SummaryScreen({super.key, required this.words, required this.gameKey});
+  const SummaryScreen({super.key, required this.words});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Вибираємо правильний провайдер на основі ключа гри
-    final wordProgressProvider = gameKey == 'word'
-        ? wordProgressWordProvider
-        : wordProgressImageProvider;
+    final wordProgressProvider = wordProgressWordProvider;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: const Text(
-          'Summary',
+          'Word Game Summary',
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(

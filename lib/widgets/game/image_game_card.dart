@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
+import 'package:words/providers/image_progress_provider.dart';
 import 'package:words/services/cache_manager_service.dart';
 
-class ImageGameCard extends StatelessWidget {
+class ImageGameCard extends ConsumerWidget {
   final Word word;
   final bool showExample;
   final VoidCallback onToggleExample;
@@ -30,7 +32,7 @@ class ImageGameCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     double screenHeight = MediaQuery.of(context).size.height;
 
     double bottomPadding;
@@ -41,6 +43,8 @@ class ImageGameCard extends StatelessWidget {
     } else {
       bottomPadding = 0;
     }
+
+    final progress = ref.watch(imageGameProgressProvider)[word.id] ?? 0.0;
 
     return Padding(
       padding: EdgeInsets.only(bottom: bottomPadding),
@@ -57,11 +61,10 @@ class ImageGameCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: GridView.count(
                 shrinkWrap: true,
-                padding: const EdgeInsets.only(
-                    top: 15, bottom: 30), // Встановлюємо padding на нуль
+                padding: const EdgeInsets.only(top: 15, bottom: 30),
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
-                mainAxisSpacing: 10, // Зменшення відступів між елементами
+                mainAxisSpacing: 10,
                 childAspectRatio: 1.0,
                 physics: const NeverScrollableScrollPhysics(),
                 children: options.map((option) {
@@ -71,7 +74,14 @@ class ImageGameCard extends StatelessWidget {
                       selectedAnswer == option && option != correctImageUrl;
 
                   return GestureDetector(
-                    onTap: () => onOptionSelected(option),
+                    onTap: () {
+                      onOptionSelected(option);
+                      if (option == correctImageUrl) {
+                        ref
+                            .read(imageGameProgressProvider.notifier)
+                            .incrementProgress(word.id);
+                      }
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
@@ -140,6 +150,27 @@ class ImageGameCard extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 15),
+            Center(
+              child: Container(
+                height: 10,
+                width: 300,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: LinearProgressIndicator(
+                    value: progress,
+                    backgroundColor: Colors.grey.shade300,
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.blue),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

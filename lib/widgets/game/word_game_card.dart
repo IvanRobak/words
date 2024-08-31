@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
-import 'package:words/providers/progress_provider.dart';
+import 'package:words/providers/word_progress_provider.dart';
 import 'package:words/utils/text_utils.dart'; // Імпорт вашого провайдера
 
 class WordGameCard extends ConsumerWidget {

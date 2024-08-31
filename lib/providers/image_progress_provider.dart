@@ -2,16 +2,20 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class WordProgressNotifier extends StateNotifier<Map<int, double>> {
+class ImageProgressNotifier extends StateNotifier<Map<int, double>> {
   final String gameKey;
 
-  WordProgressNotifier({required this.gameKey}) : super({});
+  ImageProgressNotifier({required this.gameKey}) : super({});
 
   void incrementProgress(int wordId) {
+    double currentProgress = state[wordId] ?? 0.0;
+    double newProgress = (currentProgress + 0.2).clamp(0.0, 1.0);
+
     state = {
       ...state,
-      wordId: (state[wordId] ?? 0.0) + 0.2,
+      wordId: newProgress,
     };
+
     _saveProgress();
   }
 
@@ -26,7 +30,7 @@ class WordProgressNotifier extends StateNotifier<Map<int, double>> {
 
   Future<void> loadProgress() async {
     final prefs = await SharedPreferences.getInstance();
-    final progressData = prefs.getString('wordProgress_$gameKey') ?? '{}';
+    final progressData = prefs.getString('imageProgress_$gameKey') ?? '{}';
 
     // Конвертуємо назад з Map<String, double> на Map<int, double>
     final Map<String, double> jsonMap =
@@ -41,16 +45,11 @@ class WordProgressNotifier extends StateNotifier<Map<int, double>> {
     final progressData =
         state.map((key, value) => MapEntry(key.toString(), value));
 
-    await prefs.setString('wordProgress_$gameKey', json.encode(progressData));
+    await prefs.setString('imageProgress_$gameKey', json.encode(progressData));
   }
 }
 
-final wordProgressWordProvider =
-    StateNotifierProvider<WordProgressNotifier, Map<int, double>>((ref) {
-  return WordProgressNotifier(gameKey: 'word')..loadProgress();
-});
-
-final wordProgressImageProvider =
-    StateNotifierProvider<WordProgressNotifier, Map<int, double>>((ref) {
-  return WordProgressNotifier(gameKey: 'image')..loadProgress();
+final imageGameProgressProvider =
+    StateNotifierProvider<ImageProgressNotifier, Map<int, double>>((ref) {
+  return ImageProgressNotifier(gameKey: 'image_game')..loadProgress();
 });
