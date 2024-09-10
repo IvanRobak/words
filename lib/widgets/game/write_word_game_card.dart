@@ -178,26 +178,6 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: widget.onSubmit,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.surface,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 20),
-                        ),
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
                       const SizedBox(height: 8),
                       Stack(
                         children: [
@@ -245,6 +225,28 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
                                     ),
                                   ),
                                 ),
+                              ElevatedButton(
+                                onPressed: widget.onSubmit,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.surface,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 20),
+                                ),
+                                child: Text(
+                                  'Submit',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                    fontSize: 16,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                               TextButton(
                                 onPressed: widget.onNext,
                                 style: ElevatedButton.styleFrom(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/providers/button_provider.dart';
+import 'package:words/providers/image_progress_provider.dart';
 import 'package:words/providers/word_progress_provider.dart';
 import 'package:words/providers/favorite_provider.dart';
 import 'package:words/screens/settiings/about_screen.dart';
@@ -85,6 +86,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     ref.read(learnWordsProvider.notifier).loadLearnWords();
     ref.read(favoriteProvider.notifier).clearFavorites();
     ref.read(wordProgressWordProvider.notifier).clearProgress();
+    ref.read(imageGameProgressProvider.notifier).clearProgress();
 
     final BuildContext currentContext = context;
 
