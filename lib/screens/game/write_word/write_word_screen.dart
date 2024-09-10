@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/button_provider.dart';
+import 'package:words/providers/write_progress_provider.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:words/services/word_loader.dart';
 import 'package:words/widgets/game/write_word_game_card.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WriteWordScreen extends ConsumerStatefulWidget {
-
   const WriteWordScreen({super.key});
 
   @override
@@ -66,19 +66,27 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
       setState(() {
         feedback = 'Correct!';
         showFeedback = true;
+
+        ref
+            .read(writeWordProgressProvider.notifier)
+            .incrementProgress(learnWords[currentIndex].id);
+      });
+
+      Future.delayed(const Duration(seconds: 2), () {
+        nextWord();
       });
     } else {
       setState(() {
         feedback = 'Try again!';
         showFeedback = true;
       });
-    }
 
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        showFeedback = false;
+      Future.delayed(const Duration(seconds: 2), () {
+        setState(() {
+          showFeedback = false;
+        });
       });
-    });
+    }
   }
 
   void nextWord() {

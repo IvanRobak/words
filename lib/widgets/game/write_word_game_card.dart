@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
+import 'package:words/providers/write_progress_provider.dart';
 import 'package:words/utils/text_utils.dart';
 
-class WriteWordGameCard extends StatefulWidget {
+class WriteWordGameCard extends ConsumerStatefulWidget {
   final Word word;
   final String? imageUrl;
   final bool showExample;
@@ -35,7 +37,7 @@ class WriteWordGameCard extends StatefulWidget {
   WriteWordGameCardState createState() => WriteWordGameCardState();
 }
 
-class WriteWordGameCardState extends State<WriteWordGameCard> {
+class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
   List<bool> _revealedLetters = [];
   bool _showHintButton = true;
 
@@ -71,7 +73,7 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
       } else {
         revealedWord += '_';
       }
-      revealedWord += ' '; // Adding space between characters for readability
+      revealedWord += ' '; 
     }
     return revealedWord.trim();
   }
@@ -80,10 +82,7 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
     setState(() {
       _showHintButton = !_showHintButton;
       if (!_showHintButton) {
-        // Це перший раз, коли натиснута кнопка Hint, ми просто змінюємо стан кнопки.
-        // На наступних натисканнях _revealNextLetter буде викликатися.
       } else {
-        // Якщо кнопка вже була натиснута (кнопка Hint знову видима), відкриваємо наступну букву.
         _revealNextLetter();
       }
     });
@@ -101,6 +100,9 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
     } else {
       bottomPadding = 0;
     }
+
+    final progress =
+        ref.watch(writeWordProgressProvider)[widget.word.id] ?? 0.0;
 
     return GestureDetector(
       onTap: () {
@@ -298,6 +300,27 @@ class WriteWordGameCardState extends State<WriteWordGameCard> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 15),
+                Center(
+                  child: Container(
+                    height: 10,
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        backgroundColor: Colors.grey.shade300,
+                        valueColor:
+                            const AlwaysStoppedAnimation<Color>(Colors.blue),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
               ],
             ),
           ),
