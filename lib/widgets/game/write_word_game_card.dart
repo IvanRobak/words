@@ -17,6 +17,7 @@ class WriteWordGameCard extends ConsumerStatefulWidget {
   final String? feedback;
   final bool showFeedback;
   final bool showHint;
+  final bool showSubmitButton;
 
   const WriteWordGameCard({
     super.key,
@@ -29,6 +30,7 @@ class WriteWordGameCard extends ConsumerStatefulWidget {
     required this.onNext,
     required this.onHint,
     required this.showHint,
+    required this.showSubmitButton,
     this.feedback,
     required this.showFeedback,
   });
@@ -40,6 +42,7 @@ class WriteWordGameCard extends ConsumerStatefulWidget {
 class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
   List<bool> _revealedLetters = [];
   bool _showHintButton = true;
+  bool showSubmitButton = true;
 
   @override
   void initState() {
@@ -73,7 +76,7 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
       } else {
         revealedWord += '_';
       }
-      revealedWord += ' '; 
+      revealedWord += ' ';
     }
     return revealedWord.trim();
   }
@@ -227,28 +230,29 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
                                     ),
                                   ),
                                 ),
-                              ElevatedButton(
-                                onPressed: widget.onSubmit,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.surface,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
+                              if (widget.showSubmitButton)
+                                ElevatedButton(
+                                  onPressed: widget.onSubmit,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.surface,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 20),
                                   ),
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 20),
-                                ),
-                                child: Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSecondary,
-                                    fontSize: 16,
+                                  child: Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondary,
+                                      fontSize: 16,
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  textAlign: TextAlign.center,
                                 ),
-                              ),
                               TextButton(
                                 onPressed: widget.onNext,
                                 style: ElevatedButton.styleFrom(

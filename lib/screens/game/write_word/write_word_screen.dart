@@ -25,6 +25,7 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
   bool showFeedback = false;
   bool showHint = false;
   String? feedback;
+  bool showSubmitButton = true;
 
   final FirebaseImageService firebaseImageService = FirebaseImageService();
   final PageController _pageController = PageController(viewportFraction: 0.97);
@@ -66,6 +67,7 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
       setState(() {
         feedback = 'Correct!';
         showFeedback = true;
+        showSubmitButton = false; // Ховаємо кнопку після правильної відповіді
 
         ref
             .read(writeWordProgressProvider.notifier)
@@ -79,11 +81,14 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
       setState(() {
         feedback = 'Try again!';
         showFeedback = true;
+        showSubmitButton = false; // Ховаємо кнопку після неправильної відповіді
       });
 
       Future.delayed(const Duration(seconds: 2), () {
         setState(() {
           showFeedback = false;
+          feedback = null;
+          showSubmitButton = true; // Показуємо кнопку для нової спроби
         });
       });
     }
@@ -160,7 +165,8 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
                         feedback: feedback,
                         onNext: nextWord,
                         onHint: toggleHint,
-                        showHint: showHint);
+                        showHint: showHint,
+                        showSubmitButton: showSubmitButton);
                   },
                 );
               }
