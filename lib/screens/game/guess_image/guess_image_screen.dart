@@ -7,6 +7,7 @@ import 'package:words/services/word_loader.dart';
 import 'package:words/widgets/game/image_game_card.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
+import 'package:words/widgets/confetti.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -115,7 +116,7 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Well done, great job!'),
+          title: const Text('All words completed!'),
           actions: <Widget>[
             TextButton(
               child: const Text('Summary'),
@@ -232,49 +233,56 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
           color: Colors.white,
         ),
       ),
-      body: FutureBuilder<void>(
-        future: _initialLoadFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-                child: CircularProgressIndicator(
-              color: Colors.white,
-            ));
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (learnWords.isEmpty) {
-            return const Center(child: Text('No words to learn'));
-          } else {
-            return PageView.builder(
-              controller: _pageController,
-              itemCount: learnWords.length,
-              onPageChanged: (index) async {
-                setState(() {
-                  currentIndex = index;
-                  showExample = false;
-                  selectedAnswer = null;
-                });
+      body: Stack(
+        children: [
+          FutureBuilder<void>(
+            future: _initialLoadFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.white,
+                ));
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (learnWords.isEmpty) {
+                return const Center(child: Text('No words to learn'));
+              } else {
+                return PageView.builder(
+                  controller: _pageController,
+                  itemCount: learnWords.length,
+                  onPageChanged: (index) async {
+                    setState(() {
+                      currentIndex = index;
+                      showExample = false;
+                      selectedAnswer = null;
+                    });
 
-                await _loadImagesForCurrentAndNextWord(); // Завантажуємо зображення для поточної та наступної картки
-              },
-              itemBuilder: (context, index) {
-                final word = learnWords[index];
-                final correctImageUrl = imageUrls[word.id];
+                    await _loadImagesForCurrentAndNextWord(); // Завантажуємо зображення для поточної та наступної картки
+                  },
+                  itemBuilder: (context, index) {
+                    final word = learnWords[index];
+                    final correctImageUrl = imageUrls[word.id];
 
-                return ImageGameCard(
-                  word: word,
-                  showExample: showExample,
-                  onToggleExample: _toggleExample,
-                  onOptionSelected: (option) => _checkImageAnswer(option, word),
-                  options: currentOptions,
-                  selectedAnswer: selectedAnswer,
-                  correctImageUrl: correctImageUrl ??
-                      'https://example.com/placeholder.jpg', // Placeholder image URL
+                    ConfettiOverlay(confettiController: _confettiController);
+                    return ImageGameCard(
+                      word: word,
+                      showExample: showExample,
+                      onToggleExample: _toggleExample,
+                      onOptionSelected: (option) =>
+                          _checkImageAnswer(option, word),
+                      options: currentOptions,
+                      selectedAnswer: selectedAnswer,
+                      correctImageUrl: correctImageUrl ??
+                          'https://example.com/placeholder.jpg', // Placeholder image URL
+                    );
+                  },
                 );
-              },
-            );
-          }
-        },
+              }
+            },
+          ),
+          ConfettiOverlay(confettiController: _confettiController),
+        ],
       ),
     );
   }

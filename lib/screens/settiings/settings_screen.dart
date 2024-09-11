@@ -7,6 +7,7 @@ import 'package:words/providers/button_provider.dart';
 import 'package:words/providers/image_progress_provider.dart';
 import 'package:words/providers/word_progress_provider.dart';
 import 'package:words/providers/favorite_provider.dart';
+import 'package:words/providers/write_progress_provider.dart';
 import 'package:words/screens/settiings/about_screen.dart';
 import 'package:words/screens/settiings/auth_screen.dart';
 import 'package:words/providers/theme_provider.dart';
@@ -87,6 +88,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     ref.read(favoriteProvider.notifier).clearFavorites();
     ref.read(wordProgressWordProvider.notifier).clearProgress();
     ref.read(imageGameProgressProvider.notifier).clearProgress();
+    ref.read(writeWordProgressProvider.notifier).clearProgress();
 
     final BuildContext currentContext = context;
 

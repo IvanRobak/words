@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/models/word.dart';
-import 'package:words/providers/word_progress_provider.dart';
+import 'package:words/providers/write_progress_provider.dart';
 
-class SummaryScreen extends ConsumerWidget {
+class WriteGameSummaryScreen extends ConsumerWidget {
   final List<Word> words;
 
-  const SummaryScreen({super.key, required this.words});
+  const WriteGameSummaryScreen({super.key, required this.words});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final wordProgressProvider = wordProgressWordProvider;
+    final wordProgressProvider = writeWordProgressProvider;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: const Text(
-          'Word Game Summary',
+          'Write Game Summary',
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: const IconThemeData(
