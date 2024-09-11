@@ -13,10 +13,8 @@ class WriteWordGameCard extends ConsumerStatefulWidget {
   final TextEditingController controller;
   final VoidCallback onSubmit;
   final VoidCallback onNext;
-  final VoidCallback onHint;
   final String? feedback;
   final bool showFeedback;
-  final bool showHint;
   final bool showSubmitButton;
 
   const WriteWordGameCard({
@@ -28,8 +26,6 @@ class WriteWordGameCard extends ConsumerStatefulWidget {
     required this.controller,
     required this.onSubmit,
     required this.onNext,
-    required this.onHint,
-    required this.showHint,
     required this.showSubmitButton,
     this.feedback,
     required this.showFeedback,
@@ -97,7 +93,7 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
 
     double bottomPadding;
     if (screenHeight > 800) {
-      bottomPadding = 200;
+      bottomPadding = 150;
     } else if (screenHeight > 600) {
       bottomPadding = 80;
     } else {
@@ -183,7 +179,26 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      const SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: widget.onSubmit,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                        ),
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                            fontSize: 16,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                       Stack(
                         children: [
                           Row(
@@ -205,7 +220,7 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
                                       color: Theme.of(context)
                                           .colorScheme
                                           .onSecondary,
-                                      fontSize: 14,
+                                      fontSize: 16,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -223,34 +238,11 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
                                   child: Text(
                                     _getRevealedWord(),
                                     style: TextStyle(
-                                      fontSize: 24,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondary,
-                                    ),
-                                  ),
-                                ),
-                              if (widget.showSubmitButton)
-                                ElevatedButton(
-                                  onPressed: widget.onSubmit,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.surface,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10, horizontal: 20),
-                                  ),
-                                  child: Text(
-                                    'Submit',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondary,
                                       fontSize: 16,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondary,
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               TextButton(

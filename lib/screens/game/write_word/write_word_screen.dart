@@ -104,12 +104,6 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
     } else {}
   }
 
-  void toggleHint() {
-    setState(() {
-      showHint = !showHint;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,8 +158,6 @@ class WriteWordScreenState extends ConsumerState<WriteWordScreen> {
                         onSubmit: _checkAnswer,
                         feedback: feedback,
                         onNext: nextWord,
-                        onHint: toggleHint,
-                        showHint: showHint,
                         showSubmitButton: showSubmitButton);
                   },
                 );
