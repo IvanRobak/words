@@ -172,9 +172,31 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
                         widthFactor: 0.8,
                         child: TextField(
                           controller: widget.controller,
-                          decoration: const InputDecoration(
+                          cursorColor:
+                              Theme.of(context).colorScheme.onSecondary,
+                          decoration: InputDecoration(
                             labelText: 'Your answer',
-                            border: OutlineInputBorder(),
+                            labelStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors
+                                    .white, // Колір бордера за замовчуванням
+                              ),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors
+                                    .white, // Колір бордера, коли поле не в фокусі
+                              ),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors
+                                    .white, // Колір бордера, коли поле у фокусі
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -260,7 +282,7 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSecondary,
-                                    fontSize: 14,
+                                    fontSize: 16,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
