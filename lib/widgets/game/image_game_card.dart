@@ -37,9 +37,9 @@ class ImageGameCard extends ConsumerWidget {
 
     double bottomPadding;
     if (screenHeight > 800) {
-      bottomPadding = 200;
+      bottomPadding = 150;
     } else if (screenHeight > 600) {
-      bottomPadding = 80;
+      bottomPadding = 50;
     } else {
       bottomPadding = 0;
     }

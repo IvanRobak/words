@@ -95,7 +95,7 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
     if (screenHeight > 800) {
       bottomPadding = 150;
     } else if (screenHeight > 600) {
-      bottomPadding = 80;
+      bottomPadding = 10;
     } else {
       bottomPadding = 0;
     }
