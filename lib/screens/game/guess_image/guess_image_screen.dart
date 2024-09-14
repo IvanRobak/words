@@ -116,7 +116,10 @@ class GuessImageScreenState extends ConsumerState<GuessImageScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('All words completed!'),
+          title: Text(
+            'All words completed!',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+          ),
           actions: <Widget>[
             TextButton(
               child: const Text('Summary'),
