@@ -177,7 +177,11 @@ class _FolderWidgetState extends State<FolderWidget> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Are you sure to delete?'),
+                        title: Text(
+                          'Are you sure to delete?',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary),
+                        ),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Cancel'),
