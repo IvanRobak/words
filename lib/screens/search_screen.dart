@@ -39,7 +39,10 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final words = ref.watch(wordFilterProvider);
+    final filteredWords = ref.watch(wordFilterProvider);
+
+    bool hasSearchQuery = searchController.text.isNotEmpty;
+    bool hasFilteredResults = filteredWords.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
@@ -51,22 +54,48 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
           color: Theme.of(context).colorScheme.onSecondary,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: WordListView(
-          words: words,
-          columnOptions: columnOptions,
-          columns: columns,
-          searchFocusNode: searchFocusNode,
-          searchController: searchController,
-          onColumnsChanged: (int? newValue) {
-            setState(() {
-              columns = newValue!;
-            });
-          },
-          onSearchChanged: (query) {
-            ref.read(wordFilterProvider.notifier).filterWords(query);
-          },
+      body: GestureDetector(
+        onTap: () {
+          searchFocusNode.unfocus();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: WordListView(
+                  words: filteredWords,
+                  columns: columns,
+                  columnOptions: columnOptions,
+                  searchController: searchController,
+                  onColumnsChanged: (int? newValue) {
+                    setState(() {
+                      columns = newValue!;
+                    });
+                  },
+                  onSearchChanged: (query) {
+                    ref.read(wordFilterProvider.notifier).filterWords(query);
+                  },
+                  searchFocusNode: searchFocusNode,
+                ),
+              ),
+              if (!hasFilteredResults && hasSearchQuery)
+                const Expanded(
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'No matching words found.',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
