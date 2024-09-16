@@ -141,7 +141,7 @@ class WordGameCard extends ConsumerWidget {
             // const SizedBox(height: 15),
             Center(
               child: Container(
-                height: 10,
+                height: height * 0.015,
                 width: width * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade300,

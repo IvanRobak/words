@@ -33,39 +33,31 @@ class ImageGameCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    double bottomPadding;
-    if (screenHeight > 800) {
-      bottomPadding = 150;
-    } else if (screenHeight > 600) {
-      bottomPadding = 50;
-    } else {
-      bottomPadding = 0;
-    }
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
     final progress = ref.watch(imageGameProgressProvider)[word.id] ?? 0.0;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: bottomPadding),
+      padding:
+          EdgeInsets.only(bottom: height > 799 ? height * 0.15 : height * 0.06),
       child: Card(
         color: Theme.of(context).colorScheme.onSurface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               child: GridView.count(
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(top: 15, bottom: 30),
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                childAspectRatio: 1.0,
+                childAspectRatio: 1,
                 physics: const NeverScrollableScrollPhysics(),
                 children: options.map((option) {
                   final isCorrect =
@@ -112,7 +104,7 @@ class ImageGameCard extends ConsumerWidget {
               ),
             ),
             SizedBox(
-              height: 40,
+              height: height * 0.04,
               child: Center(
                 child: showExample
                     ? GestureDetector(
@@ -136,9 +128,8 @@ class ImageGameCard extends ConsumerWidget {
                       ),
               ),
             ),
-            const SizedBox(height: 5),
             SizedBox(
-              height: 50,
+              height: height * 0.07,
               child: Center(
                 child: Text(
                   word.word,
@@ -150,11 +141,10 @@ class ImageGameCard extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 15),
             Center(
               child: Container(
-                height: 10,
-                width: 300,
+                height: height * 0.015,
+                width: width * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(15),
