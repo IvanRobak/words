@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/screens/tabs.dart';
@@ -12,8 +14,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    const ProviderScope(
-      child: MyApp(),
+    DevicePreview(
+      enabled: !kReleaseMode, // Вимкнено у релізі
+      builder: (context) => const ProviderScope(
+        child: MyApp(),
+      ),
     ),
   );
 }
@@ -26,6 +31,8 @@ class MyApp extends ConsumerWidget {
     final themeNotifier = ref.watch(themeNotifierProvider);
 
     return MaterialApp(
+      locale: DevicePreview.locale(context), // Локалізація з DevicePreview
+      builder: DevicePreview.appBuilder, // Додаємо DevicePreview builder
       theme: themeNotifier.themeData,
       home: const TabsScreen(),
     );

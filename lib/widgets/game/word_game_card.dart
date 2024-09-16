@@ -27,26 +27,22 @@ class WordGameCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double bottomPadding;
-    if (screenHeight > 800) {
-      bottomPadding = 150;
-    } else if (screenHeight > 600) {
-      bottomPadding = 50;
-    } else {
-      bottomPadding = 0;
-    }
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
     final progress = ref.watch(wordProgressWordProvider)[word.id] ?? 0.0;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: bottomPadding),
+      padding: EdgeInsets.only(
+        bottom: height * 0.06,
+      ),
       child: Card(
         color: Theme.of(context).colorScheme.onSurface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (imageUrl != null)
@@ -57,7 +53,7 @@ class WordGameCard extends ConsumerWidget {
                 ),
                 child: CachedNetworkImage(
                   imageUrl: imageUrl!,
-                  height: 300,
+                  height: height > 800 ? height * 0.4 : height * 0.3,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
@@ -65,9 +61,8 @@ class WordGameCard extends ConsumerWidget {
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
-            const SizedBox(height: 10),
             SizedBox(
-              height: 40,
+              height: height * 0.05,
               child: Center(
                 child: showExample
                     ? GestureDetector(
@@ -91,11 +86,11 @@ class WordGameCard extends ConsumerWidget {
                       ),
               ),
             ),
-            const SizedBox(height: 5),
+            // SizedBox(height: height * 0.02),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.all(10),
               child: SizedBox(
-                height: 100,
+                height: height * 0.15,
                 child: GridView.count(
                   shrinkWrap: true,
                   crossAxisCount: 2,
@@ -128,13 +123,13 @@ class WordGameCard extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 5),
+                            vertical: 5, horizontal: 5),
                       ),
                       child: Text(
                         option,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSecondary,
-                          fontSize: 16,
+                          fontSize: 18,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -143,11 +138,11 @@ class WordGameCard extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 15),
+            // const SizedBox(height: 15),
             Center(
               child: Container(
                 height: 10,
-                width: 300,
+                width: width * 0.8,
                 decoration: BoxDecoration(
                   color: Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(15),
