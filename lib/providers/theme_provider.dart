@@ -1,46 +1,28 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ThemeNotifier extends ChangeNotifier {
-  ThemeData _themeData;
-  bool _isDarkMode;
+enum ThemeEvent { toggle }
 
-  static const Color _textColor = Color.fromARGB(255, 51, 51, 51);
-  static const Color _textColorDark = Colors.white;
-  static const Color _cardColorLight = Color.fromARGB(199, 244, 240, 240);
-  static const Color _cardColorDark = Color(0xFF1E1E1E);
+class ThemeBloc extends Bloc<ThemeEvent, ThemeData> {
+  bool _isDarkMode = false;
 
-  ThemeNotifier(this._themeData, this._isDarkMode);
-
-  ThemeData get themeData => _themeData;
-  bool get isDarkMode => _isDarkMode;
-
-  void toggleTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    if (_isDarkMode) {
-      _themeData = lightTheme();
-      _isDarkMode = false;
-    } else {
-      _themeData = darkTheme();
-      _isDarkMode = true;
-    }
-    await prefs.setBool('isDarkMode', _isDarkMode);
-    notifyListeners();
+  ThemeBloc() : super(_lightTheme()) {
+    on<ThemeEvent>((event, emit) async {
+      final prefs = await SharedPreferences.getInstance();
+      if (_isDarkMode) {
+        _isDarkMode = false;
+        emit(_lightTheme());
+      } else {
+        _isDarkMode = true;
+        emit(_darkTheme());
+      }
+      await prefs.setBool('isDarkMode', _isDarkMode);
+    });
+    _loadTheme();
   }
 
-  Future<void> loadTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    _isDarkMode = prefs.getBool('isDarkMode') ?? false;
-    if (_isDarkMode) {
-      _themeData = darkTheme();
-    } else {
-      _themeData = lightTheme();
-    }
-    notifyListeners();
-  }
-
-  ThemeData lightTheme() {
+  static ThemeData _lightTheme() {
     return ThemeData(
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder()},
@@ -50,41 +32,19 @@ class ThemeNotifier extends ChangeNotifier {
       ).copyWith(
         primary: const Color.fromARGB(255, 65, 93, 104),
         secondary: const Color.fromARGB(255, 255, 145, 0),
-        surface:
-            const Color(0xFFFFF3EA), // Replaced 'background' with 'surface'
-        onSurface: _cardColorLight,
-        onSecondary: _textColor,
-        inverseSurface: const Color.fromARGB(255, 233, 225, 219),
+        surface: const Color(0xFFFFF3EA),
+        onSurface: const Color.fromARGB(199, 244, 240, 240),
+        onSecondary: const Color.fromARGB(255, 51, 51, 51),
       ),
       textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: _textColor),
-        bodyMedium: TextStyle(color: _textColor),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return Colors.white;
-              }
-              return Colors.white;
-            },
-          ),
-          foregroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return _textColor;
-              }
-              return _textColor;
-            },
-          ),
-        ),
+        bodyLarge: TextStyle(color: Color.fromARGB(255, 51, 51, 51)),
+        bodyMedium: TextStyle(color: Color.fromARGB(255, 51, 51, 51)),
       ),
       scaffoldBackgroundColor: const Color(0xFFFFF3EA),
     );
   }
 
-  ThemeData darkTheme() {
+  static ThemeData _darkTheme() {
     return ThemeData(
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder()},
@@ -92,101 +52,23 @@ class ThemeNotifier extends ChangeNotifier {
       colorScheme: const ColorScheme.dark().copyWith(
         primary: const Color.fromARGB(255, 18, 32, 47),
         secondary: const Color.fromARGB(255, 255, 145, 0),
-        surface:
-            const Color(0xFF121212), // Replaced 'background' with 'surface'
-        onSurface: _cardColorDark,
-        onSecondary: _textColorDark,
-        inverseSurface: const Color.fromARGB(255, 44, 37, 64),
+        surface: const Color(0xFF121212),
+        onSurface: const Color(0xFF1E1E1E),
+        onSecondary: Colors.white,
       ),
       textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: _textColorDark),
-        bodyMedium: TextStyle(color: _textColorDark),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return Colors.grey[800]!;
-              }
-              return Colors.grey[800]!;
-            },
-          ),
-          foregroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return Colors.white;
-              }
-              return Colors.white;
-            },
-          ),
-        ),
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: ButtonStyle(
-          foregroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return Colors.white;
-              }
-              return _textColorDark;
-            },
-          ),
-        ),
-      ),
-      dialogTheme: const DialogTheme(
-        backgroundColor: _cardColorDark,
-        titleTextStyle: TextStyle(color: _textColorDark, fontSize: 20),
-        contentTextStyle: TextStyle(color: _textColorDark),
+        bodyLarge: TextStyle(color: Colors.white),
+        bodyMedium: TextStyle(color: Colors.white),
       ),
       scaffoldBackgroundColor: const Color(0xFF121212),
     );
   }
-}
 
-final themeNotifierProvider = ChangeNotifierProvider<ThemeNotifier>((ref) {
-  final themeNotifier = ThemeNotifier(
-    ThemeData(
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {TargetPlatform.android: CupertinoPageTransitionsBuilder()},
-      ),
-      colorScheme: ColorScheme.fromSwatch(
-        primarySwatch: Colors.blueGrey,
-      ).copyWith(
-        primary: const Color.fromARGB(255, 65, 93, 104),
-        secondary: const Color.fromARGB(255, 255, 145, 0),
-        surface:
-            const Color(0xFFFFF3EA), // Replaced 'background' with 'surface'
-        onSurface: ThemeNotifier._cardColorLight,
-        onSecondary: ThemeNotifier._textColor,
-      ),
-      textTheme: const TextTheme(
-        bodyLarge: TextStyle(color: ThemeNotifier._textColor),
-        bodyMedium: TextStyle(color: ThemeNotifier._textColor),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return Colors.white;
-              }
-              return Colors.white;
-            },
-          ),
-          foregroundColor: WidgetStateProperty.resolveWith<Color>(
-            (Set<WidgetState> states) {
-              if (states.contains(WidgetState.pressed)) {
-                return ThemeNotifier._textColor;
-              }
-              return ThemeNotifier._textColor;
-            },
-          ),
-        ),
-      ),
-    ),
-    false,
-  );
-  themeNotifier.loadTheme();
-  return themeNotifier;
-});
+  Future<void> _loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isDarkMode = prefs.getBool('isDarkMode') ?? false;
+    if (_isDarkMode) {
+      add(ThemeEvent.toggle);
+    }
+  }
+}

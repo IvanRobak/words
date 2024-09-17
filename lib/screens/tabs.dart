@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:words/screens/favorite_screen.dart';
 import 'package:words/screens/home.dart';
 import 'package:words/screens/search_screen.dart';
 
-class TabsScreen extends ConsumerStatefulWidget {
+class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
 
   @override
-  ConsumerState<TabsScreen> createState() => _TabsScreenState();
+  TabsScreenState createState() => TabsScreenState();
 }
 
-class _TabsScreenState extends ConsumerState<TabsScreen> {
+class TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
 
   void _selectPage(int index) {
@@ -62,7 +61,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            _selectedPageIndex = 1; // Перемикання на вкладку Search
+            _selectedPageIndex = 1;
           });
         },
         backgroundColor: Theme.of(context).colorScheme.primary,
