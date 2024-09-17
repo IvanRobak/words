@@ -89,16 +89,7 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-
-    double bottomPadding;
-    if (screenHeight > 800) {
-      bottomPadding = 150;
-    } else if (screenHeight > 600) {
-      bottomPadding = 10;
-    } else {
-      bottomPadding = 0;
-    }
+    double height = MediaQuery.of(context).size.height;
 
     final progress =
         ref.watch(writeWordProgressProvider)[widget.word.id] ?? 0.0;
@@ -108,167 +99,125 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
         FocusScope.of(context).unfocus();
       },
       child: Padding(
-        padding: EdgeInsets.only(bottom: bottomPadding),
+        padding: EdgeInsets.only(bottom: height * 0.1),
         child: Card(
           color: Theme.of(context).colorScheme.onSurface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (widget.imageUrl != null)
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.imageUrl!,
-                      height: 300,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
+          // child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (widget.imageUrl != null)
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
                   ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 30,
-                  child: Center(
-                    child: widget.showExample
-                        ? GestureDetector(
-                            onTap: widget.onToggleExample,
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Text(
-                                getExampleWithPlaceholder(widget.word),
-                                style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
-                                  fontSize: 16,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          )
-                        : IconButton(
-                            icon: const Icon(Icons.lightbulb_outline),
-                            color: Theme.of(context).colorScheme.onSecondary,
-                            onPressed: widget.onToggleExample,
-                          ),
+                  child: CachedNetworkImage(
+                    imageUrl: widget.imageUrl!,
+                    height: height * 0.35,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                 ),
-                const SizedBox(height: 5),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      FractionallySizedBox(
-                        widthFactor: 0.8,
-                        child: TextField(
-                          controller: widget.controller,
-                          cursorColor:
-                              Theme.of(context).colorScheme.onSecondary,
-                          decoration: InputDecoration(
-                            labelText: 'Your answer',
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                            ),
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors
-                                    .white, // Колір бордера за замовчуванням
+              // const SizedBox(height: 10),
+              SizedBox(
+                height: 30,
+                child: Center(
+                  child: widget.showExample
+                      ? GestureDetector(
+                          onTap: widget.onToggleExample,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Text(
+                              getExampleWithPlaceholder(widget.word),
+                              style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                                fontSize: 16,
                               ),
-                            ),
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors
-                                    .white, // Колір бордера, коли поле не в фокусі
-                              ),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors
-                                    .white, // Колір бордера, коли поле у фокусі
-                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
+                        )
+                      : IconButton(
+                          icon: const Icon(Icons.lightbulb_outline),
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          onPressed: widget.onToggleExample,
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: widget.onSubmit,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.surface,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 20),
-                        ),
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: 0.8,
+                      child: TextField(
+                        controller: widget.controller,
+                        cursorColor: Theme.of(context).colorScheme.onSecondary,
+                        decoration: InputDecoration(
+                          labelText: 'Your answer',
+                          labelStyle: TextStyle(
                             color: Theme.of(context).colorScheme.onSecondary,
-                            fontSize: 16,
                           ),
-                          textAlign: TextAlign.center,
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors
+                                  .white, // Колір бордера за замовчуванням
+                            ),
+                          ),
+                          enabledBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors
+                                  .white, // Колір бордера, коли поле не в фокусі
+                            ),
+                          ),
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors
+                                  .white, // Колір бордера, коли поле у фокусі
+                            ),
+                          ),
                         ),
                       ),
-                      Stack(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              if (_showHintButton)
-                                TextButton(
-                                  onPressed: _toggleHint,
-                                  style: ElevatedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 20),
-                                  ),
-                                  child: Text(
-                                    'Hint',
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondary,
-                                      fontSize: 16,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
-                              else
-                                TextButton(
-                                  onPressed: _toggleHint,
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 20),
-                                  ),
-                                  child: Text(
-                                    _getRevealedWord(),
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSecondary,
-                                    ),
-                                  ),
-                                ),
+                    ),
+                    const SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: widget.onSubmit,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                      ),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Stack(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (_showHintButton)
                               TextButton(
-                                onPressed: widget.onNext,
+                                onPressed: _toggleHint,
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
@@ -277,7 +226,7 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
                                       vertical: 8, horizontal: 20),
                                 ),
                                 child: Text(
-                                  'Next',
+                                  'Hint',
                                   style: TextStyle(
                                     color: Theme.of(context)
                                         .colorScheme
@@ -286,64 +235,102 @@ class WriteWordGameCardState extends ConsumerState<WriteWordGameCard> {
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
+                              )
+                            else
+                              TextButton(
+                                onPressed: _toggleHint,
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 20),
+                                ),
+                                child: Text(
+                                  _getRevealedWord(),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
+                                  ),
+                                ),
                               ),
-                            ],
-                          ),
-                          if (widget.feedback != null)
-                            Positioned.fill(
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: AnimatedOpacity(
-                                  opacity: widget.showFeedback ? 1.0 : 0.0,
-                                  duration: const Duration(milliseconds: 500),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 20),
-                                    child: Text(
-                                      widget.feedback!,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: widget.feedback == 'Correct!'
-                                            ? Colors.green
-                                            : Colors.red,
-                                      ),
-                                      textAlign: TextAlign.center,
+                            TextButton(
+                              onPressed: widget.onNext,
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 20),
+                              ),
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
+                                  fontSize: 16,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (widget.feedback != null)
+                          Positioned.fill(
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: AnimatedOpacity(
+                                opacity: widget.showFeedback ? 1.0 : 0.0,
+                                duration: const Duration(milliseconds: 500),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 20),
+                                  child: Text(
+                                    widget.feedback!,
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: widget.feedback == 'Correct!'
+                                          ? Colors.green
+                                          : Colors.red,
                                     ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
                             ),
-                        ],
-                      ),
-                    ],
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Center(
+                child: Container(
+                  height: 10,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: LinearProgressIndicator(
+                      value: progress,
+                      backgroundColor: Colors.grey.shade300,
+                      valueColor:
+                          const AlwaysStoppedAnimation<Color>(Colors.blue),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 15),
-                Center(
-                  child: Container(
-                    height: 10,
-                    width: 300,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        backgroundColor: Colors.grey.shade300,
-                        valueColor:
-                            const AlwaysStoppedAnimation<Color>(Colors.blue),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
         ),
       ),
     );
+    // );
   }
 }
