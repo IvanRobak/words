@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/models/word.dart';
 import 'package:words/providers/favorite_provider.dart';
-import 'package:words/providers/folder_provider.dart';
 import 'package:words/providers/button_provider.dart';
 import 'package:words/services/firebase_image_service.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -15,6 +14,10 @@ import 'package:words/widgets/word_details/example_section.dart';
 import 'package:words/widgets/word_details/icon_buttons.dart';
 import 'package:words/widgets/word_details/image_section.dart';
 import 'dart:ui' as ui;
+import 'package:words/providers/folder/folder_bloc.dart';
+import 'package:words/providers/folder/folder_event.dart';
+import 'package:words/providers/folder/folder_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WordDetail extends ConsumerStatefulWidget {
   final Word word;
@@ -163,16 +166,19 @@ class WordDetailState extends ConsumerState<WordDetail> {
   }
 
   void _addWordToFolder(String? folderName) async {
-    final folderProviderNotifier = ref.read(folderProvider);
     if (folderName == null || folderName == 'None') {
-      folderProviderNotifier.removeWordFromAllFolders(widget.word);
+      context
+          .read<FolderBloc>()
+          .add(RemoveWordFromAllFoldersEvent(widget.word));
       setState(() {
         selectedFolder = 'None';
       });
       final prefs = await SharedPreferences.getInstance();
       await prefs.remove('selectedFolder_${widget.word.id}');
     } else {
-      folderProviderNotifier.addWordToFolder(folderName, widget.word);
+      context
+          .read<FolderBloc>()
+          .add(AddWordToFolderEvent(folderName, widget.word));
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('selectedFolder_${widget.word.id}', folderName);
       setState(() {
@@ -231,101 +237,112 @@ class WordDetailState extends ConsumerState<WordDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final folderNotifier = ref.watch(folderProvider);
-    final folders = folderNotifier.folders;
-
     final exampleText = widget.word.example;
     final wordText = widget.word.word;
     final exampleSpans = buildExampleSpans(context, exampleText, wordText);
 
-    if (selectedFolder != null &&
-        selectedFolder != 'None' &&
-        !folders.any((folder) => folder.name == selectedFolder)) {
-      selectedFolder = null;
-    }
+    return BlocBuilder<FolderBloc, FolderState>(
+      builder: (context, state) {
+        if (state is FoldersLoaded) {
+          final folders = state.folders;
 
-    double screenHeight = MediaQuery.of(context).size.height;
-    double fontSize = screenHeight > 600 ? 40 : 30;
+          if (selectedFolder != null &&
+              selectedFolder != 'None' &&
+              !folders.any((folder) => folder.name == selectedFolder)) {
+            selectedFolder = null;
+          }
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Card(
-        color: Theme.of(context).colorScheme.onSurface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 5,
-            horizontal: 15,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Center(
-                child: Text(
-                  widget.word.word,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSecondary,
-                    fontSize: fontSize,
-                  ),
+          double screenHeight = MediaQuery.of(context).size.height;
+          double fontSize = screenHeight > 600 ? 40 : 30;
+
+          return Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Card(
+              color: Theme.of(context).colorScheme.onSurface,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5,
+                  horizontal: 15,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Center(
+                      child: Text(
+                        widget.word.word,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSecondary,
+                          fontSize: fontSize,
+                        ),
+                      ),
+                    ),
+                    ImageSection(imageUrl: imageUrl),
+                    IconButtons(
+                      isFavorite: isFavorite,
+                      onSpeakPressed: _speakWord,
+                      onFavoritePressed: () {
+                        if (isFavorite) {
+                          ref
+                              .read(favoriteProvider.notifier)
+                              .removeWord(widget.word);
+                          setState(() {
+                            isFavorite = false;
+                          });
+                        } else {
+                          ref
+                              .read(favoriteProvider.notifier)
+                              .addWord(widget.word);
+                          setState(() {
+                            isFavorite = true;
+                          });
+                        }
+                      },
+                      wordId: widget.word.id,
+                    ),
+                    Flexible(
+                      child: ExampleSection(exampleSpans: exampleSpans),
+                    ),
+                    Flexible(
+                      child: BottomSection(
+                        isTranslationVisible: isTranslationVisible,
+                        translation: widget.word.translation,
+                        selectedFolder: selectedFolder,
+                        onFolderChanged: (value) {
+                          setState(() {
+                            selectedFolder = value;
+                            _addWordToFolder(value);
+                          });
+                        },
+                        toggleTranslation: _toggleTranslation,
+                        selectedLanguage: selectedLanguage ?? 'uk',
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        LearnButton(
+                          isLearn: isLearn,
+                          onPressed: _learnWord,
+                        ),
+                        KnowButton(
+                          isKnown: isKnown,
+                          onPressed: _knowWord,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              ImageSection(imageUrl: imageUrl),
-              IconButtons(
-                isFavorite: isFavorite,
-                onSpeakPressed: _speakWord,
-                onFavoritePressed: () {
-                  if (isFavorite) {
-                    ref.read(favoriteProvider.notifier).removeWord(widget.word);
-                    setState(() {
-                      isFavorite = false;
-                    });
-                  } else {
-                    ref.read(favoriteProvider.notifier).addWord(widget.word);
-                    setState(() {
-                      isFavorite = true;
-                    });
-                  }
-                },
-                wordId: widget.word.id,
-              ),
-              Flexible(
-                child: ExampleSection(exampleSpans: exampleSpans),
-              ),
-              Flexible(
-                child: BottomSection(
-                  isTranslationVisible: isTranslationVisible,
-                  translation: widget.word.translation,
-                  selectedFolder: selectedFolder,
-                  onFolderChanged: (value) {
-                    setState(() {
-                      selectedFolder = value;
-                      _addWordToFolder(value);
-                    });
-                  },
-                  toggleTranslation: _toggleTranslation,
-                  selectedLanguage: selectedLanguage ?? 'uk',
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  LearnButton(
-                    isLearn: isLearn,
-                    onPressed: _learnWord,
-                  ),
-                  KnowButton(
-                    isKnown: isKnown,
-                    onPressed: _knowWord,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }

@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/providers/button_provider.dart';
-import 'package:words/providers/folder_provider.dart';
+import 'package:words/providers/folder/folder_bloc.dart';
+import 'package:words/providers/folder/folder_event.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -43,9 +45,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       }
 
       await _saveCurrentAccount(
-          _enteredEmail); // Збереження поточного облікового запису
-
-      ref.read(folderProvider).loadFolders();
+          _enteredEmail);
+      context.read<FolderBloc>().add(LoadFoldersEvent());
 
       setState(() {});
     } on FirebaseAuthException catch (error) {
@@ -96,7 +97,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       ref.read(knownWordsProvider.notifier).loadKnownWords();
       ref.read(learnWordsProvider.notifier).loadLearnWords();
 
-      ref.read(folderProvider).loadFolders();
+      context.read<FolderBloc>().add(LoadFoldersEvent());
 
       Navigator.of(context).pop();
     }

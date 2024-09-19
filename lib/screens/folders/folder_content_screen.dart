@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // Повертаємо Riverpod
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:words/models/folder.dart';
-import 'package:words/providers/folder_provider.dart';
-import 'package:words/providers/word_provider.dart';
+import 'package:words/providers/folder/folder_bloc.dart';
+import 'package:words/providers/folder/folder_state.dart';
+import 'package:words/providers/word_provider.dart'; // Використовуємо для фільтрації слів
 import 'package:words/widgets/word_list_view.dart';
 import 'package:words/services/word_loader.dart';
 
@@ -13,11 +15,10 @@ class FolderContentScreen extends ConsumerStatefulWidget {
   const FolderContentScreen({super.key, required this.folder});
 
   @override
-  ConsumerState<FolderContentScreen> createState() =>
-      _FolderContentScreenState();
+  FolderContentScreenState createState() => FolderContentScreenState();
 }
 
-class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
+class FolderContentScreenState extends ConsumerState<FolderContentScreen> {
   TextEditingController searchController = TextEditingController();
   int columns = 2;
   final List<int> columnOptions = [2, 3];
@@ -51,7 +52,9 @@ class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
 
   Future<void> _loadAllWords() async {
     final allWords = await loadWords();
-    ref.read(wordFilterProvider.notifier).setWords(allWords);
+    ref
+        .read(wordFilterProvider.notifier)
+        .setWords(allWords); // Використовуємо ref для доступу до провайдера
   }
 
   void loadFolderWords() async {
@@ -59,7 +62,9 @@ class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
 
     final savedWordIds = prefs.getStringList('folder_${widget.folder.name}');
     if (savedWordIds != null) {
-      final allWords = ref.read(wordFilterProvider.notifier).allWords;
+      final allWords = ref
+          .read(wordFilterProvider.notifier)
+          .allWords; // Використання ref для отримання слів
 
       final wordsInFolder = allWords.where((word) {
         return savedWordIds.contains(word.id.toString());
@@ -84,10 +89,10 @@ class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.watch(folderProvider).folders;
-    final filteredWords = ref.watch(wordFilterProvider);
-
-    bool hasWordsInFolder = widget.folder.words.isNotEmpty;
+    final filteredWords = ref.watch(
+        wordFilterProvider); // Використовуємо ref для доступу до провайдера слів
+    final hasWordsInFolder = filteredWords
+        .isNotEmpty; // Визначаємо наявність слів у папці на основі фільтрованих слів
     bool hasSearchQuery = searchController.text.isNotEmpty;
     bool hasFilteredResults = filteredWords.isNotEmpty;
 
@@ -113,26 +118,38 @@ class _FolderContentScreenState extends ConsumerState<FolderContentScreen> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: WordListView(
-                        words: filteredWords,
-                        columns: columns,
-                        columnOptions: columnOptions,
-                        searchController: searchController,
-                        onColumnsChanged: (int? newValue) {
-                          setState(() {
-                            columns = newValue!;
-                          });
-                          _saveColumnsPreference(newValue!);
+                      child: BlocBuilder<FolderBloc, FolderState>(
+                        builder: (context, state) {
+                          if (state is FoldersLoaded) {
+                            return WordListView(
+                              words: filteredWords,
+                              columns: columns,
+                              columnOptions: columnOptions,
+                              searchController: searchController,
+                              onColumnsChanged: (int? newValue) {
+                                setState(() {
+                                  columns = newValue!;
+                                });
+                                _saveColumnsPreference(newValue!);
+                              },
+                              onSearchChanged: (query) {
+                                ref
+                                    .read(wordFilterProvider.notifier)
+                                    .filterWords(query); // Використовуємо ref
+                              },
+                              searchFocusNode: searchFocusNode,
+                            );
+                          } else if (state is FolderInitial) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else {
+                            return const Center(
+                                child: Text('Failed to load folders.'));
+                          }
                         },
-                        onSearchChanged: (query) {
-                          ref
-                              .read(wordFilterProvider.notifier)
-                              .filterWords(query);
-                        },
-                        searchFocusNode: searchFocusNode,
                       ),
                     ),
-                    if (!hasWordsInFolder)
+                    if (!hasWordsInFolder) // Використовуємо визначену змінну hasWordsInFolder
                       const Expanded(
                         child: Center(
                           child: Padding(
