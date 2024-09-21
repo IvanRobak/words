@@ -29,18 +29,17 @@ class FolderBloc extends Bloc<FolderEvent, FolderState> {
 
   Future<void> _onLoadFolders(
       LoadFoldersEvent event, Emitter<FolderState> emit) async {
-    final user = FirebaseAuth.instance.currentUser;
     final prefs = await SharedPreferences.getInstance();
     List<String>? folderList = prefs.getStringList('folders');
 
-    if (user == null || folderList == null || folderList.isEmpty) {
-      _folders = List.from(_defaultFolders);
+    if (folderList == null || folderList.isEmpty) {
+      _folders = List.from(_defaultFolders); // Завантаження стандартних папок
     } else {
       _folders = folderList.map((folderStr) {
         final Map<String, dynamic> folderMap = jsonDecode(folderStr);
         return Folder(
           name: folderMap['name'],
-          color: Color(folderMap['color']),
+          color: Color(folderMap['color']), // Відновлення кольору
           words: (folderMap['words'] as List<dynamic>)
               .map((wordMap) => Word.fromJson(wordMap))
               .toList(),
@@ -53,8 +52,13 @@ class FolderBloc extends Bloc<FolderEvent, FolderState> {
 
   Future<void> _onAddFolder(
       AddFolderEvent event, Emitter<FolderState> emit) async {
-    _folders.add(Folder(name: event.name, words: [], color: event.color));
+    // Додаємо нову папку до списку
+    _folders.add(Folder(name: event.name, color: event.color, words: []));
+
+    // Зберігаємо папки (якщо потрібно)
     await _saveFolders();
+
+    // Емісуємо новий стан з оновленим списком папок
     emit(FoldersLoaded(_folders));
   }
 
@@ -71,11 +75,14 @@ class FolderBloc extends Bloc<FolderEvent, FolderState> {
   Future<void> _onUpdateFolderColor(
       UpdateFolderColorEvent event, Emitter<FolderState> emit) async {
     _folders[event.index] = Folder(
-        name: _folders[event.index].name,
-        words: _folders[event.index].words,
-        color: event.color);
+      name: _folders[event.index].name,
+      words: _folders[event.index].words,
+      color: event.color,
+    );
+    print('Updated folder color: ${event.color}');
     await _saveFolders();
-    emit(FoldersLoaded(_folders));
+    emit(FoldersLoaded(_folders)); // Емісія нового стану
+    print('State emitted with updated folders');
   }
 
   Future<void> _onDeleteFolder(
@@ -125,18 +132,14 @@ class FolderBloc extends Bloc<FolderEvent, FolderState> {
   }
 
   Future<void> _saveFolders() async {
-    final user = FirebaseAuth.instance.currentUser;
     final prefs = await SharedPreferences.getInstance();
-
-    if (user != null) {
-      List<String> folderList = _folders.map((folder) {
-        return jsonEncode({
-          'name': folder.name,
-          'color': folder.color.value,
-          'words': folder.words.map((word) => word.toJson()).toList(),
-        });
-      }).toList();
-      await prefs.setStringList('folders', folderList);
-    }
+    List<String> folderList = _folders.map((folder) {
+      return jsonEncode({
+        'name': folder.name,
+        'color': folder.color.value, // Зберігаємо колір папки
+        'words': folder.words.map((word) => word.toJson()).toList(),
+      });
+    }).toList();
+    await prefs.setStringList('folders', folderList);
   }
 }

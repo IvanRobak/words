@@ -74,8 +74,10 @@ class FolderListScreenState extends State<FolderListScreen> {
               ),
               onPressed: () {
                 if (folderNameController.text.isNotEmpty) {
+                  // Викликаємо подію додавання нової папки через Bloc
                   context.read<FolderBloc>().add(AddFolderEvent(
                       folderNameController.text, tempMainColor!));
+                  setState(() {});
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -124,14 +126,17 @@ class FolderListScreenState extends State<FolderListScreen> {
                     context
                         .read<FolderBloc>()
                         .add(UpdateFolderNameEvent(index, name));
+                    setState(() {});
                   },
                   onColorChanged: (color) {
                     context
                         .read<FolderBloc>()
                         .add(UpdateFolderColorEvent(index, color));
+                    setState(() {});
                   },
                   onDelete: () {
                     context.read<FolderBloc>().add(DeleteFolderEvent(index));
+                    setState(() {});
                   },
                 );
               },
@@ -145,7 +150,8 @@ class FolderListScreenState extends State<FolderListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showAddFolderDialog(context);
+          _showAddFolderDialog(
+              context); // Викликає діалог для додавання нової папки
         },
         backgroundColor: Colors.white,
         child: Icon(
